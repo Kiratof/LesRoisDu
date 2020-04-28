@@ -38,7 +38,7 @@
                     {% else %}
 
 
-                    <p> Vous devez utiliser l'adresse mail et le mot de passe définis lors de votre inscription pour
+                    <p> Vous devez utiliser l'adresse mail et le mot de passe définit lors de votre inscription pour
                         vous connecter. Si vous ne souhaitez pas vous inscrire, vous devez utiliser le lien pour vous
                         connecter en tant qu'invité.</p>
 
@@ -84,12 +84,12 @@
                 {% else %}
                 <a onClick="accepterCGU()"> Se connecter en tant qu'invité </a><BR><BR>
                     <script type="text/javaScript">
-                    
 
-                        function accepterCGU() {                      
-                            document.getElementById('Cible').innerHTML ='<input id="accepterCGU"  type="checkbox"><label for="accepterCGU">J\'ai lu et j\'accepte les conditions générales d\'utilisation  </label> <br> <a href="/invite" id="accepter" class="button scrolly disabled"> Me connecter en tant qu\'invité</a>';                      
+
+                        function accepterCGU() {
+                            document.getElementById('Cible').innerHTML ='<input id="accepterCGU"  type="checkbox"><label for="accepterCGU">J\'ai lu et j\'accepte les conditions générales d\'utilisation  </label> <br> <a href="/invite" id="accepter" class="button scrolly disabled"> Me connecter en tant qu\'invité</a>';
                         }
-                 
+
                         setInterval(function(){
                             if (document.getElementById("accepterCGU").checked == true) {
                                 document.getElementById("accepter").setAttribute("class","button scrolly");
@@ -100,13 +100,13 @@
                         }, 100);
 
                     </script>
-                
-                
+
+
                     <div id="Cible"></div>
                     <Br><BR>
                     <a href="{{ path('accueil') }}">Retourner à l'accueil</a><BR>
-                
-                
+
+
                     {% endif %}
             </div>
 

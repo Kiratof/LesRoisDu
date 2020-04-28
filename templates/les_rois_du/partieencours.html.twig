@@ -41,8 +41,7 @@
                     {% if utilisateur.pseudo == partie.plateauDeJeu.joueur.pseudo %}
 
                         <p> Pour jouer il faut sélectionner un pion puis lancer le dé en cliquant dessus. Votre pion se
-                            déplacera du nombre
-                            cases obtenues. Vous pouvez accéder au défi en cliquant
+                            déplacera en fonction de la face obtenue. Vous pouvez accéder au défi en cliquant
                            sur la case correspondante. Une fois arrivé à la derniere case, le pion ne pourra plus être déplacé.</p>
                     </div>
                 </div>
@@ -134,15 +133,15 @@
                             <br><BR>
                             {% if partie.plateauDeJeu.joueur is not null %}
                                 <div class="alert alert-warning" style="display: none">
-                                
+
                                 <h4 class="alert-heading">Attention!</h4>
                                 <p>Êtes vous sûr de vouloir exclure le joueur ?</p>
-        
+
                                 <a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
                                     aria-pressed="true">Non</a>
                                 <a href="{{ path('exclure_joueur', {'idPartie' : partie.id}) }}"
                                     class="btn btn-success" role="button" aria-pressed="true">Oui</a>
-                                
+
 
                             </div>
                             <input type="button" class="btn button scrolly" value="Exclure le joueur">
@@ -176,7 +175,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <br>
-                        <a href="{{ path('espace_partie') }}"> Retourner à l'espace partie </a>
+                        <a href="{{ path('espace_partie') }}"> Retourner à l'espace parties </a>
                     </div>
               </div>
 

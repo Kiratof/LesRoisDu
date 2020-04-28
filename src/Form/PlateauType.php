@@ -14,8 +14,8 @@ class PlateauType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom',TextType::class, ['attr' => ['placeholder' => "Nom du plateau (Il apparaîtra dans l'espace plateau des utilisateurs à qui vous partagerai le plateau, veuillez faire attention à ce que vous saisissez)."]])
-            ->add('description',TextType::class, ['attr' => ['placeholder' => "Description du plateau (Elle apparaîtra dans l'espace plateau des utilisateurs à qui vous partagerai le plateau, veuillez faire attention à ce que vous saisissez)."]])
+            ->add('nom',TextType::class, ['attr' => ['placeholder' => "Nom du plateau"]])
+            ->add('description',TextType::class, ['attr' => ['placeholder' => "Description du plateau"]])
             ->add('niveauDifficulte', ChoiceType::class, ['choices'  => [
                                                             'Facile' => 'Facile',
                                                             'Moyen' => 'Moyen',
