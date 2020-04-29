@@ -142,9 +142,7 @@ class LesRoisDuController extends AbstractController
 
             $repositoryPlateau=$this->getDoctrine()->getRepository(Plateau::class);
 
-            for ($i=1; $i < 4; $i++) {
-
-                $plateauOriginel = $repositoryPlateau->find($i);
+                $plateauOriginel = $repositoryPlateau->find(2);
 
                 $plateau = new Plateau();
 
@@ -191,7 +189,7 @@ class LesRoisDuController extends AbstractController
                 $utilisateur->addPlateau($plateau);
 
                 $manager->persist($plateau);
-            }
+
 
             // Enregistrer l'utilisateur en base de données
            $manager->persist($utilisateur);
