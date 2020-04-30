@@ -10,12 +10,15 @@ class MainGame {
 				this.gameScene = new SceneGameplay(parametresPartieJSON);
 	    }
 
-	    update(){
+	    update(deltaTime){
 				console.log("update est appelé");
+				this.gameScene.update(deltaTime);
 	    }
 
 	    draw(ctx){
 				console.log("draw est appelé");
+				this.gameScene.draw(ctx);
+
 	    }
 
 	    getParametresPartie() {

@@ -46,10 +46,10 @@ class Pion {
 		this.image.src = assetsBaseDir + "sprites/" + "pion_" + this.couleur + ".png";
 
 		this.compteur = 0;
-		
+
 	}
 
-	
+
 
 	setPlayer(player){
 
@@ -97,7 +97,6 @@ class Pion {
 
 		this.updateXandYposition();
 		this.setPositionIntoAPI(this.posPion, this.player);
-		console.log(this.posPion);
 	}
 
 	updatePos() {
@@ -109,11 +108,8 @@ class Pion {
 			})
 			.then(data => {
 					var posPion = data["plateau_de_jeu"]["pions"][this.player-1]["position"];
-					console.log("posAvant : "+posPion);
 					this.setPosition(posPion);
 					this.goToNextCase();
-
-					console.log("posApres : "+this.posPion);
 			})
 			this.compteur = 0;
 		}
