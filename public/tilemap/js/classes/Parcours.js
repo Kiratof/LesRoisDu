@@ -116,8 +116,6 @@ class Parcours {
             }
 
         }
-
-        console.log(this.casesPosition);
         return this.casesPosition;
     }
 

@@ -81,7 +81,7 @@
 
                 <script type="text/javascript">
                   var idPartie = {{ partie.id }};
-                  var parametres = 'http://iparla.iutbayonne.univ-pau.fr:8003/api/partie/' + idPartie;
+                  var parametres = 'http://localhost:8000/api/partie/' + idPartie;
                 </script>
 
                 <script> var assetsBaseDir = "{{ asset('tilemap/') }}"</script>
@@ -89,13 +89,33 @@
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/ToolBox.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/input.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Parcours.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/game.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/De.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Pion.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Tileset.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/main.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
+
+                <script type="text/javascript">
+                  window.onload = function() {
+                    var canvas = document.getElementById('canvas');
+                    ctx = canvas.getContext('2d');
+                    var deltaTime = 1000;
+
+                    var mainGame = new MainGame();
+
+                    mainGame.initialize();
+
+                    //GAMELOOP
+                    setInterval(function() {
+                      mainGame.update(deltaTime);
+                      mainGame.draw(ctx);
+                    }, deltaTime);
+
+                  }
+
+                </script>
 
 
 
@@ -164,6 +184,7 @@
                                         })
                                     })
                                 </script>
+
 
 
                         {% else %}
