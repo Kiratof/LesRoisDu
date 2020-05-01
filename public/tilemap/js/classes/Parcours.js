@@ -1,9 +1,9 @@
 class Parcours {
 
-    constructor(tabDefis, map) {
+    constructor(tabDefis) {
         this.casesPosition = new Array();
         this.cases = new Array();
-        this.map = map;
+        this.map = new Map();
         this.toolBox = new ToolBox();
         this.listeDefis = tabDefis;
     }

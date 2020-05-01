@@ -1,44 +1,37 @@
 class Map {
 
-	constructor(nom) {
+	constructor(nomMap) {
 
-		this.toolBox = new ToolBox();
+		if (Map.instance instanceof Map) {
+				return Map.instance;
+		}
 
 
-		var mapData = this.toolBox.getJson(nom)
 
-		var nomTileSet = 'Octogone_128.png'
-		this.tileset = new Tileset(nomTileSet);
+		this.terrain = 0;
+		this.terrainHeight = 0;
+		this.terrainWidth = 0;
+		this.TILE_HEIGHT = 0;
+		this.TILE_WIDTH = 0;
 
+		this.hydraterMap(nomMap);
+
+		Object.freeze(this);
+		Map.instance = this;
+
+	}
+
+
+	hydraterMap(nom){
+
+		var mapData = this.getMapJSON(nom)
+		
 		this.terrain = mapData.layers[0].data;
 		this.terrainHeight = mapData.layers[0].height;
 		this.terrainWidth = mapData.layers[0].width;
 		this.TILE_HEIGHT = mapData.tileheight;
 		this.TILE_WIDTH = mapData.tilewidth;
-
-		// Liste des pions présents sur le terrain.
-		this.pions = new Array();
-
-		this.dice = new De();
-
-		this.parcours = new Parcours();
-
-
 	}
-
-	// Pour ajouter un pion
-	addPion(pion) {
-		this.pions.push(pion);
-	};
-
-	setDice(dice) {
-		this.dice = dice;
-	}
-
-	setParcours(parcours) {
-		this.parcours = parcours;
-	}
-
 
 	// Pour récupérer la taille (en tiles) de la carte
 	getLargeur() {
@@ -47,6 +40,8 @@ class Map {
 	getHauteur() {
 		return (this.terrain.length / this.terrainWidth) * this.TILE_WIDTH;
 	}
+
+
 
 
 	update(deltaTime) {
@@ -58,7 +53,7 @@ class Map {
 
 	draw(context) {
 
-		//Dessin du plateau
+		//Dessin du tileset
 		var nbLignes = this.terrain.length / this.terrainWidth;
 		var ligne = 0;
 		var colonne = 0;
@@ -78,7 +73,24 @@ class Map {
 		for (var i = 0, l = this.pions.length; i < l; i++) {
 			this.pions[i].draw(context);
 		}
+	}
 
+	getMapJSON(nom) {
+
+			// Création de l'objet XmlHttpRequest
+			var xhr = getXMLHttpRequest();
+
+			// Chargement du fichier
+			xhr.open("GET", assetsBaseDir + 'plateaux/' + nom + '.json', false);
+			xhr.send(null);
+			if (xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 0)) // Code == 0 en local
+					throw new Error("Impossible de charger la carte nommée \"" + nom + "\" (code HTTP : " + xhr.status + ").");
+			var mapJsonData = xhr.responseText;
+
+			// Récupération des données
+			var mapData = JSON.parse(mapJsonData);
+
+			return mapData;
 
 	}
 

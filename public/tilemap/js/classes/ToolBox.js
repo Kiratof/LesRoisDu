@@ -25,7 +25,7 @@ class ToolBox {
             throw new Error("Impossible de charger la carte nommée \"" + nom + "\" (code HTTP : " + xhr.status + ").");
         var mapJsonData = xhr.responseText;
 
-        // Récupération des données 
+        // Récupération des données
         var mapData = JSON.parse(mapJsonData);
 
         return mapData;
@@ -35,21 +35,21 @@ class ToolBox {
     requete(url) {
 
         var xhr = new XMLHttpRequest();
-    
+
         xhr.addEventListener('readystatechange', function() { // On gère ici une requête asynchrone
-    
+
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
-    
-                game.initialize(JSON.parse(this.responseText));
-                
-    
+
+                //game.initialize(JSON.parse(this.responseText));
+
+
             }else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) {
-    
+
                 alert('Une erreur est survenue ! !\n\nCode :' + xhr.status + '\nTexte : ' + xhr.statusText);
             }
-    
+
         });
-        
+
         // On souhaite juste récupérer le contenu du fichier, la méthode GET suffit amplement :
         xhr.open('GET', url);
 
@@ -72,7 +72,7 @@ class ToolBox {
     convertLigToY(){
         return (object.lig * object.map.TILE_WIDTH) + object.posYPlayer;
     }
-    
+
     getIdTile(col, lig, map){
         var id = "undefined";
         if (col>= 0 && col <= map.terrainWidth && lig >= 0 && lig<= map.terrainHeight)

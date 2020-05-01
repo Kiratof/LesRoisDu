@@ -6,22 +6,21 @@ class MainGame {
 	    }
 
 	    initialize(){
-	      var parametresPartieJSON = this.getParametresPartie();
+	      var parametresPartieJSON = this.getParametresPartieJSON();
 				this.gameScene = new SceneGameplay(parametresPartieJSON);
 	    }
 
 	    update(deltaTime){
-				console.log("update est appelé");
+
 				this.gameScene.update(deltaTime);
 	    }
 
 	    draw(ctx){
-				console.log("draw est appelé");
-				this.gameScene.draw(ctx);
 
+				this.gameScene.draw(ctx);
 	    }
 
-	    getParametresPartie() {
+	    getParametresPartieJSON() {
 
 	        var UrlApiPartie = 'http://localhost:8000/api/partie/' + idPartie;
 

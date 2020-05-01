@@ -1,10 +1,10 @@
 class Pion {
-	constructor(map, parcours, player, position, nbCases) {
+	constructor(parcours, player, position, nbCases) {
 		//Petit toolBox des familles
 		this.toolBox = new ToolBox();
 
 		//Informations de la map
-		this.map = map;
+		this.map = new Map();
 
 		this.nbCases = nbCases;
 
