@@ -6,6 +6,8 @@ class Parcours {
         this.map = new Map();
         this.toolBox = new ToolBox();
         this.listeDefis = tabDefis;
+        this.creerCasesDuParcours();
+
     }
 
     getCases(){

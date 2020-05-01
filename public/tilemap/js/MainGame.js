@@ -15,9 +15,9 @@ class MainGame {
 				this.gameScene.update(deltaTime);
 	    }
 
-	    draw(ctx){
+	    draw(){
 
-				this.gameScene.draw(ctx);
+				this.gameScene.draw();
 	    }
 
 	    getParametresPartieJSON() {

@@ -73,8 +73,23 @@
                 <br>
 
 
-                <canvas id="canvas">Votre navigateur ne supporte pas HTML5, veuillez le mettre à jour pour
-                    jouer.</canvas>
+                <div id="canvas">
+
+                </div>
+                    <script type="text/javascript">
+                      window.onload = function() {
+                        
+                        var deltaTime = 1000;
+                        var mainGame = new MainGame();
+                        mainGame.initialize();
+                        //GAMELOOP
+                        setInterval(function() {
+                          mainGame.update(deltaTime);
+                          mainGame.draw();
+                        }, deltaTime);
+
+                      }
+                    </script>
 
                 <link rel="stylesheet" href="{{asset('tilemap/css/style.css')}}" />
 
@@ -97,26 +112,6 @@
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
-
-                <script type="text/javascript">
-                  window.onload = function() {
-                    var canvas = document.getElementById('canvas');
-                    ctx = canvas.getContext('2d');
-                    var deltaTime = 1000;
-
-                    var mainGame = new MainGame();
-
-                    mainGame.initialize();
-
-                    //GAMELOOP
-                    setInterval(function() {
-                      mainGame.update(deltaTime);
-                      mainGame.draw(ctx);
-                    }, deltaTime);
-
-                  }
-
-                </script>
 
 
 

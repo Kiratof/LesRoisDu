@@ -49,6 +49,8 @@ class Background{
 		}
 	}
 
+
+
 	getIdTile(col, lig, map){
 		var id = "undefined";
 		if (col>= 0 && col <= map.terrainWidth && lig >= 0 && lig<= map.terrainHeight)
