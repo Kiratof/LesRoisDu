@@ -7,6 +7,7 @@ class Pion {
 		this.map = new Map();
 
 		this.nbCases = nbCases;
+		this.parcours = parcours;
 
 		this.player = player;
 		//Position dans le canvas
@@ -178,8 +179,8 @@ class Pion {
 
 	goToNextCase() {
 
-		var posCol = this.map.parcours.casesPosition[this.posPion][0];
-		var posLig = this.map.parcours.casesPosition[this.posPion][1];
+		var posCol = this.parcours.casesPosition[this.posPion][0];
+		var posLig = this.parcours.casesPosition[this.posPion][1];
 
 		this.teleportToCase(posCol, posLig);
 

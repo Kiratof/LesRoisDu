@@ -6,6 +6,8 @@ class Case {
 		this.colonne = colonne;
 		this.ligne = ligne;
 
+		this.map = new Map();
+
 		//Position relative au Canvas
 		this.x = this.colonne * 128;
 		this.y = this.ligne * 128;
@@ -60,11 +62,11 @@ class Case {
 		return isPionSelected;
 	}
 
-	draw(context, map) {
+	draw(context) {
 		context.drawImage(
 			this.image,
-			((this.colonne - 1) * map.TILE_WIDTH) + map.TILE_WIDTH,
-			((this.ligne - 1) * map.TILE_HEIGHT) + map.TILE_HEIGHT,
+			((this.colonne - 1) * this.map.TILE_WIDTH) + this.map.TILE_WIDTH,
+			((this.ligne - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT,
 			this.largeur,
 			this.hauteur
 		);
@@ -89,4 +91,3 @@ class Case {
 	}
 
 }
-

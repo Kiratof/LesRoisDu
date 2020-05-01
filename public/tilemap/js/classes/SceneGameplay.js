@@ -12,10 +12,12 @@ class SceneGameplay {
 
     //Création du background
     this.background = new Background();
+    this.listeActeurs.push(this.background);
 
     //Créer le dé
     var nbFacesDe = parametresJSON.nbFacesDe;
     this.dice = new De(nbFacesDe);
+    this.listeActeurs.push(this.dice);
 
     //Créer le parcours
     var casesDuPlateau = parametresJSON.plateau_de_jeu.cases;
@@ -30,6 +32,8 @@ class SceneGameplay {
     }
     this.parcours = new Parcours(defis);
     this.parcours.creerCasesDuParcours();
+    this.listeActeurs.push(this.parcours);
+
     //Nos cases
     this.cases = this.parcours.getCases();
 
@@ -39,9 +43,12 @@ class SceneGameplay {
     this.pions = [];
     for (let index = 0; index < nbPion; index++) {
 
-        this.pions.push(new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases));
+        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases);
+        this.listeActeurs.push(pion);
+        this.pions.push(pion);
 
     }
+
 
 
 
@@ -81,9 +88,13 @@ class SceneGameplay {
 
   }
 
-  draw(){
+  draw(ctx){
     ctx.clearRect(0, 0, this.GAME_WIDTH, this.GAME_HEIGHT);
-    this.background.draw(ctx);
+    this.listeActeurs.forEach(item => {
+      item.draw(ctx);
+    });
+
+
   }
 
 }
