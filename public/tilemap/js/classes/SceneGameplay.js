@@ -56,7 +56,9 @@ class SceneGameplay {
     }
 
     //Gestionnaire d'évênement
-    new InputHandler(this);
+    this.mouse = new Mouse();
+    new InputHandler(this.mouse);
+    this.oldMouseState = this.mouse.getState();
 
     //Ajout des observers
     this.pions.forEach(pion => {
@@ -80,6 +82,15 @@ class SceneGameplay {
 
   update(){
 
+    var newMouseState = this.mouse.getState();
+
+    console.log(newMouseState);
+    if (newMouseState.isCliked && !this.oldMouseState.isCliked){
+
+      console.log("wazaaaaaa");
+    }
+
+    this.oldMouseState = newMouseState;
   }
 
   draw(){
@@ -105,6 +116,14 @@ class SceneGameplay {
   setCanvasSize(canvas, map){
     canvas.width  = map.getLargeur();
     canvas.height = map.getHauteur();
+  }
+
+  setMouseXPosition(x){
+    this.mouse.setMouseXPosition(x);
+  }
+
+  setMouseYPosition(y){
+    this.mouse.setMouseYPosition(y);
   }
 
 }
