@@ -24,8 +24,6 @@ class SceneGameplay {
     //Création du background
     this.background = new Background();
 
-    this.listeActeurs.push(this.background);
-
     //Créer le dé
     this.dice = new De(nbFacesDe);
     this.listeActeurs.push(this.dice);
@@ -82,21 +80,50 @@ class SceneGameplay {
 
   update(){
 
+    //Récupération des informations
     var newMouseState = this.mouse.getState();
-
-    console.log(newMouseState);
+    var leftClick = false;
+    var xClick = -1;
+    var yClick = -1;
     if (newMouseState.isCliked && !this.oldMouseState.isCliked){
-
-      console.log("wazaaaaaa");
+      leftClick = true;
+      xClick = newMouseState.X;
+      yClick = newMouseState.Y;
     }
-
     this.oldMouseState = newMouseState;
+
+
+    if (leftClick) {
+
+      var listObjectClicked = [];
+      this.listeActeurs.forEach(acteur => {
+
+        if (acteur.isClicked(xClick, yClick)) {
+          listObjectClicked.push(acteur.getClickedItem(xClick, yClick));
+        }
+      });
+
+      var objectToShow = {
+        z: 0,
+      };
+
+      listObjectClicked.forEach(object => {
+        if (object.z > objectToShow.z) {
+          objectToShow = object;
+        }
+
+      });
+
+      objectToShow.update();
+
+    }
   }
 
   draw(){
     this.ctx.clearRect(0, 0, this.GAME_WIDTH, this.GAME_HEIGHT);
-    this.listeActeurs.forEach(item => {
-      item.draw(this.ctx);
+    this.background.draw(this.ctx);
+    this.listeActeurs.forEach(acteur => {
+      acteur.draw(this.ctx);
     });
 
 

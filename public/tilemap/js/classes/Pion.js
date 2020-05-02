@@ -17,6 +17,7 @@ class Pion {
 		this.posCases = parcours.casesPosition;
 		this.positionnePionByPositionDansParcours();
 		this.updateXandYposition();
+		this.z = 2;
 
 		//Position du pion avant le déplacement
 		this.oldCol = 0;
@@ -92,7 +93,12 @@ class Pion {
 
 	update() {
 
-		if (this.isSelected) {
+		if (!this.isSelected) {
+			this.isSelected = true;
+			this.showMeSelected();
+		}else{
+			this.isSelected = false;
+			this.showMeNormally();
 			this.advanceBasedOnPawnValue();
 		}
 
@@ -116,25 +122,14 @@ class Pion {
 		}
 	}
 
-	updateOnClick(x, y) {
-		if (this.isClicked(x, y)) {
-
-			this.isSelected = true;
-			this.showMeSelected();
-
-		}else{
-
-			this.isSelected = false;
-			this.showMeNormally();
-
+	getClickedItem(x, y){
+		if (this.isClicked(x,y)) {
+			return this;
 		}
 	}
 
 	updateFaceCourante(faceCourante) {
-
 		this.faceCouranteDe = faceCourante;
-		this.update();
-
 	}
 
 	draw(context) {
@@ -158,8 +153,8 @@ class Pion {
 			clicked = false;
 		}
 		return clicked;
-
 	}
+
 	setCol(col) {
 		this.col = col;
 	}
@@ -191,8 +186,6 @@ class Pion {
 		if (this.posPion >= this.nbCases - 1) {
 			alert('STOP ! Vous êtes arrivé au bout du parcours !');
 		} else {
-
-			alert('Vous avez obtenu ' + this.faceCouranteDe + '.');
 
 			for (let i = 0; i < this.faceCouranteDe; i++) {
 

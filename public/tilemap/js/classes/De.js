@@ -4,6 +4,7 @@ class De{
 		//Position du dé
 		this.x = 128;
 		this.y = 128;
+		this.z = 2;
 
 		//Nombre de face du dé
 		this.nbFaces = faceDe;
@@ -38,9 +39,9 @@ class De{
 		this.lancerDe();
 	}
 
-	updateOnClick(x , y){
+	getClickedItem(x, y){
 		if (this.isClicked(x,y)) {
-			this.update();
+			return this;
 		}
 	}
 
@@ -83,6 +84,7 @@ class De{
 	lancerDe(){
 		var faceObtenue = Math.floor(Math.random() * this.nbFaces) + 1;
 		this.faceCourante = faceObtenue;
+		alert("Vous avez obtenu : " + this.faceCourante);
 
 		this.notifyObservers();
 	}

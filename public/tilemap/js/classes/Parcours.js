@@ -22,7 +22,27 @@ class Parcours {
         this.cases.forEach(casess => {
             casess.updateOnClick(x,y);
         });
-	}
+	  }
+
+    isClicked(x, y){
+      var caseIsClicked = false;
+      this.cases.forEach(casess => {
+        if (casess.isClicked(x,y)) {
+          caseIsClicked = true;
+        }
+      });
+      return caseIsClicked;
+    }
+
+    getClickedItem(x, y){
+      var caseClicked = undefined;
+      this.cases.forEach(casess => {
+        if (casess.isClicked(x,y)) {
+          caseClicked = casess;
+        }
+      });
+      return caseClicked;
+    }
 
     draw(context, map) {
         for (var i = 0; i < this.cases.length; i++) {

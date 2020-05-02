@@ -11,6 +11,7 @@ class Case {
 		//Position relative au Canvas
 		this.x = this.colonne * 128;
 		this.y = this.ligne * 128;
+		this.z = 1;
 
 		// Chargement de l'image dans l'attribut image
 		this.image = new Image();
@@ -34,14 +35,6 @@ class Case {
 
 	update() {
 		this.displayDefi();
-	}
-
-	updateOnClick(x, y) {
-		if (this.isClicked(x, y) &&
-			!this.isAnyPionSelected()
-		) {
-			this.update();
-		}
 	}
 
 	addPionObserved(pion) {
