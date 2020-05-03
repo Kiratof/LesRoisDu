@@ -5,6 +5,9 @@ class De{
 		this.x = 128;
 		this.y = 128;
 		this.z = 2;
+		this.id = "de";
+
+		this.isDisplayed = false;
 
 		//Nombre de face du dé
 		this.nbFaces = faceDe;
@@ -15,7 +18,6 @@ class De{
 		//Obervers du dé
 		this.observers = [];
 
-
 		// Chargement de l'image dans l'attribut image
 		this.image = new Image();
 		this.image.referenceDuPerso = this;
@@ -23,20 +25,15 @@ class De{
 			if(!this.complete) {
 				throw "Erreur de chargement du sprite";
 			}
-
 		// Taille du sprite De
 		this.referenceDuPerso.largeur = this.width;
 		this.referenceDuPerso.hauteur = this.height;
-
-
 	}
-
 	this.setSprite(faceDe);
-
 }
 
 	update(){
-		this.lancerDe();
+
 	}
 
 	getClickedItem(x, y){
@@ -45,15 +42,7 @@ class De{
 		}
 	}
 
-	draw(context, map){
-		context.drawImage(
-			this.image,
-			this.x,
-			this.y,
-			this.largeur,
-			this.hauteur
-			);
-	}
+
 
 
 	addObservers(o){
@@ -82,11 +71,12 @@ class De{
 	}
 
 	lancerDe(){
-		var faceObtenue = Math.floor(Math.random() * this.nbFaces) + 1;
-		this.faceCourante = faceObtenue;
-		alert("Vous avez obtenu : " + this.faceCourante);
-
-		this.notifyObservers();
+		if (this.isDisplayed) {
+			var faceObtenue = Math.floor(Math.random() * this.nbFaces) + 1;
+			this.faceCourante = faceObtenue;
+			alert("Vous avez obtenu : " + this.faceCourante);
+			this.notifyObservers();
+		}
 	}
 
 	setSprite(nbFaceDe){
@@ -110,6 +100,26 @@ class De{
 
 			default:
 
+		}
+	}
+
+	toggleSwitch(){
+		if (this.isDisplayed) {
+			this.isDisplayed = false
+		}else {
+			this.isDisplayed = true;
+		}
+	}
+
+	draw(context, map){
+		if (this.isDisplayed) {
+			context.drawImage(
+				this.image,
+				this.x,
+				this.y,
+				this.largeur,
+				this.hauteur
+				);
 		}
 	}
 

@@ -13,6 +13,8 @@ class Case {
 		this.y = this.ligne * 128;
 		this.z = 1;
 
+		this.id = "case";
+
 		// Chargement de l'image dans l'attribut image
 		this.image = new Image();
 		this.image.referenceDuPerso = this;
@@ -29,31 +31,12 @@ class Case {
 		this.defi = defi;
 		this.image.src = assetsBaseDir + "sprites/" + url;
 
-
-		this.pionObserved = [];
 	}
 
 	update() {
 		this.displayDefi();
 	}
 
-	addPionObserved(pion) {
-		this.pionObserved.push(pion);
-	}
-
-	isAnyPionSelected() {
-
-		var isPionSelected = false;
-
-		this.pionObserved.forEach(pion => {
-			if (pion.isSelected) {
-				isPionSelected = true;
-			}
-
-		});
-
-		return isPionSelected;
-	}
 
 	draw(context) {
 		context.drawImage(

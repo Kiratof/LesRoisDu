@@ -1,8 +1,5 @@
 class Pion {
 	constructor(parcours, player, position, nbCases) {
-		//Petit toolBox des familles
-		this.toolBox = new ToolBox();
-
 		//Informations de la map
 		this.map = new Map();
 
@@ -18,6 +15,7 @@ class Pion {
 		this.positionnePionByPositionDansParcours();
 		this.updateXandYposition();
 		this.z = 2;
+		this.id = "pion";
 
 		//Position du pion avant le déplacement
 		this.oldCol = 0;
@@ -54,7 +52,6 @@ class Pion {
 
 
 	setPlayer(player){
-
 		switch (player) {
 			case 1:
 				this.posXPlayer = 32 - 32 / 2;
@@ -92,18 +89,32 @@ class Pion {
 	}
 
 	update() {
+		if (this.isSelected) {
+			this.advanceBasedOnPawnValue();
+			this.updateXandYposition();
+			this.setPositionIntoAPI(this.posPion, this.player);
+			this.unselect();
+		}
+	}
 
+	toggleSwitch(){
 		if (!this.isSelected) {
 			this.isSelected = true;
-			this.showMeSelected();
 		}else{
 			this.isSelected = false;
-			this.showMeNormally();
-			this.advanceBasedOnPawnValue();
 		}
+	}
 
-		this.updateXandYposition();
-		this.setPositionIntoAPI(this.posPion, this.player);
+	select(){
+		this.isSelected = true;
+	}
+	unselect(){
+		this.isSelected = false;
+	}
+
+	updateFaceCourante(faceCourante) {
+		this.faceCouranteDe = faceCourante;
+		this.update();
 	}
 
 	updatePos() {
@@ -128,11 +139,16 @@ class Pion {
 		}
 	}
 
-	updateFaceCourante(faceCourante) {
-		this.faceCouranteDe = faceCourante;
-	}
+
 
 	draw(context) {
+
+		if (this.isSelected) {
+			this.showMeSelected();
+		}else {
+			this.showMeNormally();
+		}
+
 		context.drawImage(
 			this.image,
 			(((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer,
@@ -164,12 +180,9 @@ class Pion {
 	}
 
 	teleportToCase(col, lig) {
-
 		//On change de position
 		this.setCol(col);
 		this.setLig(lig);
-
-
 	}
 
 	goToNextCase() {

@@ -46,26 +46,17 @@ class SceneGameplay {
     //Créer le/les pions
     this.pions = [];
     for (let index = 0; index < nbPion; index++) {
-
         var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases);
         this.listeActeurs.push(pion);
         this.pions.push(pion);
-
     }
+
 
     //Gestionnaire d'évênement
     this.mouse = new Mouse();
     new InputHandler(this.mouse);
     this.oldMouseState = this.mouse.getState();
 
-    //Ajout des observers
-    this.pions.forEach(pion => {
-        //Chaque case observe l'état des pions
-        this.cases.forEach(casess => {
-            casess.addPionObserved(pion);
-        })
-
-    });
 
     //Chaque pion observe l'état du dé
     this.pions.forEach(pion => {
@@ -92,8 +83,9 @@ class SceneGameplay {
     }
     this.oldMouseState = newMouseState;
 
-
+    //Traitement des informations
     if (leftClick) {
+
 
       var listObjectClicked = [];
       this.listeActeurs.forEach(acteur => {
@@ -103,20 +95,53 @@ class SceneGameplay {
         }
       });
 
-      var objectToShow = {
+
+      var objectToUpdate = {
         z: 0,
       };
-
       listObjectClicked.forEach(object => {
-        if (object.z > objectToShow.z) {
-          objectToShow = object;
+        if (object.z > objectToUpdate.z) {
+          objectToUpdate = object;
         }
-
       });
 
-      objectToShow.update();
 
+      switch (objectToUpdate.id) {
+        case "case":
+          objectToUpdate.displayDefi();
+          break;
+
+        case "pion":
+
+          if (objectToUpdate.isSelected) {
+            objectToUpdate.unselect();
+            this.dice.toggleSwitch();
+
+          }else {
+            this.pions.forEach(pion => {
+              pion.unselect();
+            });
+            objectToUpdate.select();
+
+            if (!this.dice.isDisplayed) {
+              this.dice.toggleSwitch();
+            }
+          }
+
+
+          break;
+
+        case "de":
+        objectToUpdate.lancerDe();
+        objectToUpdate.toggleSwitch();
+          break;
+
+        default:
+
+      }
     }
+
+
   }
 
   draw(){
@@ -125,8 +150,6 @@ class SceneGameplay {
     this.listeActeurs.forEach(acteur => {
       acteur.draw(this.ctx);
     });
-
-
   }
 
   createCanvas(map){
