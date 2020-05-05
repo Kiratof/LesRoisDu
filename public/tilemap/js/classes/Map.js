@@ -6,8 +6,6 @@ class Map {
 				return Map.instance;
 		}
 
-
-
 		this.terrain = 0;
 		this.terrainHeight = 0;
 		this.terrainWidth = 0;
@@ -25,7 +23,7 @@ class Map {
 	hydraterMap(nom){
 
 		var mapData = this.getMapJSON(nom)
-		
+
 		this.terrain = mapData.layers[0].data;
 		this.terrainHeight = mapData.layers[0].height;
 		this.terrainWidth = mapData.layers[0].width;

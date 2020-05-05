@@ -54,7 +54,7 @@ class SceneGameplay {
 
     //Gestionnaire d'évênement
     this.mouse = new Mouse();
-    new InputHandler(this.mouse);
+    new InputHandler(this.canvas, this.mouse);
     this.oldMouseState = this.mouse.getState();
 
 
@@ -82,6 +82,8 @@ class SceneGameplay {
       yClick = newMouseState.Y;
     }
     this.oldMouseState = newMouseState;
+
+
 
     //Traitement des informations
     if (leftClick) {
@@ -153,13 +155,13 @@ class SceneGameplay {
   }
 
   createCanvas(map){
-    var canvas = document.createElement('canvas');
-    this.setCanvasSize(canvas, map);
+    this.canvas = document.createElement('canvas');
+    this.setCanvasSize(this.canvas, map);
 
     var body = document.getElementById('canvas');
-    body.appendChild(canvas);
+    body.appendChild(this.canvas);
 
-    this.ctx = canvas.getContext("2d");
+    this.ctx = this.canvas.getContext("2d");
 
   }
 

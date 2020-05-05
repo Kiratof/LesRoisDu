@@ -1,5 +1,5 @@
 class InputHandler {
-    constructor(mouse) {
+    constructor(canvas, mouse) {
 
         canvas.addEventListener('mousedown', function (event) {
             var rect = canvas.getBoundingClientRect();

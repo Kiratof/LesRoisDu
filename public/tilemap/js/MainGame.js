@@ -7,17 +7,31 @@ class MainGame {
 
 	    initialize(){
 	      var parametresPartieJSON = this.getParametresPartieJSON();
-				this.gameScene = new SceneGameplay(parametresPartieJSON);
+				this.plateaux = [];
+				for (var i = 0; i < 3; i++) {
+					var gameScene = new SceneGameplay(parametresPartieJSON);
+					this.plateaux.push(gameScene);
+				}
+				//this.gameScene = new SceneGameplay(parametresPartieJSON);
 	    }
 
 	    update(deltaTime){
 
-				this.gameScene.update(deltaTime);
+				this.plateaux.forEach(plateau => {
+					plateau.update(deltaTime);
+				});
+
+
+				//this.gameScene.update(deltaTime);
 	    }
 
 	    draw(){
 
-				this.gameScene.draw();
+				this.plateaux.forEach(plateau => {
+					plateau.draw();
+				});
+
+				//this.gameScene.draw();
 	    }
 
 	    getParametresPartieJSON() {
