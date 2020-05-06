@@ -78,6 +78,16 @@ class Plateau
      */
     private $derniereModification;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $nbPion;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $nbFaceDe;
+
     public function __construct()
     {
         $this->parties = new ArrayCollection();
@@ -246,6 +256,30 @@ class Plateau
     public function setDerniereModification(\DateTimeInterface $derniereModification): self
     {
         $this->derniereModification = $derniereModification;
+
+        return $this;
+    }
+
+    public function getNbPion(): ?int
+    {
+        return $this->nbPion;
+    }
+
+    public function setNbPion(int $nbPion): self
+    {
+        $this->nbPion = $nbPion;
+
+        return $this;
+    }
+
+    public function getNbFaceDe(): ?int
+    {
+        return $this->nbFaceDe;
+    }
+
+    public function setNbFaceDe(int $nbFaceDe): self
+    {
+        $this->nbFaceDe = $nbFaceDe;
 
         return $this;
     }

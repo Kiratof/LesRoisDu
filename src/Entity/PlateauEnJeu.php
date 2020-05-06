@@ -34,11 +34,6 @@ class PlateauEnJeu
     private $niveauDifficulte;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Partie", mappedBy="plateauDeJeu", cascade={"persist", "remove"})
-     */
-    private $partie;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Pion", mappedBy="plateauEnJeu", orphanRemoval=true)
      */
     private $pions;
@@ -57,6 +52,22 @@ class PlateauEnJeu
      * @ORM\Column(type="integer")
      */
     private $nbCases;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partie", cascade={"persist"}, inversedBy="plateauEnJeu")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $partie;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $nbPion;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $nbFaceDe;
 
     public function __construct()
     {
@@ -105,23 +116,6 @@ class PlateauEnJeu
         return $this;
     }
 
-    public function getPartie(): ?Partie
-    {
-        return $this->partie;
-    }
-
-    public function setPartie(?Partie $partie): self
-    {
-        $this->partie = $partie;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newPlateauDeJeu = null === $partie ? null : $this;
-        if ($partie->getPlateauDeJeu() !== $newPlateauDeJeu) {
-            $partie->setPlateauDeJeu($newPlateauDeJeu);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Pion[]
@@ -205,6 +199,42 @@ class PlateauEnJeu
     public function setNbCases(int $nbCases): self
     {
         $this->nbCases = $nbCases;
+
+        return $this;
+    }
+
+    public function getPartie(): ?Partie
+    {
+        return $this->partie;
+    }
+
+    public function setPartie(?Partie $partie): self
+    {
+        $this->partie = $partie;
+
+        return $this;
+    }
+
+    public function getNbPion(): ?int
+    {
+        return $this->nbPion;
+    }
+
+    public function setNbPion(int $nbPion): self
+    {
+        $this->nbPion = $nbPion;
+
+        return $this;
+    }
+
+    public function getNbFaceDe(): ?int
+    {
+        return $this->nbFaceDe;
+    }
+
+    public function setNbFaceDe(int $nbFaceDe): self
+    {
+        $this->nbFaceDe = $nbFaceDe;
 
         return $this;
     }

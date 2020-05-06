@@ -142,7 +142,7 @@ class LesRoisDuController extends AbstractController
 
             $repositoryPlateau=$this->getDoctrine()->getRepository(Plateau::class);
 
-                $plateauOriginel = $repositoryPlateau->find(2);
+                $plateauOriginel = $repositoryPlateau->find(1);
 
                 $plateau = new Plateau();
 
@@ -267,7 +267,7 @@ class LesRoisDuController extends AbstractController
     {
 
        // Création d'une partie vierge
-       $partie=new Partie();
+       $partie = new Partie();
 
        // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
        $formulairePartie = $this->createForm(PartieType::class, $partie);
@@ -279,8 +279,7 @@ class LesRoisDuController extends AbstractController
 
         $plateau = $partie->getPlateau();
 
-        $date = New \DateTime();
-        $partie->setDerniereModification($date);
+        $partie->setDerniereModification(New \DateTime());
 
         // On copie le plateau sélectionné dans le plateauEnJeu de la partie
         $plateauEnJeu = new PlateauEnJeu();
@@ -288,6 +287,9 @@ class LesRoisDuController extends AbstractController
         $plateauEnJeu->setDescription($plateau->getDescription());
         $plateauEnJeu->setNiveauDifficulte($plateau->getNiveauDifficulte());
         $plateauEnJeu->setNbCases($plateau->getNbCases());
+        $plateauEnJeu->setNbPion($plateau->getNbPion());
+        $plateauEnJeu->setNbFaceDe($plateau->getNbFaceDe());
+        $plateauEnJeu->setJoueur($user);
 
         $donneesPions = [['numero' => 1, 'nom' => "vert", 'couleur' => "green"], ['numero' => 2, 'nom' => "rouge", 'couleur' => "red"], ['numero' => 3, 'nom' => "jaune", 'couleur' => "yellow"], ['numero' => 4, 'nom' => "bleu", 'couleur' => "blue"]];
 
@@ -303,7 +305,7 @@ class LesRoisDuController extends AbstractController
             $manager->persist($pion);
         }
 
-        $partie->setPlateauDeJeu($plateauEnJeu);
+        $partie->addPlateauEnJeu($plateauEnJeu);
         $partie->setCreateur($user);
 
         $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
@@ -612,14 +614,14 @@ class LesRoisDuController extends AbstractController
 
 
         if(!is_null($partie)){
-            $plateauDeJeu = $partie->getPlateauDeJeu();
+            $plateauDeJeu = $partie->getplateauDeJeu();
             if($partie->getJoueurs()->isEmpty()){
 
                 $date = new \DateTime();
                 $partie->setDateRejoins($date);
 
                 $user->addPartiesRejoin($partie);
-                $user->addPlateauEnJeux($partie->getPlateauDeJeu());
+                $user->addPlateauEnJeux($partie->getplateauDeJeu());
 
                 $plateauDeJeu->setJoueur($user);
 
@@ -905,7 +907,7 @@ class LesRoisDuController extends AbstractController
 
         if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){ // Seul le créateur peut supprimer sa partie
 
-            $plateauEnJeu = $partie->getPlateauDeJeu();
+            $plateauEnJeu = $partie->getplateauDeJeu();
 
             $tabCase = $plateauEnJeu->getCases();
             foreach($tabCase as $uneCase){ // On enlève les cases une par une
@@ -1050,7 +1052,7 @@ class LesRoisDuController extends AbstractController
 
         //$this->redirectToRoute('app_logout');
 
-        $plateauEnJeu = $partie->getPlateauDeJeu();
+        $plateauEnJeu = $partie->getplateauDeJeu();
 
         $tabCase = $plateauEnJeu->getCases();
         foreach($tabCase as $uneCase){ // On enlève les cases une par une
@@ -1080,7 +1082,7 @@ class LesRoisDuController extends AbstractController
 
         foreach ($compte->getPartiesRejoins() as $partieR) {
             $compte->removePartiesRejoin($partieR);
-            $compte->removePlateauEnJeux($partieR->getPlateauDeJeu());
+            $compte->removePlateauEnJeux($partieR->getplateauDeJeu());
         }
 
         $entityManager->remove($compte);
@@ -1172,17 +1174,17 @@ class LesRoisDuController extends AbstractController
         // Si l'utilsateur est le créateur de la partie, il peut
         if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){
 
-            if($partie->getPlateauDeJeu()->getJoueur() != null){
+            if($partie->getplateauDeJeu()->getJoueur() != null){
 
                 $partie->setDateRejoins(NULL);
 
-                $joueur = $partie->getPlateauDeJeu()->getJoueur();
+                $joueur = $partie->getplateauDeJeu()->getJoueur();
                 $joueur->removePartiesRejoin($partie);
-                $joueur->removePlateauEnJeux($partie->getPlateauDeJeu());
+                $joueur->removePlateauEnJeux($partie->getplateauDeJeu());
 
                 $manager->persist($joueur);
                 $manager->persist($partie);
-                $manager->persist($partie->getPlateauDeJeu());
+                $manager->persist($partie->getplateauDeJeu());
 
                 $manager->flush();
 
@@ -1212,7 +1214,7 @@ class LesRoisDuController extends AbstractController
         // Si l'utilsateur est le créateur de la partie, il peut
         if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){
 
-            $pions = $partie->getPlateauDeJeu()->getPions();
+            $pions = $partie->getplateauDeJeu()->getPions();
             foreach ($pions as $unPion) {
                 $unPion->setAvancementPlateau(0);
                 $manager->persist($unPion);
@@ -1288,7 +1290,7 @@ class LesRoisDuController extends AbstractController
 
         $partie = $repositoryPartie->find($idPartie);
 
-        $plateau = $partie->getPlateauDeJeu();
+        $plateau = $partie->getPlateauEnJeu();
 
         $pions = $plateau->getPions();
 
@@ -1305,9 +1307,7 @@ class LesRoisDuController extends AbstractController
                         $unPion->setAvancementPlateau($unPionNouveau["placement"]);
                         $manager->persist($unPion);
                         $manager->flush();
-
                     }
-
                 }
             }
         }

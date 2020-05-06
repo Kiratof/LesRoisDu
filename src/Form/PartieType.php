@@ -36,19 +36,9 @@ class PartieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom',TextType::class, ['attr' => ['placeholder' => "Nom de la partie (Il apparaîtra dans l'espace partie des joueurs, veuillez faire attention à ce que vous saisissez)."]])
-            ->add('description',TextType::class, ['attr' => ['placeholder' => "Description de la partie (Elle apparaîtra dans l'espace partie des joueurs, veuillez faire attention à ce que vous saisissez)."]])
+            ->add('nom',TextType::class)
+            ->add('description',TextType::class)
             ->add('nbPlateaux',IntegerType::class,['data' => '1', 'attr'=> ['readonly'=> true ]])
-            ->add('nbPionParPlateau', ChoiceType::class, ['choices'  => [
-                                                            '1' => 1,
-                                                            '2' => 2,
-                                                            '3' => 3,
-                                                            '4' => 4]])
-            ->add('nbFacesDe', ChoiceType::class, ['choices'  => [
-                                                            '1' => 1,
-                                                            '2' => 2,
-                                                            '3' => 3,
-                                                            '4' => 4]])
             ->add('plateau', EntityType::class, [   'class' => Plateau::class,
                                                     'choices' => $this->plateauRepository->findPlateauAvecCasesByUser($this->security->getUser()->getId()),
                                                     'choice_label' => 'nom',

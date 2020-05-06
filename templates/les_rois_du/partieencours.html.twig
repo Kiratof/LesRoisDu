@@ -37,16 +37,15 @@
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                             </div>
                         {% endfor %}
-                {% if partie.plateauDeJeu.joueur is not null %}
-                    {% if utilisateur.pseudo == partie.plateauDeJeu.joueur.pseudo %}
+
 
                         <p> Pour jouer il faut sélectionner un pion puis lancer le dé en cliquant dessus. Votre pion se
                             déplacera en fonction de la face obtenue. Vous pouvez accéder au défi en cliquant
-                           sur la case correspondante. Une fois arrivé à la derniere case, le pion ne pourra plus être déplacé.</p>
+                           sur la case correspondante. Une fois arrivé à la derniere case, le pion ne pourra plus être déplacé.
+                         </p>
                     </div>
                 </div>
-                    {%endif%}
-                    {%endif%}
+
                 <div class="row">
 
                     <div class="col-md-8">
@@ -82,7 +81,7 @@
                         var deltaTime = 60;
                         var mainGame = new MainGame();
                         mainGame.initialize();
-                        
+
                         //GAMELOOP
                         setInterval(function() {
                           mainGame.update(deltaTime);
@@ -115,9 +114,6 @@
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
 
-
-
-                <br><br>
                 <div class="row">
 
                     <div class="col-md-6">
@@ -136,57 +132,6 @@
                         }, 5000);
                         </script>
                         <br>
-
-                    </div>
-
-                    <div class="col-md-6">
-
-                        {% if utilisateur.pseudo == partie.createur.pseudo %}
-
-
-                            <a role="button" href="{{ path('reinitialiser_position', {'idPartie' : partie.id}) }}"
-                                class="btn button scrolly">
-                                Reinitialiser la position des pions
-                            </a>
-                            <br><BR>
-                            {% if partie.plateauDeJeu.joueur is not null %}
-                                <div class="alert alert-warning" style="display: none">
-
-                                <h4 class="alert-heading">Attention!</h4>
-                                <p>Êtes vous sûr de vouloir exclure le joueur ?</p>
-
-                                <a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
-                                    aria-pressed="true">Non</a>
-                                <a href="{{ path('exclure_joueur', {'idPartie' : partie.id}) }}"
-                                    class="btn btn-success" role="button" aria-pressed="true">Oui</a>
-
-
-                            </div>
-                            <input type="button" class="btn button scrolly" value="Exclure le joueur">
-                            {%else%}
-                                <a role="button" href="{{ path('exclure_joueur', {'idPartie' : partie.id}) }}"
-                                    class="btn button scrolly disabled">
-                                    Exclure le joueur
-                                </a>
-                            {%endif%}
-                            <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-                                <script>
-                                    $(function () {
-                                        $("input.btn").click(function () {
-                                            $("input.btn").hide("slow")
-                                            $(".alert").show("slow")
-                                        })
-                                        $(".fermeture").click(function () {
-                                            $(".alert").hide("slow")
-                                            $("input.btn").show()
-                                        })
-                                    })
-                                </script>
-
-
-
-                        {% else %}
-                        {%endif%}
 
                     </div>
 
