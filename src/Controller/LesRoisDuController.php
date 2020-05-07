@@ -1287,13 +1287,7 @@ class LesRoisDuController extends AbstractController
      */
     public function apiPartie($idPartie, Request $request, ObjectManager $manager, PartieRepository $repositoryPartie)
     {
-
-        $partie = $repositoryPartie->find($idPartie);
-
-        $plateau = $partie->getPlateauEnJeu();
-
-        $pions = $plateau->getPions();
-
+        //ECRITURE dans l'api
         if ($request->getMethod() == 'POST') {
 
             $pionsNouveau = json_decode($request->request->get('$data'),true);
@@ -1312,14 +1306,18 @@ class LesRoisDuController extends AbstractController
             }
         }
 
+        //LECTURE dans l'api
+        //On récupère la partie
+        $partie = $repositoryPartie->find($idPartie);
 
-        // On récupère les informations de la partie pour les retourner en json
-
+        //Informations relatives à la partie
         $name = $partie->getNom();
-
         $description = $partie->getDescription();
-
+        $nbPlateaux = $partie->getNbPlateaux();
         $createur = $partie->getCreateur()->getPseudo();
+        $estLance = $partie->getEstLance();
+        $derniereModification = $partie->getDerniereModification();
+
         if ($partie->getJoueurs()->isEmpty()){
             $joueur = "";
         }
@@ -1327,41 +1325,24 @@ class LesRoisDuController extends AbstractController
         {
             $joueur = $partie->getJoueurs()->get(0)->getPseudo();
         }
-        $nbPions = $partie->getNbPionParPlateau();
-        $nbPlateaux = $partie->getNbPlateaux();
-        $nbFacesDe = $partie->getNbFacesDe();
-        $estLance = $partie->getEstLance();
 
-        $nomPlateau = $plateau->getNom();
-        $descriptionP = $plateau->getDescription();
-        $difficulte = $plateau->getNiveauDifficulte();
-        $nbCases = $plateau->getNbCases();
+        //Informations relatives aux plateaux
+        $plateaux = $partie->getPlateauEnJeu();
 
-        if (is_null($plateau->getJoueur())){
-            $joueurPlateau = "";
-        }
-        else
-        {
-            $joueurPlateau = $plateau->getJoueur()->getPseudo();
-        }
+        $tabPlateaux = [];
+        foreach ($plateaux as $plateau) {
+          //Informations relatives au plateau
+          $nom = $plateau->getNom();
+          $description = $plateau->getDescription();
+          $niveauDifficulte = $plateau->getNiveauDifficulte();
+          $nbPion = $plateau->getNbPion();
+          $nbFaceDe = $plateau->getNbFaceDe();
+          $nbCases = $plateau->getNbCases();
 
-        $arrayInfoPions = [];
-
-        foreach ($pions as $unPion) {
-            $player = $unPion->getNumeroJoueur();
-            $nomPion= $unPion->getNom();
-            $couleur= $unPion->getCouleur();
-            $position= $unPion->getAvancementPlateau();
-
-            array_push($arrayInfoPions, ['player' => $player, 'nom' => $nomPion, 'couleur' => $couleur, 'position' => $position]);
-        }
-
-        $caseData = [];
-
-        // On récupère les informations des cases du plateau pour les retourner en json
-        $tabCase = $plateau->getCases();
-
-        foreach($tabCase as $uneCase){
+          // On récupère les informations des cases du plateau pour les retourner en json
+          $tabCase = $plateau->getCases();
+          $caseData = [];
+          foreach($tabCase as $uneCase){
 
             $ressourceData = [];
 
@@ -1379,18 +1360,16 @@ class LesRoisDuController extends AbstractController
                 array_push($ressourceData, $infosR);
 
             }
-
-
-
             $infos = ['numero' => $numero, 'defi' => $defi, 'consignes' => $consignes, 'code' => $code, 'ressources' => $ressourceData];
-
             array_push($caseData, $infos);
+          }
+
+          array_push($tabPlateaux, $caseData);
+
         }
 
-        $plateauDeJeu = ['nom' => $nomPlateau, 'description' => $descriptionP, 'difficulte' => $difficulte, 'nbCases' => $nbCases, 'joueur' => $joueurPlateau,'pions' => $arrayInfoPions, 'cases' => $caseData];
 
-        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPionsParPlateau' => $nbPions, 'nbPlateaux' => $nbPlateaux, 'nbFacesDe' => $nbFacesDe, 'estLance' => $estLance, 'plateau_de_jeu' => $plateauDeJeu]);
-    }
+        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPlateaux' => $nbPlateaux, 'estLance' => $estLance, 'plateaux' => $tabPlateaux]);
 
-
+      }
 }
