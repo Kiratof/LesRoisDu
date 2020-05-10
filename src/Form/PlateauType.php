@@ -44,6 +44,9 @@ class PlateauType extends AbstractType
                                                             '30' => 30,
                                                             '31' => 31
                                                         ]])
+            ->add('descriptifDefi', TextType::class,[
+                  'mapped' => false,
+                ])
 
         ;
     }
