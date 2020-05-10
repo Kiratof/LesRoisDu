@@ -32,15 +32,18 @@
 
                         <form id="defisForm" action="{{path('creation_cases', {'idPlateau': plateau.id})}}" method="post" >
 
-                        {% for i in 1..plateau.nbCases %}
 
+                         <div class="inner" id="ensemblecases">
+                         {% for i in 1..plateau.nbCases %}
 
-            <label for="descriptif{{i}}">Descriptif de la case n°{{i}}</label>
-            <input type="text" name="descriptif{{i}}" id="descriptif{{i}}" minlength=10 maxlength=100 placeholder="Saisir le descriptif du défi." required>
-            <BR>
+                                 <div class="inner" id=unecase>
+                                 <label for="descriptif{{i}}">Descriptif de la case n°{{i}}</label>
+                                 <input type="text" name="descriptif{{i}}" id="descriptif{{i}}" minlength=10 maxlength=100 placeholder="Saisir le descriptif du défi." required>
+                                 <BR>
+                                 </div>
 
-
-            {% endfor %}
+                               {% endfor %}
+                         </div>
 
             <Br>
 
@@ -77,7 +80,7 @@
                 </form>
 
           {% endif %}
-
+          <button class="button" onclick="ajoutDivCase()" id="ajouterCase">Ajouter une case</button>
           </div>
 
 
@@ -87,6 +90,54 @@
   </section>
 
   </div>
+
+  <script type="text/javascript">
+
+function faireScroll(){
+  var divPrincipale = document.getElementById("wrapper");
+  divPrincipale.scrollTop = divPrincipale.scrollHeight;
+}
+
+function ajoutDivCase(){
+  //récuperer la div qui englobe toutes les cases à saisir
+  ensemblecases = document.getElementById('ensemblecases');
+
+
+
+  //Changer le numéro dans la description
+    //on récupère la dernière description du dernier element de la div ensemblecases
+    descriptifDernierElement = ensemblecases.lastChild.textContent;
+    //on recupere la div de la derniere case
+    divDerniereCase = ensemblecases.lastElementChild;
+    //on clone la derniere case ainsi que son contenu pour créer la nouvelle case
+    nouvelleCase = divDerniereCase.cloneNode(true);
+
+    //faire apparaitre la nouvelle case
+    ensemblecases.appendChild(nouvelleCase);
+
+    //on récupère le descriptif de la nouvelle case
+    descriptifNouvelleCase = nouvelleCase.textContent;
+      //on sépare le texte de la dernière case avec ° en tant que séparateur, le string devient tableau
+      descriptifDernierElementArray = descriptifDernierElement.split("°");
+      //on sépare le texte de la nouvelle case avec ° en tant que séparateur, le string devient tableau
+      descriptifNouvelleCaseArray = descriptifNouvelleCase.split("°");
+      //on incrémente le numéro dans la description
+    	descriptifNouvelleCaseArray[1]++;
+      //le tableau devient string
+    	descriptifNouvelleCase = descriptifNouvelleCaseArray.join();
+      //correction car le "°" devenait un "," suite aux transformations (bug?)
+      descriptifNouvelleCase = descriptifNouvelleCase.replace(',','°');
+
+    //mettre un id unique pour chaque input (une case=1 input)
+      nouvelleCase.children[1].id="descriptif"+descriptifNouvelleCaseArray[1]++;
+
+    //on renvoie au DOM /!\ MIS EN COMMENTAIRE CAR SINON LA DESCRIPTION CHANGE BEL ET BIEN MAIS LE INPUT DISPARAIT
+    nouvelleCase.children[0].textContent = descriptifNouvelleCase;
+
+
+}
+</script>
+
   {% endblock %}
 
 
