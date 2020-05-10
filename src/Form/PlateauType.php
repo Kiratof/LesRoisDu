@@ -22,6 +22,7 @@ class PlateauType extends AbstractType
                                                             'Difficile' => 'Difficile'
                                                         ]])
             ->add('nbCases', ChoiceType::class, ['choices'  => [
+                                                            ' '  => 1,
                                                             '12' => 12,
                                                             '13' => 13,
                                                             '14' => 14,
