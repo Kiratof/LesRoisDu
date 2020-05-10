@@ -277,81 +277,90 @@ class LesRoisDuController extends AbstractController
        if ($formulairePartie->isSubmitted() && $formulairePartie->isValid())
        {
 
-        $plateau = $partie->getPlateau();
+
+        $donneesPions = [
+          ['numero' => 1, 'nom' => "vert", 'couleur' => "green"],
+          ['numero' => 2, 'nom' => "rouge", 'couleur' => "red"],
+          ['numero' => 3, 'nom' => "jaune", 'couleur' => "yellow"],
+          ['numero' => 4, 'nom' => "bleu", 'couleur' => "blue"]
+        ];
 
         $partie->setDerniereModification(New \DateTime());
 
-        // On copie le plateau sélectionné dans le plateauEnJeu de la partie
-        $plateauEnJeu = new PlateauEnJeu();
-        $plateauEnJeu->setNom($plateau->getNom());
-        $plateauEnJeu->setDescription($plateau->getDescription());
-        $plateauEnJeu->setNiveauDifficulte($plateau->getNiveauDifficulte());
-        $plateauEnJeu->setNbCases($plateau->getNbCases());
-        $plateauEnJeu->setNbPion($plateau->getNbPion());
-        $plateauEnJeu->setNbFaceDe($plateau->getNbFaceDe());
-        $plateauEnJeu->setJoueur($user);
+        $plateaux = $partie->getPlateau();
+        foreach ($plateaux as $plateau) {
+          // On copie leS plateauX sélectionné dans leS plateauEnJeu de la partie
+          $plateauEnJeu = new PlateauEnJeu();
+          $plateauEnJeu->setNom($plateau->getNom());
+          $plateauEnJeu->setDescription($plateau->getDescription());
+          $plateauEnJeu->setNiveauDifficulte($plateau->getNiveauDifficulte());
+          $plateauEnJeu->setNbCases($plateau->getNbCases());
+          $plateauEnJeu->setNbPion($plateau->getNbPion());
+          $plateauEnJeu->setNbFaceDe($plateau->getNbFaceDe());
+          $plateauEnJeu->setJoueur($user);
+          $plateauEnJeu->setPartie($partie);
 
-        $donneesPions = [['numero' => 1, 'nom' => "vert", 'couleur' => "green"], ['numero' => 2, 'nom' => "rouge", 'couleur' => "red"], ['numero' => 3, 'nom' => "jaune", 'couleur' => "yellow"], ['numero' => 4, 'nom' => "bleu", 'couleur' => "blue"]];
+          $partie->addPlateauEnJeu($plateauEnJeu);
 
-        for ($i=0; $i < 4; $i++) {
+          //GESTION DES PIONS
+          for ($i=0; $i < 4; $i++) {
 
-            $pion = new Pion();
-            $pion->setNumeroJoueur($donneesPions[$i]["numero"]);
-            $pion->setNom($donneesPions[$i]["nom"]);
-            $pion->setCouleur($donneesPions[$i]["couleur"]);
-            $pion->setAvancementPlateau(0);
-            $pion->setPlateauEnJeu($plateauEnJeu);
+              $pion = new Pion();
+              $pion->setNumeroJoueur($donneesPions[$i]["numero"]);
+              $pion->setNom($donneesPions[$i]["nom"]);
+              $pion->setCouleur($donneesPions[$i]["couleur"]);
+              $pion->setAvancementPlateau(0);
+              $pion->setPlateauEnJeu($plateauEnJeu);
 
-            $manager->persist($pion);
+              $manager->persist($pion);
+          }
+
+          //GESTION DES CASES
+          // On récupère les cases du plateau et les copie une par une dans le plateauEnJeu
+          $tabCase = $plateau->getCases();
+          foreach($tabCase as $uneCase){
+              $cases = new Cases();
+              $cases->setDescriptifDefi($uneCase->getDescriptifDefi())
+                  ->setConsignes($uneCase->getConsignes())
+                  ->setCodeValidation($uneCase->getCodeValidation())
+                  ->setNumero($uneCase->getNumero())
+              ;
+
+              $cases->setPlateauEnJeu($plateauEnJeu);
+
+              $manager->persist($cases);
+
+              // On récupère les ressources des cases du plateau et les copie une par une dans les cases du plateauEnJeu
+              $tabRessource = $uneCase->getRessources();
+              foreach($tabRessource as $uneRessource){
+                  $ressource = new Ressource();
+
+                  $ressource->setChemin($uneRessource->getChemin());
+
+
+                  $ressource->setCases($cases);
+                  $cases->addRessource($ressource);
+                  $manager->persist($cases);
+
+                  $manager->persist($ressource);
+
+              }
+          }
+
+          $manager->persist($plateauEnJeu);
         }
 
-        $partie->addPlateauEnJeu($plateauEnJeu);
-        $partie->setCreateur($user);
 
-        $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
-        $partie->setCode($code);
-        $partie->setEstLance(false);
+          $partie->setCreateur($user);
+          $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
+          $partie->setCode($code);
+          $partie->setEstLance(false);
+          $partie->setNbPlateaux(count($plateaux));
 
-        $user->addPartiesCree($partie);
+          $user->addPartiesCree($partie);
 
-        $manager->persist($partie);
-
-        $plateauEnJeu->setPartie($partie);
-
-        $manager->persist($user);
-
-        // On récupère les cases du plateau et les copie une par une dans le plateauEnJeu
-        $tabCase = $plateau->getCases();
-        foreach($tabCase as $uneCase){
-            $cases = new Cases();
-            $cases->setDescriptifDefi($uneCase->getDescriptifDefi())
-                ->setConsignes($uneCase->getConsignes())
-                ->setCodeValidation($uneCase->getCodeValidation())
-                ->setNumero($uneCase->getNumero())
-            ;
-
-            $cases->setPlateauEnJeu($plateauEnJeu);
-
-            $manager->persist($cases);
-
-            // On récupère les ressources des cases du plateau et les copie une par une dans les cases du plateauEnJeu
-            $tabRessource = $uneCase->getRessources();
-            foreach($tabRessource as $uneRessource){
-                $ressource = new Ressource();
-
-                $ressource->setChemin($uneRessource->getChemin());
-
-
-                $ressource->setCases($cases);
-                $cases->addRessource($ressource);
-                $manager->persist($cases);
-
-                $manager->persist($ressource);
-
-            }
-        }
-
-            $manager->persist($plateauEnJeu);
+          $manager->persist($partie);
+          $manager->persist($user);
 
           // Enregistrer en base de données
           $manager->flush();

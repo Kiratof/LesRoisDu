@@ -38,22 +38,11 @@ class PartieType extends AbstractType
         $builder
             ->add('nom',TextType::class)
             ->add('description',TextType::class)
-            ->add('nbPlateaux', ChoiceType::class, ['choices'  => [
-                                                            '1' => 1,
-                                                            '2' => 2,
-                                                            '3' => 3,
-                                                            '4' => 4,
-                                                            '5' => 5,
-                                                            '6' => 6,
-                                                            '7' => 7,
-                                                            '8' => 8,
-                                                            '9' => 9,
-                                                            ]])
             ->add('plateau', EntityType::class, [   'class' => Plateau::class,
                                                     'choices' => $this->plateauRepository->findPlateauAvecCasesByUser($this->security->getUser()->getId()),
                                                     'choice_label' => 'nom',
-                                                    'multiple' => false,
-                                                    'expanded' => false])
+                                                    'multiple' => true,
+                                                    'expanded' => true])
         ;
     }
 

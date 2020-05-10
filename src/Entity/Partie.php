@@ -48,11 +48,6 @@ class Partie
     private $code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Plateau", inversedBy="parties")
-     */
-    private $plateau;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Utilisateur", inversedBy="partiesRejoins")
      */
     private $joueurs;
@@ -88,10 +83,16 @@ class Partie
      */
     private $plateauEnJeu;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Plateau", inversedBy="parties")
+     */
+    private $plateau;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
         $this->plateauEnJeu = new ArrayCollection();
+        $this->plateau = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,18 +132,6 @@ class Partie
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getPlateau(): ?Plateau
-    {
-        return $this->plateau;
-    }
-
-    public function setPlateau(?Plateau $plateau): self
-    {
-        $this->plateau = $plateau;
 
         return $this;
     }
@@ -260,6 +249,32 @@ class Partie
             if ($plateauEnJeu->getPartie() === $this) {
                 $plateauEnJeu->setPartie(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Plateau[]
+     */
+    public function getPlateau(): Collection
+    {
+        return $this->plateau;
+    }
+
+    public function addPlateau(Plateau $plateau): self
+    {
+        if (!$this->plateau->contains($plateau)) {
+            $this->plateau[] = $plateau;
+        }
+
+        return $this;
+    }
+
+    public function removePlateau(Plateau $plateau): self
+    {
+        if ($this->plateau->contains($plateau)) {
+            $this->plateau->removeElement($plateau);
         }
 
         return $this;
