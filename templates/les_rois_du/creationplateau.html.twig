@@ -107,6 +107,12 @@
     ensemblecases = document.getElementById('ensemblecases');
     unecase = document.getElementById('uneCase');
 
+   // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
+   while (ensemblecases.firstChild) {
+    ensemblecases.removeChild(ensemblecases.lastChild);
+       }
+
+
     for (i = 0; i < nbDefis; i++) {
       caseSuivante = unecase.cloneNode(unecase);
        ensemblecases.appendChild(caseSuivante);
