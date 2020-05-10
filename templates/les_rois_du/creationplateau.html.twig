@@ -101,38 +101,35 @@
 
   <script type='text/javascript'>
 
-    selecteur = document.getElementById('plateau_nbCases');
-    selecteur.addEventListener("change", function(){
-    nbDefis = document.getElementById('plateau_nbCases').value;
-    ensemblecases = document.getElementById('ensemblecases');
-    unecase = document.getElementById('uneCase');
+selecteur = document.getElementById('plateau_nbCases');
+selecteur.addEventListener("change", function(){
+nbDefis = document.getElementById('plateau_nbCases').value;
+ensemblecases = document.getElementById('ensemblecases');
+unecase = document.getElementById('uneCase');
 
 
-    // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
-    while (ensemblecases.firstChild) {
-     ensemblecases.removeChild(ensemblecases.lastChild);
-        }
+  // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
+  while (ensemblecases.firstChild) {
+   ensemblecases.removeChild(ensemblecases.lastChild);
+ }
 
-    for (i = 0; i < nbDefis; i++) {
-      caseSuivante = unecase.cloneNode(unecase);
+  for (i = 0; i < nbDefis; i++) {
+    caseSuivante = unecase.cloneNode(true);
 
-        if(i==0){
-          ensemblecases.appendChild(caseSuivante);
-          caseSuivante.children[0].children[1].id = 1;
-          caseSuivante.children[0].children[1].textContent = "Description de la case n°"+"1";
-        }
-        else {
-          ensemblecases.appendChild(caseSuivante);
-          idCaseSuivante = ensemblecases.lastChild.children[0].children[1].id;
-          idCaseSuivante = i+1;
-          ensemblecases.lastChild.children[0].children[1].id = idCaseSuivante;
+    ensemblecases.appendChild(caseSuivante);
 
-          descriptifCaseSuivante = ensemblecases.lastChild.children[0].children[0].textContent;
-          descriptifCaseSuivante = descriptifCaseSuivante+(i+1);
-          ensemblecases.lastChild.children[0].children[0].textContent = descriptifCaseSuivante;
-          }
-        }
-    });
+    //id
+    idCaseSuivante = i+1;
+    ensemblecases.lastChild.children[0].children[1].id = idCaseSuivante;
+    //label
+    descriptifCaseSuivante = 'Description du défis n°'+(i+1);
+    ensemblecases.lastChild.children[0].children[0].textContent = descriptifCaseSuivante;
+    //name
+    nameCaseSuivante = 'descriptif'+(i+1);
+    ensemblecases.lastChild.children[0].children[1].name = nameCaseSuivante;
+ }
+
+});
 
 
   // function testBoucle(){
