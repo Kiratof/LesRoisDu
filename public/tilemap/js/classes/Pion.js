@@ -1,7 +1,7 @@
 class Pion {
-	constructor(parcours, player, position, nbCases) {
+	constructor(parcours, player, position, nbCases, map) {
 		//Informations de la map
-		this.map = new Map();
+		this.map = map;
 
 		this.nbCases = nbCases;
 		this.parcours = parcours;

@@ -2,10 +2,6 @@ class Map {
 
 	constructor(nomMap) {
 
-		if (Map.instance instanceof Map) {
-				return Map.instance;
-		}
-
 		this.terrain = 0;
 		this.terrainHeight = 0;
 		this.terrainWidth = 0;
@@ -13,12 +9,7 @@ class Map {
 		this.TILE_WIDTH = 0;
 
 		this.hydraterMap(nomMap);
-
-		Object.freeze(this);
-		Map.instance = this;
-
 	}
-
 
 	hydraterMap(nom){
 

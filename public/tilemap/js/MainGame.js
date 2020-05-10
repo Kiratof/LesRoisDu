@@ -8,11 +8,11 @@ class MainGame {
 	    initialize(){
 	      var parametresPartieJSON = this.getParametresPartieJSON();
 				this.plateaux = [];
-				for (var i = 0; i < 3; i++) {
-					var gameScene = new SceneGameplay(parametresPartieJSON);
+
+				for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
+					var gameScene = new SceneGameplay(parametresPartieJSON.plateaux[i]);
 					this.plateaux.push(gameScene);
 				}
-				//this.gameScene = new SceneGameplay(parametresPartieJSON);
 	    }
 
 	    update(deltaTime){
@@ -21,8 +21,6 @@ class MainGame {
 					plateau.update(deltaTime);
 				});
 
-
-				//this.gameScene.update(deltaTime);
 	    }
 
 	    draw(){
@@ -31,7 +29,6 @@ class MainGame {
 					plateau.draw();
 				});
 
-				//this.gameScene.draw();
 	    }
 
 	    getParametresPartieJSON() {

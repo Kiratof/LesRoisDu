@@ -1296,25 +1296,6 @@ class LesRoisDuController extends AbstractController
      */
     public function apiPartie($idPartie, Request $request, ObjectManager $manager, PartieRepository $repositoryPartie)
     {
-        //ECRITURE dans l'api
-        if ($request->getMethod() == 'POST') {
-
-            $pionsNouveau = json_decode($request->request->get('$data'),true);
-
-            foreach ($pions as $unPion) {
-
-                foreach ($pionsNouveau['pions'] as $unPionNouveau) {
-
-                    if ($unPionNouveau['player'] == $unPion->getNumeroJoueur()) {
-
-                        $unPion->setAvancementPlateau($unPionNouveau["placement"]);
-                        $manager->persist($unPion);
-                        $manager->flush();
-                    }
-                }
-            }
-        }
-
         //LECTURE dans l'api
         //On récupère la partie
         $partie = $repositoryPartie->find($idPartie);
@@ -1339,6 +1320,8 @@ class LesRoisDuController extends AbstractController
         $plateaux = $partie->getPlateauEnJeu();
 
         $plateauInfo = [];
+        $tabPlateaux = [];
+
         foreach ($plateaux as $plateau) {
 
           //Informations relatives au plateau
@@ -1387,13 +1370,37 @@ class LesRoisDuController extends AbstractController
             }
             $infos = ['numero' => $numero, 'defi' => $defi, 'consignes' => $consignes, 'code' => $code, 'ressources' => $ressourceData];
             array_push($caseData, $infos);
-            $plateauInfo[$nom]['case'] = $caseData;
+            $plateauInfo[$nom]['cases'] = $caseData;
 
           }
+          array_push($tabPlateaux, $plateauInfo[$nom]);
         }
 
+        //ECRITURE dans l'api
+        if ($request->getMethod() == 'POST') {
 
-        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPlateaux' => $nbPlateaux, 'estLance' => $estLance, 'plateaux' => $plateauInfo]);
+          foreach ($plateaux as $plateau) {
+            $pions = $plateau->getPions();
+            $pionsNouveau = json_decode($request->request->get('$data'),true);
+
+            foreach ($pions as $unPion) {
+
+                foreach ($pionsNouveau['pions'] as $unPionNouveau) {
+
+                    if ($unPionNouveau['player'] == $unPion->getNumeroJoueur()) {
+
+                        $unPion->setAvancementPlateau($unPionNouveau["placement"]);
+                        $manager->persist($unPion);
+                        $manager->flush();
+                    }
+                }
+            }
+          }
+
+        }
+        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPlateaux' => $nbPlateaux, 'estLance' => $estLance, 'plateaux' => $tabPlateaux]);
 
       }
+
+
 }

@@ -1,20 +1,20 @@
 class SceneGameplay {
 
-  constructor(parametresJSON)
+  constructor(plateauJSON)
   {
     //Liste de tous les acteurs du jeu
     this.listeActeurs = [];
-
     //Paramètres de la partie
-    var nbCases = parametresJSON.plateau_de_jeu.nbCases + 1;
-    var nbFacesDe = parametresJSON.nbFacesDe;
-    var casesDuPlateau = parametresJSON.plateau_de_jeu.cases;
-    var nbPion = parametresJSON.nbPionsParPlateau;
-    var lesPions = parametresJSON.plateau_de_jeu.pions;
+    var nbCases = plateauJSON.nombre_de_cases + 1;
+    var nbFacesDe = plateauJSON.nombre_de_face_de;
+    var casesDuPlateau = plateauJSON.cases;
+    var nbPion = plateauJSON.nombre_de_pion;
+    var lesPions = plateauJSON.pions;
 
 
     //Création de l'objet contenant toutes les informations de la map
     var nomMap = 'plateau_' + nbCases +'_128';
+    console.log(nomMap);
     var map = new Map(nomMap);
 
 
@@ -22,7 +22,7 @@ class SceneGameplay {
     this.createCanvas(map);
 
     //Création du background
-    this.background = new Background();
+    this.background = new Background(map);
 
     //Créer le dé
     this.dice = new De(nbFacesDe);
@@ -37,7 +37,7 @@ class SceneGameplay {
         const element = casesDuPlateau[index];
         defis.push(element.defi);
     }
-    this.parcours = new Parcours(defis);
+    this.parcours = new Parcours(defis, map);
     this.listeActeurs.push(this.parcours);
 
     //Nos cases
@@ -46,7 +46,7 @@ class SceneGameplay {
     //Créer le/les pions
     this.pions = [];
     for (let index = 0; index < nbPion; index++) {
-        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases);
+        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases, map);
         this.listeActeurs.push(pion);
         this.pions.push(pion);
     }
