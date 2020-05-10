@@ -24,14 +24,34 @@
       <div class="inner">
         {% if action == 'creer' %}
         <h1>CREER UN PLATEAU</h1>
+
         <section id="three" class="wrapper style1 fade-up">
           <div class="inner">
 
+          <div class="inner" id="ensembleformulaire">
             {{form_start(vueFormulaireCreationPlateau) }}
+            <div class="inner" id="unecase">
             {{ form_row(vueFormulaireCreationPlateau.nom)}}
+            </div>
             {{ form_row(vueFormulaireCreationPlateau.description)}}
             {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
+            <div class="inner" id="formulaireNbDefis">
             {{ form_row(vueFormulaireCreationPlateau.nbCases, { 'label' : 'Taille du plateau (nombre de défis)' })}}
+            </div>
+            <div class="inner" id="ensemblecases">
+
+
+            <div id="divCachée" style="display: none;">
+            <div id="uneCase">
+            {{ form_row(vueFormulaireCreationPlateau.descriptifDefi, { 'label' : 'Description du défis n°'})}}
+            </div>
+            </div>
+
+
+            </div>
+
+
+          </div>
             <Br>
 
           <div class="row">
@@ -55,7 +75,9 @@
             {{ form_row(vueFormulaireCreationPlateau.nom)}}
             {{ form_row(vueFormulaireCreationPlateau.description)}}
             {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
+
             <Br>
+
 
           <div class="row">
                     <div class="col-md-12">
@@ -76,6 +98,34 @@
   </section>
 
   </div>
+
+  <script type='text/javascript'>
+
+    selecteur = document.getElementById('plateau_nbCases');
+    selecteur.addEventListener("change", function(){
+    nbDefis = document.getElementById('plateau_nbCases').value;
+    ensemblecases = document.getElementById('ensemblecases');
+    unecase = document.getElementById('uneCase');
+
+    for (i = 0; i < nbDefis; i++) {
+      caseSuivante = unecase.cloneNode(unecase);
+       ensemblecases.appendChild(caseSuivante);
+
+        }
+    });
+
+
+  // function testBoucle(){
+  //    nbDefis = document.getElementById('plateau_nbCases').value;
+  //    uneDiv = document.getElementById('unecase');
+  //    for (var i = 0; i < nbDefis; i++) {
+  //     uneDivClonee = uneDiv.cloneNode('UneDiv');
+  //      ensembleformulaire.appendChild(uneDivClonee);
+  //    }
+  // }
+
+   </script>
+
   {% endblock %}
 
 
