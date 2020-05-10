@@ -303,7 +303,7 @@ class LesRoisDuController extends AbstractController
           $partie->addPlateauEnJeu($plateauEnJeu);
 
           //GESTION DES PIONS
-          for ($i=0; $i < 4; $i++) {
+          for ($i=0; $i < $plateauEnJeu->getNbPion(); $i++) {
 
               $pion = new Pion();
               $pion->setNumeroJoueur($donneesPions[$i]["numero"]);
@@ -1338,16 +1338,32 @@ class LesRoisDuController extends AbstractController
         //Informations relatives aux plateaux
         $plateaux = $partie->getPlateauEnJeu();
 
-        $tabPlateaux = [];
+        $plateauInfo = [];
         foreach ($plateaux as $plateau) {
+
           //Informations relatives au plateau
           $nom = $plateau->getNom();
-          $description = $plateau->getDescription();
-          $niveauDifficulte = $plateau->getNiveauDifficulte();
-          $nbPion = $plateau->getNbPion();
-          $nbFaceDe = $plateau->getNbFaceDe();
-          $nbCases = $plateau->getNbCases();
+          $plateauInfo[$nom]['description'] = $plateau->getDescription();
+          $plateauInfo[$nom]['difficulte'] = $plateau->getNiveauDifficulte();
+          $plateauInfo[$nom]['nombre_de_pion'] = $plateau->getNbPion();
+          $plateauInfo[$nom]['nombre_de_face_de'] = $plateau->getNbFaceDe();
+          $plateauInfo[$nom]['nombre_de_cases'] = $plateau->getNbCases();
 
+          //GESTION DES PIONS
+          $tabPions = [];
+          $pions = $plateau->getPions();
+          foreach ($pions as $unPion) {
+             $player = $unPion->getNumeroJoueur();
+             $nomPion= $unPion->getNom();
+             $couleur= $unPion->getCouleur();
+             $position= $unPion->getAvancementPlateau();
+
+             $pionNormalized = ['player' => $player, 'nom' => $nomPion, 'couleur' => $couleur, 'position' => $position];
+             array_push($tabPions, $pionNormalized);
+          }
+          $plateauInfo[$nom]['pions'] = $tabPions;
+
+          //GESTION DES CASES
           // On récupère les informations des cases du plateau pour les retourner en json
           $tabCase = $plateau->getCases();
           $caseData = [];
@@ -1371,14 +1387,13 @@ class LesRoisDuController extends AbstractController
             }
             $infos = ['numero' => $numero, 'defi' => $defi, 'consignes' => $consignes, 'code' => $code, 'ressources' => $ressourceData];
             array_push($caseData, $infos);
+            $plateauInfo[$nom]['case'] = $caseData;
+
           }
-
-          array_push($tabPlateaux, $caseData);
-
         }
 
 
-        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPlateaux' => $nbPlateaux, 'estLance' => $estLance, 'plateaux' => $tabPlateaux]);
+        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPlateaux' => $nbPlateaux, 'estLance' => $estLance, 'plateaux' => $plateauInfo]);
 
       }
 }
