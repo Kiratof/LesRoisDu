@@ -916,48 +916,51 @@ class LesRoisDuController extends AbstractController
 
         if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){ // Seul le créateur peut supprimer sa partie
 
-            $plateauEnJeu = $partie->getplateauDeJeu();
+            $plateauxEnJeu = $partie->getplateauEnJeu();
+            foreach ($plateauxEnJeu as $plateauEnJeu) {
 
-            $tabCase = $plateauEnJeu->getCases();
-            foreach($tabCase as $uneCase){ // On enlève les cases une par une
+              $tabCase = $plateauEnJeu->getCases();
+              foreach($tabCase as $uneCase){ // On enlève les cases une par une
 
-                $tabRessource = $uneCase->getRessources();
-                foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
+                  $tabRessource = $uneCase->getRessources();
+                  foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
 
-                    $entityManager->remove($uneRessource);
+                      $entityManager->remove($uneRessource);
 
-                }
+                  }
 
-                $entityManager->remove($uneCase);
+                  $entityManager->remove($uneCase);
+              }
+
+              $tabPion = $plateauEnJeu->getPions();
+              foreach($tabPion as $unPion){ // On enlève chaque pion un par un
+
+                  $entityManager->remove($unPion);
+              }
+              $entityManager->remove($plateauEnJeu); // On supprime le plateauEnJeu
+
             }
 
-            $tabPion = $plateauEnJeu->getPions();
-            foreach($tabPion as $unPion){ // On enlève chaque pion un par un
-
-                $entityManager->remove($unPion);
-            }
-
-            $entityManager->remove($plateauEnJeu); // On supprime le plateauEnJeu
-
-            $plateau = $partie->getPlateau();
-
-            if($plateau->getUtilisateurs()->isEmpty()){
-
-                $tabCase = $plateau->getCases();
-                foreach($tabCase as $uneCase){ // On enlève les cases une par une
-
-                    $tabRessource = $uneCase->getRessources();
-                    foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
-
-                        $entityManager->remove($uneRessource);
-
-                    }
-
-                    $entityManager->remove($uneCase);
-                }
-
-                $entityManager->remove($plateau); // On supprime la partie
-            }
+            //Supprime les plateaux qui n'ont plus d'utilisateur
+            // $plateau = $partie->getPlateau();
+            //
+            // if($plateau->getUtilisateurs()->isEmpty()){
+            //
+            //     $tabCase = $plateau->getCases();
+            //     foreach($tabCase as $uneCase){ // On enlève les cases une par une
+            //
+            //         $tabRessource = $uneCase->getRessources();
+            //         foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
+            //
+            //             $entityManager->remove($uneRessource);
+            //
+            //         }
+            //
+            //         $entityManager->remove($uneCase);
+            //     }
+            //
+            //     $entityManager->remove($plateau); // On supprime la partie
+            // }
 
             $entityManager->remove($partie); // On supprime la partie
 
