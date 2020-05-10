@@ -107,16 +107,30 @@
     ensemblecases = document.getElementById('ensemblecases');
     unecase = document.getElementById('uneCase');
 
-   // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
-   while (ensemblecases.firstChild) {
-    ensemblecases.removeChild(ensemblecases.lastChild);
-       }
 
+    // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
+    while (ensemblecases.firstChild) {
+     ensemblecases.removeChild(ensemblecases.lastChild);
+        }
 
     for (i = 0; i < nbDefis; i++) {
       caseSuivante = unecase.cloneNode(unecase);
-       ensemblecases.appendChild(caseSuivante);
 
+        if(i==0){
+          ensemblecases.appendChild(caseSuivante);
+          caseSuivante.children[0].children[1].id = 1;
+          caseSuivante.children[0].children[1].textContent = "Description de la case n°"+"1";
+        }
+        else {
+          ensemblecases.appendChild(caseSuivante);
+          idCaseSuivante = ensemblecases.lastChild.children[0].children[1].id;
+          idCaseSuivante = i+1;
+          ensemblecases.lastChild.children[0].children[1].id = idCaseSuivante;
+
+          descriptifCaseSuivante = ensemblecases.lastChild.children[0].children[0].textContent;
+          descriptifCaseSuivante = descriptifCaseSuivante+(i+1);
+          ensemblecases.lastChild.children[0].children[0].textContent = descriptifCaseSuivante;
+          }
         }
     });
 
@@ -125,6 +139,9 @@
   //    nbDefis = document.getElementById('plateau_nbCases').value;
   //    uneDiv = document.getElementById('unecase');
   //    for (var i = 0; i < nbDefis; i++) {
+  //      while (myNode.firstChild) {
+  //  myNode.removeChild(myNode.lastChild);
+  //     }
   //     uneDivClonee = uneDiv.cloneNode('UneDiv');
   //      ensembleformulaire.appendChild(uneDivClonee);
   //    }
