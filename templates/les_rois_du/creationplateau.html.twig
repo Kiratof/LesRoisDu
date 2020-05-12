@@ -2,6 +2,105 @@
 
 
 {% block sidebar %}
+{% block javascripts %}
+  <script>
+
+
+  var $collectionHolder;
+
+  // setup an "add a case" link
+  var $addCaseButton = $('<button type="button" class="add_case_link">Ajouter une case</button>');
+  var $newLinkLi = $('<li></li>').append($addCaseButton);
+
+  jQuery(document).ready(function() {
+      // Get the ul that holds the collection of tags
+      $collectionHolder = $('ul.casesliste');
+
+      // add the "add a tag" anchor and li to the tags ul
+      $collectionHolder.append($newLinkLi);
+
+      // count the current form inputs we have (e.g. 2), use that as the new
+      // index when inserting a new item (e.g. 2)
+      $collectionHolder.data('index', $collectionHolder.find('input').length);
+
+      $addCaseButton.on('click', function(e) {
+          // add a new tag form (see next code block)
+          addCaseForm($collectionHolder, $newLinkLi);
+      });
+  });
+
+  function addCaseForm($collectionHolder, $newLinkLi) {
+      // Get the data-prototype explained earlier
+      var prototype = $collectionHolder.data('prototype');
+
+      // get the new index
+      var index = $collectionHolder.data('index');
+
+      var newForm = prototype;
+      // You need this only if you didn't set 'label' => false in your tags field in TaskType
+      // Replace '__name__label__' in the prototype's HTML to
+      // instead be a number based on how many items we have
+      // newForm = newForm.replace(/__name__label__/g, index);
+
+      // Replace '__name__' in the prototype's HTML to
+      // instead be a number based on how many items we have
+      newForm = newForm.replace(/__name__/g, index);
+
+      // increase the index with one for the next item
+      $collectionHolder.data('index', index + 1);
+
+      // Display the form in the page in an li, before the "Add a tag" link li
+      var $newFormLi = $('<li></li>').append(newForm);
+      $newLinkLi.before($newFormLi);
+  }
+
+
+// selecteur = document.getElementById('plateau_nbCases');
+// selecteur.addEventListener("change", function(){
+// nbDefis = document.getElementById('plateau_nbCases').value;
+// ensemblecases = document.getElementById('ensemblecases');
+// unecase = document.getElementById('uneCase');
+//
+//
+//   // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
+//   while (ensemblecases.firstChild) {
+//    ensemblecases.removeChild(ensemblecases.lastChild);
+//  }
+//
+//   for (i = 0; i < nbDefis; i++) {
+//     caseSuivante = unecase.cloneNode(true);
+//
+//     ensemblecases.appendChild(caseSuivante);
+//
+//     //id
+//     idCaseSuivante = i+1;
+//     ensemblecases.lastChild.children[0].children[1].id = idCaseSuivante;
+//     //label
+//     descriptifCaseSuivante = 'Description du défis n°'+(i+1);
+//     ensemblecases.lastChild.children[0].children[0].textContent = descriptifCaseSuivante;
+//     //name
+//     nameCaseSuivante = 'descriptif'+(i+1);
+//     ensemblecases.lastChild.children[0].children[1].name = nameCaseSuivante;
+//  }
+//
+// });
+//
+//
+//   //// function testBoucle(){
+//   ////    nbDefis = document.getElementById('plateau_nbCases').value;
+//   ////    uneDiv = document.getElementById('unecase');
+//   ////    for (var i = 0; i < nbDefis; i++) {
+//   ////      while (myNode.firstChild) {
+//   ////  myNode.removeChild(myNode.lastChild);
+//   ////     }
+//   ////     uneDivClonee = uneDiv.cloneNode('UneDiv');
+//   ////      ensembleformulaire.appendChild(uneDivClonee);
+//   ////    }
+//   //// }
+//
+   </script>
+   {% endblock %}
+   
 <body class="is-preload">
   <!-- Sidebar -->
   <section id="sidebar">
@@ -38,18 +137,15 @@
             <div class="inner" id="formulaireNbDefis">
             {{ form_row(vueFormulaireCreationPlateau.nbCases, { 'label' : 'Taille du plateau (nombre de défis)' })}}
             </div>
-            <div class="inner" id="ensemblecases">
 
-
-            <div id="divCachée" style="display: none;">
-            <div id="uneCase">
-            {{ form_row(vueFormulaireCreationPlateau.descriptifDefi, { 'label' : 'Description du défis n°'})}}
+            <div id="ensemblecases">
+            <h3>Cases</h3>
+               <ul class="casesliste"  data-prototype="{{ form_widget(vueFormulaireCreationPlateau.cases.vars.prototype)|e('html_attr') }}">
+                   {% for unecase in vueFormulaireCreationPlateau.cases %}
+                       <li>{{ form_row(unecase.descriptifDefi) }}</li>
+                   {% endfor %}
+               </ul>
             </div>
-            </div>
-
-
-            </div>
-
 
           </div>
             <Br>
@@ -98,53 +194,6 @@
   </section>
 
   </div>
-
-  <script type='text/javascript'>
-
-selecteur = document.getElementById('plateau_nbCases');
-selecteur.addEventListener("change", function(){
-nbDefis = document.getElementById('plateau_nbCases').value;
-ensemblecases = document.getElementById('ensemblecases');
-unecase = document.getElementById('uneCase');
-
-
-  // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
-  while (ensemblecases.firstChild) {
-   ensemblecases.removeChild(ensemblecases.lastChild);
- }
-
-  for (i = 0; i < nbDefis; i++) {
-    caseSuivante = unecase.cloneNode(true);
-
-    ensemblecases.appendChild(caseSuivante);
-
-    //id
-    idCaseSuivante = i+1;
-    ensemblecases.lastChild.children[0].children[1].id = idCaseSuivante;
-    //label
-    descriptifCaseSuivante = 'Description du défis n°'+(i+1);
-    ensemblecases.lastChild.children[0].children[0].textContent = descriptifCaseSuivante;
-    //name
-    nameCaseSuivante = 'descriptif'+(i+1);
-    ensemblecases.lastChild.children[0].children[1].name = nameCaseSuivante;
- }
-
-});
-
-
-  // function testBoucle(){
-  //    nbDefis = document.getElementById('plateau_nbCases').value;
-  //    uneDiv = document.getElementById('unecase');
-  //    for (var i = 0; i < nbDefis; i++) {
-  //      while (myNode.firstChild) {
-  //  myNode.removeChild(myNode.lastChild);
-  //     }
-  //     uneDivClonee = uneDiv.cloneNode('UneDiv');
-  //      ensembleformulaire.appendChild(uneDivClonee);
-  //    }
-  // }
-
-   </script>
 
   {% endblock %}
 
