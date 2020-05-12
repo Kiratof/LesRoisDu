@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class PlateauType extends AbstractType
 {
@@ -45,8 +46,11 @@ class PlateauType extends AbstractType
                                                             '30' => 30,
                                                             '31' => 31
                                                         ]])
-            ->add('descriptifDefi', TextType::class,[
-                  'mapped' => false,
+            ->add('cases', CollectionType::class,
+                 ['entry_type' => CasesType::class,
+                  'entry_options' => ['label' => false],
+                  'allow_add' => true,
+                  'allow_delete' => false
                 ])
 
         ;
