@@ -421,8 +421,47 @@ class LesRoisDuController extends AbstractController
     public function affichageCreationPlateau(Request $request, ObjectManager $manager, UserInterface $user)
     {
 
-       // Création d'une partie vierge
+       // Création d'un plateau vierge
        $plateau=new Plateau();
+
+       //Création case DUMMY CODE
+       $case1 = new Cases();
+       $case1 -> setDescriptifDefi('description1');
+       $plateau->getCases()->add($case1);
+       $case2 = new Cases();
+       $case2 -> setDescriptifDefi('description2');
+       $plateau->getCases()->add($case2);
+       $case3 = new Cases();
+       $case3 -> setDescriptifDefi('description3');
+       $plateau->getCases()->add($case3);
+       $case4 = new Cases();
+       $case4 -> setDescriptifDefi('description4');
+       $plateau->getCases()->add($case4);
+       $case5 = new Cases();
+       $case5 -> setDescriptifDefi('description5');
+       $plateau->getCases()->add($case5);
+       $case6 = new Cases();
+       $case6 -> setDescriptifDefi('description6');
+       $plateau->getCases()->add($case6);
+       $case7 = new Cases();
+       $case7 -> setDescriptifDefi('description7');
+       $plateau->getCases()->add($case7);
+       $case8 = new Cases();
+       $case8 -> setDescriptifDefi('description8');
+       $plateau->getCases()->add($case8);
+       $case9 = new Cases();
+       $case9 -> setDescriptifDefi('description9');
+       $plateau->getCases()->add($case9);
+       $case10 = new Cases();
+       $case10 -> setDescriptifDefi('description10');
+       $plateau->getCases()->add($case10);
+       $case11 = new Cases();
+       $case11 -> setDescriptifDefi('description11');
+       $plateau->getCases()->add($case11);
+       $case12 = new Cases();
+       $case12 -> setDescriptifDefi('description12');
+       $plateau->getCases()->add($case12);
+
 
        // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
        $formulairePlateau = $this->createForm(PlateauType::class, $plateau);
@@ -431,6 +470,7 @@ class LesRoisDuController extends AbstractController
 
        if ($formulairePlateau->isSubmitted() && $formulairePlateau->isValid())
        {
+
 
         $date = New \DateTime();
         $plateau->setDerniereModification($date);
