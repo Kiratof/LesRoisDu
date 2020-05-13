@@ -1,30 +1,21 @@
 {% extends 'monTemplate.html.twig' %}
 
     {% block body %}
-        <section id="intro" class="inner wrapper style1 fullscreen fade-up ">
+        <section class="inner wrapper style1 fullscreen fade-up ">
           <div class="partie-container">
             <div class="tabs">
                 <div class="tabs__sidebar">
-                  <button class="tabs__button" data-for-tab="1">Tabs #1</button>
-                  <button class="tabs__button" data-for-tab="2">Tabs #2</button>
-                  <button class="tabs__button" data-for-tab="3">Tabs #3</button>
+                  {% for plateau in partie.plateauEnJeu %}
+                    <button class="tabs__button" data-for-tab="{{loop.index}}">{{plateau.nom}}</button>
+                  {% endfor %}
                 </div>
-                <div class="tabs__content" data-tab="1">
-                  <h2>Tabs #1</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
-                <div class="tabs__content" data-tab="2">
-                  <h2>Tabs #2</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inp ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
-                <div class="tabs__content" data-tab="3">
-                  <h2>Tabs #3</h2>
-                  <p>Lorem ipsum dolor sit amet,ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+                {% for plateau in partie.plateauEnJeu %}
+                <div class="tabs__content" id="plateau-{{loop.index}}" data-tab="{{loop.index}}">
+
+                </div>
+                {% endfor %}
             </div>
           </div>
-
-
-                <div id="canvas">
-
-                </div>
 
                 <div class="row">
                         <p id="creaJoueur"></p>

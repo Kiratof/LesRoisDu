@@ -1,7 +1,8 @@
 class SceneGameplay {
 
-  constructor(plateauJSON)
+  constructor(id, plateauJSON)
   {
+    this.id = id;
     //Liste de tous les acteurs du jeu
     this.listeActeurs = [];
     //Paramètres de la partie
@@ -128,8 +129,6 @@ class SceneGameplay {
               this.dice.toggleSwitch();
             }
           }
-
-
           break;
 
         case "de":
@@ -138,7 +137,6 @@ class SceneGameplay {
           break;
 
         default:
-
       }
     }
 
@@ -157,8 +155,8 @@ class SceneGameplay {
     this.canvas = document.createElement('canvas');
     this.setCanvasSize(this.canvas, map);
 
-    var body = document.getElementById('canvas');
-    body.appendChild(this.canvas);
+    var tabsToInsert = document.getElementById('plateau-' + this.id);
+    tabsToInsert.appendChild(this.canvas);
 
     this.ctx = this.canvas.getContext("2d");
 

@@ -23,7 +23,7 @@ class MainGame {
 				this.plateaux = [];
 
 				for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
-					var gameScene = new SceneGameplay(parametresPartieJSON.plateaux[i]);
+					var gameScene = new SceneGameplay(i + 1, parametresPartieJSON.plateaux[i]);
 					this.plateaux.push(gameScene);
 				}
 	    }
