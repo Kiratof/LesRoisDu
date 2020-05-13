@@ -17,14 +17,13 @@
             <div class="info-partie">
               <div class="info-partie__heading">
                 <h1>{{partie.nom}}</h1>
-                <h2>Créateur : {{partie.createur.pseudo}}</h2>
-                <p>Nombre de plateau : {{partie.nbPlateaux}}</p>
+                <h2> <strong>Créateur</strong> : {{partie.createur.pseudo}}</h2>
+                <p> <strong>Nombre de plateau</strong> : {{partie.nbPlateaux}}</p>
               </div>
               {% for plateau in partie.plateauEnJeu %}
-              <div class="info-partie__plateaux" style="border: 1px red solid">
+              <div class="info-partie__plateaux">
 
                 <h3>{{plateau.nom}}</h3>
-                <p id="creaJoueur"></p>
                 <div class="table-wrapper">
                   <table class="alt">
                     <thead>
@@ -110,7 +109,6 @@
           <script type="text/javascript" src="{{asset('tilemap/js/classes/Tileset.js')}}"></script>
           <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
           <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/fetchJoueurs.js')}}"></script>
           <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
 
 

@@ -1,52 +1,53 @@
-.tabs{
-	border: 2px solid #cccccc;
+.partie-container{
+	width: 100%;
 	display: flex;
 }
 
-.tabs__sidebar{
-	width: 12%;
-	flex-shrink: 0;
-	background: #cccccc;
+.tabs{
+	border: 2px solid #cccccc;
+	display: flex;
+	flex-direction: column;
+	width: 75%;
+	&__sidebar{
+		display: flex;
+		width: 100%;
+		background: _palette(bg);
+	}
+	&__button{
+		display: block;
+		background: _palette(bg);
+		cursor: pointer;
+		&:active{
+			background: _palette(bg-alt);
+		}
+		&--active{
+			font-weight: bold;
+			background: _palette(accent1);
+		}
+	}
+	&__content{
+		padding: 15px;
+		font-size: 0.8rem;
+		display: none;
+		background: _palette(accent1);
+		&--active{
+			display: block;
+		}
+		> :first-child{
+			margin-top: 0;
+		}
+	}
 }
 
-.tabs__button{
-	display: block;
-	padding: 10px;
-	background: #eeeeee;
-	width: 100%;
-	outline: none;
-	cursor: pointer;
-}
-
-.tabs__button p{
-	color: black;
-
-}
-
-
-.tabs__button:active{
-	background: #dddddd;
-}
-
-.tabs__button:not(:last-of-type){
-	border-left: 1px solid #cccccc;
-}
-
-.tabs__button--active{
-	font-weight: bold;
-	border-right: 2px solid #009879;
-	background: #dddddd;
-}
-
-.tabs__content{
-	padding: 15px;
-	font-size: 0.8rem;
-	display: none;
-}
-.tabs__content--active{
-	display: block;
-}
-
-.tabs__content > :first-child{
-	margin-top: 0;
+.info-partie{
+	display: flex;
+	flex-direction: column;
+	width: 25%;
+	&__heading{
+		font-size: 0.8rem;
+		border-bottom: 1px solid _palette(bg-alt);
+	}
+	&__plateaux{
+		margin: 10px;
+	}
 }

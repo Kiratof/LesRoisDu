@@ -3183,56 +3183,58 @@ body.is-preload #sidebar nav ul li {
   }
 }
 
-.tabs {
-  border: 2px solid #cccccc;
+.partie-container {
+  width: 100%;
   display: flex;
 }
 
-.tabs__sidebar {
-  width: 12%;
-  flex-shrink: 0;
-  background: #cccccc;
+.tabs {
+  border: 2px solid #cccccc;
+  display: flex;
+  flex-direction: column;
+  width: 75%;
 }
-
+.tabs__sidebar {
+  display: flex;
+  width: 100%;
+  background: #312450;
+}
 .tabs__button {
   display: block;
-  padding: 10px;
-  background: #eeeeee;
-  width: 100%;
-  outline: none;
+  background: #312450;
   cursor: pointer;
 }
-
-.tabs__button p {
-  color: black;
-}
-
 .tabs__button:active {
-  background: #dddddd;
+  background: #261c3e;
 }
-
-.tabs__button:not(:last-of-type) {
-  border-left: 1px solid #cccccc;
-}
-
 .tabs__button--active {
   font-weight: bold;
-  border-right: 2px solid #009879;
-  background: #dddddd;
+  background: #5e42a6;
 }
-
 .tabs__content {
   padding: 15px;
   font-size: 0.8rem;
   display: none;
+  background: #5e42a6;
 }
-
 .tabs__content--active {
   display: block;
 }
-
 .tabs__content > :first-child {
   margin-top: 0;
+}
+
+.info-partie {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+.info-partie__heading {
+  font-size: 0.8rem;
+  border-bottom: 1px solid #261c3e;
+}
+.info-partie__plateaux {
+  margin: 10px;
 }
 
 /*# sourceMappingURL=main.css.map */

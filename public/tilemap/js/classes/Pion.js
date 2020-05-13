@@ -246,6 +246,7 @@ class Pion {
 	}
 
 	setPositionIntoAPI(position, player){
+		var parametres = 'http://localhost:8000/api/partie/' + idPartie;
 
 		if(position > this.nbCases){
 			var pos = this.nbCases-1;
