@@ -5,19 +5,19 @@
           <div class="partie-container">
             <div class="tabs">
                 <div class="tabs__sidebar">
-                  <button class="tabs__button tabs__button--active" data-for-tab="1">Tabs #1</button>
+                  <button class="tabs__button" data-for-tab="1">Tabs #1</button>
                   <button class="tabs__button" data-for-tab="2">Tabs #2</button>
                   <button class="tabs__button" data-for-tab="3">Tabs #3</button>
                 </div>
-                <div class="tabs__content tabs__content--active" data-for-tab="1">
+                <div class="tabs__content" data-tab="1">
                   <h2>Tabs #1</h2>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
-                <div class="tabs__content" data-for-tab="2">
+                <div class="tabs__content" data-tab="2">
                   <h2>Tabs #2</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
-                <div class="tabs__content" data-for-tab="3">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor inp ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+                <div class="tabs__content" data-tab="3">
                   <h2>Tabs #3</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+                  <p>Lorem ipsum dolor sit amet,ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
             </div>
           </div>
 
@@ -42,6 +42,40 @@
         </section>
 	{% block menuMiniScreen %}
   {% endblock %}
+
+  <script type="text/javascript">
+    function setupTabs(){
+      document.querySelectorAll('.tabs__button').forEach(button => {
+        button.addEventListener('click', () => {
+          const sideBar = button.parentElement;
+          const tabsContainer = sideBar.parentElement;
+          const tabNumber = button.dataset.forTab;
+          const tabToActivate = tabsContainer.querySelector(`.tabs__content[data-tab="${tabNumber}"]`);
+
+          sideBar.querySelectorAll(".tabs__button").forEach(button => {
+            button.classList.remove("tabs__button--active");
+          });
+
+          tabsContainer.querySelectorAll(".tabs__content").forEach(tab => {
+            tab.classList.remove("tabs__content--active");
+          });
+
+          button.classList.add("tabs__button--active");
+          tabToActivate.classList.add("tabs__content--active");
+
+        });
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setupTabs();
+
+      document.querySelectorAll(".tabs").forEach( tabsContainer => {
+        tabsContainer.querySelector(".tabs__sidebar .tabs__button").click();
+      });
+
+    });
+  </script>
 
           <script type="text/javascript">
               var idPartie = {{ partie.id }};
