@@ -1,34 +1,11 @@
 {% extends 'monTemplate.html.twig' %}
 
-{% block sidebar %}
-
-<body class="is-preload">
-    <!-- Sidebar -->
-    <section id="sidebar">
-        <div class="inner">
-            <nav>
-                <ul>
-
-                    <li><a href="{{ path('espace_partie')}}">RETOUR à l'espace parties</a></li>
-                    {% for part in partiesCree %}
-                    <li><a href="{{ path('partie_en_cours', {'idPartie' : part.id}) }}">{{part.nom}}</a></li>
-                    {%endfor%}
-                    {% for part in partiesRejoins %}
-                    <li><a href="{{ path('partie_en_cours', {'idPartie' : part.id}) }}">{{part.nom}}</a></li>
-                    {%endfor%}
-                </ul>
-            </nav>
-        </div>
-    </section>
-    {% endblock %}
-
     {% block body %}
     <div id="wrapper">
-        <section id="intro" class="wrapper style1 fullscreen fade-up">
-            <div class="inner">
-                <h2>
+        <section id="intro" class="inner wrapper style1 fullscreen fade-up ">
+                <h1>
                     <center>{{partie.nom}}</center>
-                </h2>
+                </h1>
                 <div class="row">
                     <div class="col-md-12">
                         {% for message in app.flashes('success') %}
@@ -48,18 +25,13 @@
 
                 <div class="row">
 
-                    <div class="col-md-8">
-
-                    </div>
-
                     <div class="col-md-4">
 
                         {% if utilisateur.pseudo == partie.createur.pseudo %}
                         <ul class="actions">
                             <li><a role="button" href="{{ path('parametres_partie', {'idPartie' : partie.id}) }}"
-                                class="btn button scrolly">
-                                Paramètres
-                            </a></li>
+                                class="btn button scrolly">Paramètres</a>
+                            </li>
 
                         </ul>
                         {% else %}
@@ -69,85 +41,40 @@
                     </div>
 
                 </div>
-                <br>
 
 
                 <div id="canvas">
 
                 </div>
-                    <script type="text/javascript">
-                      window.onload = function() {
-
-                        var deltaTime = 60;
-                        var mainGame = new MainGame();
-                        mainGame.initialize();
-
-                        //GAMELOOP
-                        setInterval(function() {
-                          mainGame.update(deltaTime);
-                          mainGame.draw();
-                        }, deltaTime);
-
-                      }
-                    </script>
-
-                <link rel="stylesheet" href="{{asset('tilemap/css/style.css')}}" />
-
-
-                <script type="text/javascript">
-                  var idPartie = {{ partie.id }};
-                  var parametres = 'http://localhost:8000/api/partie/' + idPartie;
-                </script>
-
-                <script> var assetsBaseDir = "{{ asset('tilemap/') }}"</script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/ToolBox.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Background.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Mouse.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Input.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Parcours.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/De.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Pion.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Tileset.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
 
                 <div class="row">
-
-                    <div class="col-md-6">
 
                         <p id="creaJoueur"></p>
-                        <script type="text/javascript">
-                            setInterval(function ()
-                            {
-                                fetch(parametres)
-                                .then(response => {
-                                    return response.json()
-                                })
-                                .then(data => {
-                                    document.getElementById("creaJoueur").innerHTML = "<ul><li>Créateur de la partie: " + data["createur"] + " </li><li>Joueur: " + data["joueur"] + "</li></ul>";
-                                })
-                        }, 5000);
-                        </script>
-                        <br>
-
-                    </div>
 
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <br>
-                        <a href="{{ path('espace_partie') }}"> Retourner à l'espace parties </a>
-                    </div>
-              </div>
-
-
-
-
-            </div>
         </section>
         </div>
+
+
+          <script type="text/javascript">
+              var idPartie = {{ partie.id }};
+              var assetsBaseDir = "{{ asset('tilemap/') }}"
+          </script>
+
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/ToolBox.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Background.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Mouse.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Input.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Parcours.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/De.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Pion.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Tileset.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/classes/fetchJoueurs.js')}}"></script>
+          <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
+
 
         {% endblock %}

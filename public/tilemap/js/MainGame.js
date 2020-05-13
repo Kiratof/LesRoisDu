@@ -1,3 +1,16 @@
+window.onload = function() {
+
+	var deltaTime = 60;
+	var mainGame = new MainGame();
+	mainGame.initialize();
+
+	//GAMELOOP
+	setInterval(function() {
+		mainGame.update(deltaTime);
+		mainGame.draw();
+	}, deltaTime);
+}
+
 class MainGame {
 
 	    constructor()

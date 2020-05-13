@@ -19,29 +19,12 @@
 <link rel="icon" type="image/x-icon" href="{{asset('/img/favicon-LRD.png')}}" />
 </head>
 
-{% block header %}
-<header id="header" class="wrapper style1-alt">
 
-
-	{% if app.user is not null %}
-	<div class="inner">
-		<p>
-			<center>Vous êtes connecté en tant que {{app.user.pseudo}} - <a href="{{path ('hub')}}">Retourner à l'accueil
-					</a> | <a href="{{path ('app_logout')}}">Se
-					déconnecter</a></center>
-
-		</p>
-	</div>
-	{% endif %}
-
-</header>
-
-{% endblock %}
 
 <body class="is-preload">
+
+
 	{% block sidebar %}
-
-
 	{% endblock %}
 
 
@@ -66,6 +49,25 @@
 
 	{% block plateau %}
 	{% endblock %}
+
+	{% endblock %}
+
+	{% block menuMiniScreen %}
+	<header id="header" class="wrapper style1-alt">
+
+
+		{% if app.user is not null %}
+		<div class="inner">
+			<p>
+				<center>Vous êtes connecté en tant que {{app.user.pseudo}} - <a href="{{path ('hub')}}">Retourner à l'accueil
+						</a> | <a href="{{path ('app_logout')}}">Se
+						déconnecter</a></center>
+
+			</p>
+		</div>
+		{% endif %}
+
+	</header>
 
 	{% endblock %}
 

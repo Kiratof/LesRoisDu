@@ -14,7 +14,6 @@ class SceneGameplay {
 
     //Création de l'objet contenant toutes les informations de la map
     var nomMap = 'plateau_' + nbCases +'_128';
-    console.log(nomMap);
     var map = new Map(nomMap);
 
 
