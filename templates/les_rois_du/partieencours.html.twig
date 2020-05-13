@@ -1,46 +1,25 @@
 {% extends 'monTemplate.html.twig' %}
 
     {% block body %}
-    <div id="wrapper">
         <section id="intro" class="inner wrapper style1 fullscreen fade-up ">
-                <h1>
-                    <center>{{partie.nom}}</center>
-                </h1>
-                <div class="row">
-                    <div class="col-md-12">
-                        {% for message in app.flashes('success') %}
-                            <div class="alert alert-success alert-dismissible show" role="alert">
-                              {{message}}
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                            </div>
-                        {% endfor %}
-
-
-                        <p> Pour jouer il faut sélectionner un pion puis lancer le dé en cliquant dessus. Votre pion se
-                            déplacera en fonction de la face obtenue. Vous pouvez accéder au défi en cliquant
-                           sur la case correspondante. Une fois arrivé à la derniere case, le pion ne pourra plus être déplacé.
-                         </p>
-                    </div>
+          <div class="partie-container">
+            <div class="tabs">
+                <div class="tabs__sidebar">
+                  <button class="tabs__button tabs__button--active" data-for-tab="1">Tabs #1</button>
+                  <button class="tabs__button" data-for-tab="2">Tabs #2</button>
+                  <button class="tabs__button" data-for-tab="3">Tabs #3</button>
                 </div>
-
-                <div class="row">
-
-                    <div class="col-md-4">
-
-                        {% if utilisateur.pseudo == partie.createur.pseudo %}
-                        <ul class="actions">
-                            <li><a role="button" href="{{ path('parametres_partie', {'idPartie' : partie.id}) }}"
-                                class="btn button scrolly">Paramètres</a>
-                            </li>
-
-                        </ul>
-                        {% else %}
-                        {%endif%}
-
-
-                    </div>
-
-                </div>
+                <div class="tabs__content tabs__content--active" data-for-tab="1">
+                  <h2>Tabs #1</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+                <div class="tabs__content" data-for-tab="2">
+                  <h2>Tabs #2</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+                <div class="tabs__content" data-for-tab="3">
+                  <h2>Tabs #3</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+            </div>
+          </div>
 
 
                 <div id="canvas">
@@ -48,13 +27,21 @@
                 </div>
 
                 <div class="row">
-
                         <p id="creaJoueur"></p>
+                </div>
+                <div class="row">
+                        {% if utilisateur.pseudo == partie.createur.pseudo %}
+                        <ul class="actions">
+                            <li><a role="button" href="{{ path('parametres_partie', {'idPartie' : partie.id}) }}"
+                                class="btn button scrolly">Paramètres</a>
+                            </li>
 
+                        </ul>
+                        {%endif%}
                 </div>
         </section>
-        </div>
-
+	{% block menuMiniScreen %}
+  {% endblock %}
 
           <script type="text/javascript">
               var idPartie = {{ partie.id }};

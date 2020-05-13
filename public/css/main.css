@@ -3183,4 +3183,56 @@ body.is-preload #sidebar nav ul li {
   }
 }
 
+.tabs {
+  border: 2px solid #cccccc;
+  display: flex;
+}
+
+.tabs__sidebar {
+  width: 12%;
+  flex-shrink: 0;
+  background: #cccccc;
+}
+
+.tabs__button {
+  display: block;
+  padding: 10px;
+  background: #eeeeee;
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+}
+
+.tabs__button p {
+  color: black;
+}
+
+.tabs__button:active {
+  background: #dddddd;
+}
+
+.tabs__button:not(:last-of-type) {
+  border-left: 1px solid #cccccc;
+}
+
+.tabs__button--active {
+  font-weight: bold;
+  border-right: 2px solid #009879;
+  background: #dddddd;
+}
+
+.tabs__content {
+  padding: 15px;
+  font-size: 0.8rem;
+  display: none;
+}
+
+.tabs__content--active {
+  display: block;
+}
+
+.tabs__content > :first-child {
+  margin-top: 0;
+}
+
 /*# sourceMappingURL=main.css.map */
