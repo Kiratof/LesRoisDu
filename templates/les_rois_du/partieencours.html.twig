@@ -1,8 +1,7 @@
 {% extends 'monTemplate.html.twig' %}
 
     {% block body %}
-        <section class="inner wrapper style1 fullscreen fade-up ">
-          <div class="partie-container">
+        <section class="partie-container">
             <div class="tabs">
                 <div class="tabs__sidebar">
                   {% for plateau in partie.plateauEnJeu %}
@@ -15,21 +14,47 @@
                 </div>
                 {% endfor %}
             </div>
-          </div>
+            <div class="info-partie">
+              <div class="info-partie__heading">
+                <h1>{{partie.nom}}</h1>
+                <h2>Créateur : {{partie.createur.pseudo}}</h2>
+                <p>Nombre de plateau : {{partie.nbPlateaux}}</p>
+              </div>
+              {% for plateau in partie.plateauEnJeu %}
+              <div class="info-partie__plateaux" style="border: 1px red solid">
 
-                <div class="row">
-                        <p id="creaJoueur"></p>
-                </div>
-                <div class="row">
-                        {% if utilisateur.pseudo == partie.createur.pseudo %}
-                        <ul class="actions">
-                            <li><a role="button" href="{{ path('parametres_partie', {'idPartie' : partie.id}) }}"
-                                class="btn button scrolly">Paramètres</a>
-                            </li>
+                <h3>{{plateau.nom}}</h3>
+                <p id="creaJoueur"></p>
+                <div class="table-wrapper">
+                  <table class="alt">
+                    <thead>
+                      <tr>
+                        <th>Pion</th>
+                        <th>Position</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for pion in plateau.pions %}
 
-                        </ul>
-                        {%endif%}
+                      <tr>
+                        <td>Rouge</td>
+                        <td>5/69</td>
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
                 </div>
+              </div>
+              {% endfor %}
+              <div class="option-partie">
+                      {% if utilisateur.pseudo == partie.createur.pseudo %}
+                            <button onclick="location.href='{{path('parametres_partie', {'idPartie' : partie.id})}}'">Paramètres</button>
+                      {%endif%}
+                      <button onclick="location.href='{{path('espace_partie')}}'">Retourner à l'espace partie</button>
+              </div>
+            </div>
+
         </section>
 	{% block menuMiniScreen %}
   {% endblock %}
