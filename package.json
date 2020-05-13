@@ -1,0 +1,22 @@
+{
+  "name": "lesroisdu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "sass": "sass --watch ./public/sass/main.scss:./public/css/main.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kiratof/LesRoisDu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kiratof/LesRoisDu/issues"
+  },
+  "homepage": "https://github.com/Kiratof/LesRoisDu#readme"
+}
