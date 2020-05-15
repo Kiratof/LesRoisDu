@@ -3185,6 +3185,7 @@ body.is-preload #sidebar nav ul li {
 
 .partie-container {
   width: 100%;
+  height: 100vh;
   display: flex;
 }
 
@@ -3195,12 +3196,16 @@ body.is-preload #sidebar nav ul li {
 }
 .tabs__sidebar {
   display: flex;
+  justify-content: space-around;
   width: 100%;
+  flex-wrap: wrap;
   background: #312450;
 }
 .tabs__button {
   background: #312450;
   cursor: pointer;
+  border-radius: 0;
+  border-bottom: 0px blue solid;
 }
 .tabs__button:active {
   background: #261c3e;
@@ -3210,12 +3215,15 @@ body.is-preload #sidebar nav ul li {
   background: #5e42a6;
 }
 .tabs__content {
+  height: 100vh;
   font-size: 0.8rem;
   display: none;
   background: #5e42a6;
 }
 .tabs__content--active {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .tabs__content > :first-child {
   margin-top: 0;
@@ -3225,10 +3233,23 @@ body.is-preload #sidebar nav ul li {
   display: flex;
   flex-direction: column;
   width: 30%;
+  height: 100%;
 }
 .info-partie__heading {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   border-bottom: 1px solid #261c3e;
+}
+.info-partie__plateaux {
+  font-size: 0.5rem;
+}
+
+.option-partie {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.option-partie__button {
+  margin-bottom: 1rem;
 }
 
 /*# sourceMappingURL=main.css.map */

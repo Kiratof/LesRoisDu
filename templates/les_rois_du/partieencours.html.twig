@@ -48,9 +48,9 @@
               {% endfor %}
               <div class="option-partie">
                       {% if utilisateur.pseudo == partie.createur.pseudo %}
-                            <button onclick="location.href='{{path('parametres_partie', {'idPartie' : partie.id})}}'">Paramètres</button>
+                            <button class="option-partie__button" onclick="location.href='{{path('parametres_partie', {'idPartie' : partie.id})}}'">Paramètres</button>
                       {%endif%}
-                      <button onclick="location.href='{{path('espace_partie')}}'">Retourner à l'espace partie</button>
+                      <button class="option-partie__button" onclick="location.href='{{path('espace_partie')}}'">Retourner à l'espace partie</button>
               </div>
             </div>
 
