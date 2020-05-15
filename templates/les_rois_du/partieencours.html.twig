@@ -36,8 +36,8 @@
                       {% for pion in plateau.pions %}
 
                       <tr>
-                        <td>Rouge</td>
-                        <td>5/69</td>
+                        <td>{{ pion.couleur }}</td>
+                        <td>{{ pion.avancementPlateau}}/{{plateau.nbCases}}</td>
                       </tr>
                       {% endfor %}
 

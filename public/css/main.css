@@ -3189,10 +3189,9 @@ body.is-preload #sidebar nav ul li {
 }
 
 .tabs {
-  border: 2px solid #cccccc;
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 70%;
 }
 .tabs__sidebar {
   display: flex;
@@ -3200,7 +3199,6 @@ body.is-preload #sidebar nav ul li {
   background: #312450;
 }
 .tabs__button {
-  display: block;
   background: #312450;
   cursor: pointer;
 }
@@ -3212,7 +3210,6 @@ body.is-preload #sidebar nav ul li {
   background: #5e42a6;
 }
 .tabs__content {
-  padding: 15px;
   font-size: 0.8rem;
   display: none;
   background: #5e42a6;
@@ -3227,14 +3224,11 @@ body.is-preload #sidebar nav ul li {
 .info-partie {
   display: flex;
   flex-direction: column;
-  width: 25%;
+  width: 30%;
 }
 .info-partie__heading {
   font-size: 0.8rem;
   border-bottom: 1px solid #261c3e;
-}
-.info-partie__plateaux {
-  margin: 10px;
 }
 
 /*# sourceMappingURL=main.css.map */

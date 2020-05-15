@@ -4,17 +4,15 @@
 }
 
 .tabs{
-	border: 2px solid #cccccc;
 	display: flex;
 	flex-direction: column;
-	width: 75%;
+	width: 70%;
 	&__sidebar{
 		display: flex;
 		width: 100%;
 		background: _palette(bg);
 	}
 	&__button{
-		display: block;
 		background: _palette(bg);
 		cursor: pointer;
 		&:active{
@@ -26,7 +24,6 @@
 		}
 	}
 	&__content{
-		padding: 15px;
 		font-size: 0.8rem;
 		display: none;
 		background: _palette(accent1);
@@ -42,12 +39,12 @@
 .info-partie{
 	display: flex;
 	flex-direction: column;
-	width: 25%;
+	width: 30%;
 	&__heading{
 		font-size: 0.8rem;
 		border-bottom: 1px solid _palette(bg-alt);
 	}
 	&__plateaux{
-		margin: 10px;
+
 	}
 }
