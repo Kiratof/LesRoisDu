@@ -1432,5 +1432,21 @@ class LesRoisDuController extends AbstractController
         return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPionsParPlateau' => $nbPions, 'nbPlateaux' => $nbPlateaux, 'nbFacesDe' => $nbFacesDe, 'estLance' => $estLance, 'plateau_de_jeu' => $plateauDeJeu]);
     }
 
+    /**
+     * @Route("/testjs", name="testjs")
+     */
+    public function testjs()
+    {
+      // Création d'un plateau vierge
+      $cases=new Cases();
+
+      // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
+      $formulaireCase = $this->createForm(CasesType::class, $cases);
+
+    return $this->render('les_rois_du/testjs.html.twig', ['formCase'=>$formulaireCase->createview(),
+                                                                                                ]);
+
+    }
+
 
 }
