@@ -7,7 +7,7 @@
 .tabs{
 	display: flex;
 	flex-direction: column;
-	width: 70%;
+	width: 80%;
 	&__sidebar{
 		display: flex;
 		justify-content: space-around;
@@ -47,22 +47,48 @@
 .info-partie{
 	display: flex;
 	flex-direction: column;
-	width: 30%;
-	height: 100%;
+	width: 20%;
+	text-align: center;
+	margin-right: 1rem;
+	margin-left: 1rem;
 	&__heading{
-		font-size: 0.6rem;
-		border-bottom: 1px solid _palette(bg-alt);
+		font-size: 1rem;
+		border: 2px solid _palette(bg-alt);
 	}
 	&__plateaux{
-		font-size: 0.5rem;
+		border: 1px _palette(bg-alt) solid;
+		margin-top: 0.5rem;
+		font-size: 0.6rem;
 	}
 }
 
 .option-partie{
+	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	&__button{
 		margin-bottom: 1rem;
 	}
+}
+
+.alt {
+	margin-bottom: 0;
+		& th{
+		text-align: center;
+	}
+}
+
+
+#couleur-green{
+	background-color: green;
+}
+#couleur-red{
+	background-color: red;
+}
+#couleur-yellow{
+	background-color: yellow;
+}
+#couleur-blue{
+	background-color: blue;
 }

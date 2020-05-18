@@ -29,27 +29,27 @@
 
 		{% block plateau %}
 		{% endblock %}
+		
+			{% block menuMiniScreen %}
+			<div id="header" class="wrapper style1-alt">
+
+
+				{% if app.user is not null %}
+				<div class="inner">
+					<p>
+						<center>Vous êtes connecté en tant que {{app.user.pseudo}} - <a href="{{path ('hub')}}">Retourner à l'accueil
+								</a> | <a href="{{path ('app_logout')}}">Se
+								déconnecter</a></center>
+
+					</p>
+				</div>
+				{% endif %}
+
+			</div>
+			{% endblock %}
 
 	{% endblock %}
 
-	{% block menuMiniScreen %}
-	<header id="header" class="wrapper style1-alt">
-
-
-		{% if app.user is not null %}
-		<div class="inner">
-			<p>
-				<center>Vous êtes connecté en tant que {{app.user.pseudo}} - <a href="{{path ('hub')}}">Retourner à l'accueil
-						</a> | <a href="{{path ('app_logout')}}">Se
-						déconnecter</a></center>
-
-			</p>
-		</div>
-		{% endif %}
-
-	</header>
-
-	{% endblock %}
 
 
 	{% block footer %}
@@ -57,21 +57,22 @@
 
 	<footer id="footer" class="wrapper style1-alt">
 		<div class="inner">
-			<p>
-				{% if app.user is not null %}
-				<a href="{{ path('hub')}}">Accueil</a> /
-				{% else %}
-				<a href="{{ path('accueil')}}">Accueil</a> /
-				{% endif %}
-				<a href="{{ path('ButApplication')}}">But de l'application</a> /
-				<a href="{{ path('aides')}}">Aide</a> /
-				<a href="{{ path('CGU')}}">Conditions Générales d'Utilisation</a> /
-				<a href="{{ path('mentions_legales')}}">Mentions légales</a> /
-				<a href="{{ path('credits')}}">Crédits</a>
-			</p>
-		</div>
+			<ul class="menu">
+				<li>
+					{% if app.user is not null %}
+					<a href="{{ path('hub')}}">Accueil</a>
+					{% else %}
+					<a href="{{ path('accueil')}}">Accueil</a>
+					{% endif %}
+				</li>
+				<li><a href="{{ path('ButApplication')}}">But de l'application</a></li>
+				<li><a href="{{ path('aides')}}">Aide</a></li>
+				<li><a href="{{ path('CGU')}}">Conditions Générales d'Utilisation</a></li>
+				<li><a href="{{ path('mentions_legales')}}">Mentions légales</a></li>
+				<li><a href="{{ path('credits')}}">Crédits</a></li>
+				</div>
+			</ul>
 	</footer>
-
 
 
 	{% endblock %}
