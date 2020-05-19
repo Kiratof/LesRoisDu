@@ -42,7 +42,7 @@
 
             <div id="ensemblecases">
             <h3>Cases</h3>
-               <ul class="casesliste"  data-prototype="{{ form_widget(vueFormulaireCreationPlateau.cases.vars.prototype)|e('html_attr') }}">
+               <ul class="casesliste" id="casesliste" data-prototype="{{ form_widget(vueFormulaireCreationPlateau.cases.vars.prototype)|e('html_attr')}}">
                    {% for unecase in vueFormulaireCreationPlateau.cases %}
                        <li>{{ form_row(unecase.descriptifDefi) }}</li>
                    {% endfor %}
@@ -101,11 +101,14 @@
 
   <script>
 
+
   document.addEventListener("DOMContentLoaded", function(event) {
 
+
     //mise en place d'un lien "ajouter une case"
-    var $addCaseLink = $('<a href="#" class="add_cases_link">Ajouter un descriptif</a>');
+    var $addCaseLink = $('<button href="#" class="add_cases_link">Ajouter un descriptif</button>');
     var $newLinkLi = $('<li></li>').append($addCaseLink);
+
 
     jQuery(document).ready(function() {
         // prendre la liste qui contient la collection de cases
@@ -115,15 +118,26 @@
 
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
+        selecteur = document.getElementById('plateau_nbCases');
+        selecteur.addEventListener("change", function(){
+          // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
+          // while (ensemblecases.firstChild) { //Mettre case liste ? 
+          //  ensemblecases.removeChild(ensemblecases.lastChild);
+          //     }
+          //
+        nbDefis = document.getElementById('plateau_nbCases').value;
+        for (i=0; i<nbDefis; i++) {
+        addCaseForm($collectionHolder, $newLinkLi);
+        }
+        });
+
+
         $addCaseLink.on('click', function(e) {
 
             e.preventDefault();
 
-            // ajouter un nouveau formulaire pour la case
             addCaseForm($collectionHolder, $newLinkLi);
         });
-
-
     });
 
     function addCaseForm($collectionHolder, $newLinkLi) {
@@ -139,26 +153,33 @@
 
         var $newFormLi = $('<li></li>').append(newForm);
 
-        // ajouter un bouton pour enlever une case
-        $newFormLi.append('<a href="#" class="remove-case">x</a>');
-
         $newLinkLi.before($newFormLi);
 
-        $('.remove-case').click(function(e) {
-            e.preventDefault();
-
-            $(this).parent().remove();
-
-            return false;
-        });
+        // add a delete link to the new form
+        addCaseFormDeleteLink($newFormLi);
     }
 
+    function addCaseFormDeleteLink($caseFormLi) {
+    var $removeFormButton = $('<button class="button small" type="button">Supprimer</button> <br> <br>');
+    $caseFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        // remove the li for the tag form
+        $caseFormLi.remove();
+    });
+}
+
 });
+
 
   </script>
 
 
 
+  {% endblock %}
+
+  {% block vueFormulaireCreationPlateau_cases_entry_widget %}
+{{ dump() }}
   {% endblock %}
 
 
