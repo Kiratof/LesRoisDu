@@ -12,22 +12,25 @@
 		display: flex;
 		justify-content: space-around;
 		width: 100%;
-		flex-wrap: wrap;
 		background: _palette(bg);
 	}
 	&__button{
 		background: _palette(bg);
 		cursor: pointer;
-		border-radius: 0;
-		border-bottom: 0px blue solid;
+		border-radius: 2rem 2rem 0 0;
+		&:hover {
+			&:after {
+				opacity: 0;
+			}
+		}
 		&:active{
-			background: _palette(bg-alt);
+			border: 0;
 		}
 		&--active{
 			font-weight: bold;
 			background: _palette(accent1);
+			}
 		}
-	}
 	&__content{
 		height: 100vh;
 		font-size: 0.8rem;
@@ -53,10 +56,14 @@
 	margin-left: 1rem;
 	&__heading{
 		font-size: 1rem;
-		border: 2px solid _palette(bg-alt);
+		margin-top: 2rem;
+		border: 1px solid _palette(bg-alt);
+		border-radius: 1rem;
 	}
 	&__plateaux{
 		border: 1px _palette(bg-alt) solid;
+		border-radius: 1rem;
+		border-bottom: 0;
 		margin-top: 0.5rem;
 		font-size: 0.6rem;
 	}
@@ -74,9 +81,14 @@
 
 .alt {
 	margin-bottom: 0;
-		& th{
+	& th{
+		border-radius: 1rem 1rem 0 0;
 		text-align: center;
 	}
+	& td{
+	border-radius: 0 0 1rem 1rem;;
+	text-align: center;
+}
 }
 
 

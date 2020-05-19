@@ -99,8 +99,7 @@
 
           <script type="text/javascript">
               var idPartie = {{ partie.id }};
-              var assetsBaseDir = "{{ asset('tilemap/') }}"
-              console.log(assetsBaseDir);
+              var assetsBaseDir = {{ asset('tilemap/') }};
           </script>
 
           <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
