@@ -29,12 +29,9 @@
           <div class="inner">
 
             {{form_start(vueFormulaireCreationPartie) }}
-            {{ form_row(vueFormulaireCreationPartie.nom)}}
-            {{ form_row(vueFormulaireCreationPartie.description)}}
-            {{ form_row(vueFormulaireCreationPartie.nbPlateaux, { 'label' : 'Nombre de plateaux' })}}
-            {{ form_row(vueFormulaireCreationPartie.nbPionParPlateau, { 'label' : 'Nombre de pions par plateau (de 1 à 4)' })}}
-            {{ form_row(vueFormulaireCreationPartie.nbFacesDe, { 'label' : 'Nombre de faces sur le dé (de 1 à 4)' })}}
-            {{ form_row(vueFormulaireCreationPartie.plateau, { 'label' : 'Plateau' })}}
+              {{ form_row(vueFormulaireCreationPartie.nom)}}
+              {{ form_row(vueFormulaireCreationPartie.description)}}
+              {{ form_row(vueFormulaireCreationPartie.plateau, { 'label' : 'Plateau' })}}
             <Br>
 
           <div class="row">

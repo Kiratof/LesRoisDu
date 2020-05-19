@@ -6,68 +6,50 @@
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="icon" type="image/x-icon" href="{{asset('/img/favicon-LRD.png')}}" />
 
 	{% block stylesheets %}
-	<link rel="stylesheet" href="{{asset('/css/test-clement.css')}}">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<link rel="stylesheet" href="{{asset('/css/main.css')}}" />
-	<noscript>
-		<link rel="stylesheet" href="css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="{{asset('/css/main.css')}}" />
+		<noscript><link rel="stylesheet" href="{{asset('/css/noscript.css')}}" /></noscript>
 	{% endblock %}
 
-<link rel="icon" type="image/x-icon" href="{{asset('/img/favicon-LRD.png')}}" />
 </head>
 
-{% block header %}
-<header id="header" class="wrapper style1-alt">
 
-
-	{% if app.user is not null %}
-	<div class="inner">
-		<p>
-			<center>Vous êtes connecté en tant que {{app.user.pseudo}} - <a href="{{path ('hub')}}">Retourner à l'accueil
-					</a> | <a href="{{path ('app_logout')}}">Se
-					déconnecter</a></center>
-
-		</p>
-	</div>
-	{% endif %}
-
-</header>
-
-{% endblock %}
 
 <body class="is-preload">
+
+
 	{% block sidebar %}
-
-
 	{% endblock %}
 
 
 	{% block body %}
-	<!-- Wrapper -->
-	<div id="wrapper">
 
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div class="inner">
-				<h1>Hyperspace</h1>
-				<p>Just another fine responsive site template designed by <a href="http://html5up.net">HTML5
-						UP</a><br />
-					and released for free under the <a href="http://html5up.net/license">Creative Commons</a>.</p>
-				<ul class="actions">
-					<li><a href="#one" class="button scrolly">Learn more</a></li>
-				</ul>
+		{% block plateau %}
+		{% endblock %}
+		
+			{% block menuMiniScreen %}
+			<div id="header" class="wrapper style1-alt">
+
+
+				{% if app.user is not null %}
+				<div class="inner">
+					<p>
+						<center>Vous êtes connecté en tant que {{app.user.pseudo}} - <a href="{{path ('hub')}}">Retourner à l'accueil
+								</a> | <a href="{{path ('app_logout')}}">Se
+								déconnecter</a></center>
+
+					</p>
+				</div>
+				{% endif %}
+
 			</div>
-		</section>
-
-	</div>
-
-	{% block plateau %}
-	{% endblock %}
+			{% endblock %}
 
 	{% endblock %}
+
 
 
 	{% block footer %}
@@ -75,21 +57,22 @@
 
 	<footer id="footer" class="wrapper style1-alt">
 		<div class="inner">
-			<p>
-				{% if app.user is not null %}
-				<a href="{{ path('hub')}}">Accueil</a> /
-				{% else %}
-				<a href="{{ path('accueil')}}">Accueil</a> /
-				{% endif %}
-				<a href="{{ path('ButApplication')}}">But de l'application</a> /
-				<a href="{{ path('aides')}}">Aide</a> /
-				<a href="{{ path('CGU')}}">Conditions Générales d'Utilisation</a> /
-				<a href="{{ path('mentions_legales')}}">Mentions légales</a> /
-				<a href="{{ path('credits')}}">Crédits</a>
-			</p>
-		</div>
+			<ul class="menu">
+				<li>
+					{% if app.user is not null %}
+					<a href="{{ path('hub')}}">Accueil</a>
+					{% else %}
+					<a href="{{ path('accueil')}}">Accueil</a>
+					{% endif %}
+				</li>
+				<li><a href="{{ path('ButApplication')}}">But de l'application</a></li>
+				<li><a href="{{ path('aides')}}">Aide</a></li>
+				<li><a href="{{ path('CGU')}}">Conditions Générales d'Utilisation</a></li>
+				<li><a href="{{ path('mentions_legales')}}">Mentions légales</a></li>
+				<li><a href="{{ path('credits')}}">Crédits</a></li>
+				</div>
+			</ul>
 	</footer>
-
 
 
 	{% endblock %}

@@ -1,8 +1,8 @@
 class Background{
-	constructor(url){
+	constructor(map){
 
 		//Chargement de la map
-		this.map = new Map();
+		this.map = map;
 
     //Chargement du Tileset composant le background
     var nomTileSet = 'Octogone_128.png'

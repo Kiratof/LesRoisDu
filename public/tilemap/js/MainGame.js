@@ -1,3 +1,16 @@
+window.onload = function() {
+
+	var deltaTime = 60;
+	var mainGame = new MainGame();
+	mainGame.initialize();
+
+	//GAMELOOP
+	setInterval(function() {
+		mainGame.update(deltaTime);
+		mainGame.draw();
+	}, deltaTime);
+}
+
 class MainGame {
 
 	    constructor()
@@ -7,17 +20,28 @@ class MainGame {
 
 	    initialize(){
 	      var parametresPartieJSON = this.getParametresPartieJSON();
-				this.gameScene = new SceneGameplay(parametresPartieJSON);
+				this.plateaux = [];
+
+				for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
+					var gameScene = new SceneGameplay(i + 1, parametresPartieJSON.plateaux[i]);
+					this.plateaux.push(gameScene);
+				}
 	    }
 
 	    update(deltaTime){
 
-				this.gameScene.update(deltaTime);
+				this.plateaux.forEach(plateau => {
+					plateau.update(deltaTime);
+				});
+
 	    }
 
 	    draw(){
 
-				this.gameScene.draw();
+				this.plateaux.forEach(plateau => {
+					plateau.draw();
+				});
+
 	    }
 
 	    getParametresPartieJSON() {

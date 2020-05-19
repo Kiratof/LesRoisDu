@@ -1,12 +1,12 @@
 class Case {
 
-	constructor(url, defi, colonne, ligne) {
+	constructor(url, defi, colonne, ligne, map) {
 
 		//Position dans la map
 		this.colonne = colonne;
 		this.ligne = ligne;
 
-		this.map = new Map();
+		this.map = map;
 
 		//Position relative au Canvas
 		this.x = this.colonne * 128;

@@ -48,16 +48,6 @@ class Partie
     private $code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Plateau", inversedBy="parties")
-     */
-    private $plateau;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\PlateauEnJeu", inversedBy="partie", cascade={"persist", "remove"})
-     */
-    private $plateauDeJeu;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Utilisateur", inversedBy="partiesRejoins")
      */
     private $joueurs;
@@ -74,16 +64,6 @@ class Partie
     private $nbPlateaux;
 
     /**
-     * @ORM\Column(type="smallint")
-     */
-    private $nbPionParPlateau;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $nbFacesDe;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $estLance;
@@ -98,9 +78,21 @@ class Partie
      */
     private $dateRejoins;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PlateauEnJeu", cascade={"persist"}, mappedBy="partie", orphanRemoval=true)
+     */
+    private $plateauEnJeu;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Plateau", inversedBy="parties")
+     */
+    private $plateau;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
+        $this->plateauEnJeu = new ArrayCollection();
+        $this->plateau = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,30 +132,6 @@ class Partie
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getPlateau(): ?Plateau
-    {
-        return $this->plateau;
-    }
-
-    public function setPlateau(?Plateau $plateau): self
-    {
-        $this->plateau = $plateau;
-
-        return $this;
-    }
-
-    public function getPlateauDeJeu(): ?PlateauEnJeu
-    {
-        return $this->plateauDeJeu;
-    }
-
-    public function setPlateauDeJeu(?PlateauEnJeu $plateauDeJeu): self
-    {
-        $this->plateauDeJeu = $plateauDeJeu;
 
         return $this;
     }
@@ -218,29 +186,6 @@ class Partie
         return $this;
     }
 
-    public function getNbPionParPlateau(): ?int
-    {
-        return $this->nbPionParPlateau;
-    }
-
-    public function setNbPionParPlateau(int $nbPionParPlateau): self
-    {
-        $this->nbPionParPlateau = $nbPionParPlateau;
-
-        return $this;
-    }
-
-    public function getNbFacesDe(): ?int
-    {
-        return $this->nbFacesDe;
-    }
-
-    public function setNbFacesDe(int $nbFacesDe): self
-    {
-        $this->nbFacesDe = $nbFacesDe;
-
-        return $this;
-    }
 
     public function getEstLance(): ?bool
     {
@@ -274,6 +219,63 @@ class Partie
     public function setDateRejoins(?\DateTimeInterface $dateRejoins): self
     {
         $this->dateRejoins = $dateRejoins;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|plateauEnJeu[]
+     */
+    public function getplateauEnJeu(): Collection
+    {
+        return $this->plateauEnJeu;
+    }
+
+    public function addplateauEnJeu(plateauEnJeu $plateauEnJeu): self
+    {
+        if (!$this->plateauEnJeu->contains($plateauEnJeu)) {
+            $this->plateauEnJeu[] = $plateauEnJeu;
+            $plateauEnJeu->setPartie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeplateauEnJeu(plateauEnJeu $plateauEnJeu): self
+    {
+        if ($this->plateauEnJeu->contains($plateauEnJeu)) {
+            $this->plateauEnJeu->removeElement($plateauEnJeu);
+            // set the owning side to null (unless already changed)
+            if ($plateauEnJeu->getPartie() === $this) {
+                $plateauEnJeu->setPartie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Plateau[]
+     */
+    public function getPlateau(): Collection
+    {
+        return $this->plateau;
+    }
+
+    public function addPlateau(Plateau $plateau): self
+    {
+        if (!$this->plateau->contains($plateau)) {
+            $this->plateau[] = $plateau;
+        }
+
+        return $this;
+    }
+
+    public function removePlateau(Plateau $plateau): self
+    {
+        if ($this->plateau->contains($plateau)) {
+            $this->plateau->removeElement($plateau);
+        }
 
         return $this;
     }
