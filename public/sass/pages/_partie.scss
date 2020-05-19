@@ -10,7 +10,8 @@
 	width: 80%;
 	&__sidebar{
 		display: flex;
-		justify-content: space-around;
+		overflow-x: scroll;
+		overflow-y: hidden;
 		width: 100%;
 		background: _palette(bg);
 	}
