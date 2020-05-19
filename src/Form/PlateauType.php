@@ -50,7 +50,8 @@ class PlateauType extends AbstractType
                  ['entry_type' => CasesType::class,
                   'entry_options' => ['label' => false],
                   'allow_add' => true,
-                  'allow_delete' => false
+                  'allow_delete' => true,
+                  'by_reference' => false
                 ])
 
         ;
