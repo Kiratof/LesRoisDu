@@ -30,10 +30,10 @@
             {{form_start(vueFormulaireCreationPlateau) }}
             {{ form_row(vueFormulaireCreationPlateau.nom)}}
             {{ form_row(vueFormulaireCreationPlateau.description)}}
-            {{ form_row(vueFormulaireCreationPlateau.nbPion)}}
-            {{ form_row(vueFormulaireCreationPlateau.nbFaceDe)}}
+            {{ form_row(vueFormulaireCreationPlateau.nbPion,  { 'label' : 'Nombre de pions' })}}
+            {{ form_row(vueFormulaireCreationPlateau.nbFaceDe,  { 'label' : 'Nombre de faces du dé' })}}
             {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
-            {{ form_row(vueFormulaireCreationPlateau.nbCases, { 'label' : 'Taille du plateau (nombre de défis)' })}}
+            {{ form_row(vueFormulaireCreationPlateau.nbCases, { 'label' : 'Nombre de défis (taille du plateau)' })}}
             <Br>
 
           <div class="row">
