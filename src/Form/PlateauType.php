@@ -19,8 +19,8 @@ class PlateauType extends AbstractType
         $builder
             ->add('nom',TextType::class)
             ->add('description',TextareaType::class,
-                  ['help' => 'Maximum 300 caractères'],
-                  ['attr' => ['maxlength' => 300]])
+                  ['help' => 'Maximum 350 caractères'],
+                  ['attr' => ['maxlength' => 350]])
             ->add('nbPion', ChoiceType::class, ['choices'  => [
                                                             '1' => 1,
                                                             '2' => 2,

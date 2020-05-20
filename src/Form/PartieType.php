@@ -38,8 +38,8 @@ class PartieType extends AbstractType
         $builder
             ->add('nom',TextType::class)
             ->add('description',TextareaType::class,
-                  ['help' => 'Maximum 300 caractères'],
-                  ['attr' => ['maxlength' => 300]])
+                  ['help' => 'Maximum 350 caractères'],
+                  ['attr' => ['maxlength' => 350]])
             ->add('plateau',EntityType::class, [   'class' => Plateau::class,
                                                     'choices' => $this->plateauRepository->findPlateauAvecCasesByUser($this->security->getUser()->getId()),
                                                     'choice_label' => 'nom',
