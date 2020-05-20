@@ -7,7 +7,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+
 
 class PlateauType extends AbstractType
 {
@@ -15,7 +18,9 @@ class PlateauType extends AbstractType
     {
         $builder
             ->add('nom',TextType::class)
-            ->add('description',TextType::class)
+            ->add('description',TextareaType::class,
+                  ['help' => 'Maximum 350 caractères'],
+                  ['attr' => ['maxlength' => 350]])
             ->add('nbPion', ChoiceType::class, ['choices'  => [
                                                             '1' => 1,
                                                             '2' => 2,
