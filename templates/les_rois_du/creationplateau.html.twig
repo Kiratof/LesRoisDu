@@ -41,7 +41,7 @@
             </div>
 
             <div id="ensemblecases">
-            <h3>Cases</h3>
+            <h3>Cases/Défis</h3>
                <ul class="casesliste" id="casesliste" data-prototype="{{ form_widget(vueFormulaireCreationPlateau.cases.vars.prototype)|e('html_attr')}}">
                    {% for unecase in vueFormulaireCreationPlateau.cases %}
                        <li>{{ form_row(unecase.descriptifDefi) }}</li>
@@ -106,7 +106,7 @@
 
 
     //mise en place d'un lien "ajouter une case"
-    var $addCaseLink = $('<button href="#" class="add_cases_link">Ajouter un descriptif</button>');
+    var $addCaseLink = $('<button href="#" class="add_cases_link">Ajouter une case</button>');
     var $newLinkLi = $('<li></li>').append($addCaseLink);
 
 
@@ -121,7 +121,7 @@
         selecteur = document.getElementById('plateau_nbCases');
         selecteur.addEventListener("change", function(){
           // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
-          // while (ensemblecases.firstChild) { //Mettre case liste ? 
+          // while (ensemblecases.firstChild) { //Mettre case liste ?
           //  ensemblecases.removeChild(ensemblecases.lastChild);
           //     }
           //
