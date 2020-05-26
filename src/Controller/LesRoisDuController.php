@@ -424,6 +424,16 @@ class LesRoisDuController extends AbstractController
        // Création d'un plateau vierge
        $plateau=new Plateau();
 
+       $case1 = new Cases();
+       $case1 -> setDescriptifDefi('description1');
+       $plateau->getCases()->add($case1);
+       $case2 = new Cases();
+       $case2 -> setDescriptifDefi('description2');
+       $plateau->getCases()->add($case2);
+       $case3 = new Cases();
+       $case3 -> setDescriptifDefi('description3');
+       $plateau->getCases()->add($case3);
+
 
        // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
        $formulairePlateau = $this->createForm(PlateauType::class, $plateau);
