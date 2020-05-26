@@ -35,6 +35,8 @@ class AppFixtures extends Fixture
         $plateau12->setNbCases(12);
         $plateau12->setCode("12DCE");
         $plateau12->setDerniereModification(new \Datetime('now'));
+        $plateau12->setNbPion(1);
+        $plateau12->setNbFaceDe(4);
 
         $manager->persist($plateau12);
 
@@ -61,19 +63,20 @@ class AppFixtures extends Fixture
         $plateauEnJeu->setDescription("Et merci bien");
         $plateauEnJeu->setNiveauDifficulte("Moyen");
         $plateauEnJeu->setNbCases(12);
+        $plateauEnJeu->setNbPion(1);
+        $plateauEnJeu->setNbFaceDe(4);
 
         $partie = new Partie();
         $partie->setPlateau($plateau12);
-        $partie->setPlateauDeJeu($plateauEnJeu);
         $partie->setCreateur($utilisateur1);
         $partie->setNom("Partie De Clém");
         $partie->setDescription("Partie carrément incroyable !");
         $partie->setCode("ABCDE");
         $partie->setNbPlateaux(1);
-        $partie->setNbPionParPlateau(1);
-        $partie->setNbFacesDe(4);
         $partie->setEstLance(false);
         $partie->setDerniereModification(new \Datetime('now'));
+        $partie->addplateauEnJeu($plateauEnJeu);
+
 
 
         $utilisateur1->addPartiesCree($partie);

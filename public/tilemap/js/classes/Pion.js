@@ -1,7 +1,7 @@
 class Pion {
-	constructor(parcours, player, position, nbCases) {
+	constructor(parcours, player, position, nbCases, map) {
 		//Informations de la map
-		this.map = new Map();
+		this.map = map;
 
 		this.nbCases = nbCases;
 		this.parcours = parcours;
@@ -246,6 +246,7 @@ class Pion {
 	}
 
 	setPositionIntoAPI(position, player){
+		var parametres = 'http://localhost:8000/api/partie/' + idPartie;
 
 		if(position > this.nbCases){
 			var pos = this.nbCases-1;

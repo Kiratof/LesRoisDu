@@ -142,7 +142,7 @@ class LesRoisDuController extends AbstractController
 
             $repositoryPlateau=$this->getDoctrine()->getRepository(Plateau::class);
 
-                $plateauOriginel = $repositoryPlateau->find(2);
+                $plateauOriginel = $repositoryPlateau->find(1);
 
                 $plateau = new Plateau();
 
@@ -267,7 +267,7 @@ class LesRoisDuController extends AbstractController
     {
 
        // Création d'une partie vierge
-       $partie=new Partie();
+       $partie = new Partie();
 
        // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
        $formulairePartie = $this->createForm(PartieType::class, $partie);
@@ -277,79 +277,90 @@ class LesRoisDuController extends AbstractController
        if ($formulairePartie->isSubmitted() && $formulairePartie->isValid())
        {
 
-        $plateau = $partie->getPlateau();
 
-        $date = New \DateTime();
-        $partie->setDerniereModification($date);
+        $donneesPions = [
+          ['numero' => 1, 'nom' => "vert", 'couleur' => "green"],
+          ['numero' => 2, 'nom' => "rouge", 'couleur' => "red"],
+          ['numero' => 3, 'nom' => "jaune", 'couleur' => "yellow"],
+          ['numero' => 4, 'nom' => "bleu", 'couleur' => "blue"]
+        ];
 
-        // On copie le plateau sélectionné dans le plateauEnJeu de la partie
-        $plateauEnJeu = new PlateauEnJeu();
-        $plateauEnJeu->setNom($plateau->getNom());
-        $plateauEnJeu->setDescription($plateau->getDescription());
-        $plateauEnJeu->setNiveauDifficulte($plateau->getNiveauDifficulte());
-        $plateauEnJeu->setNbCases($plateau->getNbCases());
+        $partie->setDerniereModification(New \DateTime());
 
-        $donneesPions = [['numero' => 1, 'nom' => "vert", 'couleur' => "green"], ['numero' => 2, 'nom' => "rouge", 'couleur' => "red"], ['numero' => 3, 'nom' => "jaune", 'couleur' => "yellow"], ['numero' => 4, 'nom' => "bleu", 'couleur' => "blue"]];
+        $plateaux = $partie->getPlateau();
+        foreach ($plateaux as $plateau) {
+          // On copie leS plateauX sélectionné dans leS plateauEnJeu de la partie
+          $plateauEnJeu = new PlateauEnJeu();
+          $plateauEnJeu->setNom($plateau->getNom());
+          $plateauEnJeu->setDescription($plateau->getDescription());
+          $plateauEnJeu->setNiveauDifficulte($plateau->getNiveauDifficulte());
+          $plateauEnJeu->setNbCases($plateau->getNbCases());
+          $plateauEnJeu->setNbPion($plateau->getNbPion());
+          $plateauEnJeu->setNbFaceDe($plateau->getNbFaceDe());
+          $plateauEnJeu->setJoueur($user);
+          $plateauEnJeu->setPartie($partie);
 
-        for ($i=0; $i < 4; $i++) {
+          $partie->addPlateauEnJeu($plateauEnJeu);
 
-            $pion = new Pion();
-            $pion->setNumeroJoueur($donneesPions[$i]["numero"]);
-            $pion->setNom($donneesPions[$i]["nom"]);
-            $pion->setCouleur($donneesPions[$i]["couleur"]);
-            $pion->setAvancementPlateau(0);
-            $pion->setPlateauEnJeu($plateauEnJeu);
+          //GESTION DES PIONS
+          for ($i=0; $i < $plateauEnJeu->getNbPion(); $i++) {
 
-            $manager->persist($pion);
+              $pion = new Pion();
+              $pion->setNumeroJoueur($donneesPions[$i]["numero"]);
+              $pion->setNom($donneesPions[$i]["nom"]);
+              $pion->setCouleur($donneesPions[$i]["couleur"]);
+              $pion->setAvancementPlateau(0);
+              $pion->setPlateauEnJeu($plateauEnJeu);
+
+              $manager->persist($pion);
+          }
+
+          //GESTION DES CASES
+          // On récupère les cases du plateau et les copie une par une dans le plateauEnJeu
+          $tabCase = $plateau->getCases();
+          foreach($tabCase as $uneCase){
+              $cases = new Cases();
+              $cases->setDescriptifDefi($uneCase->getDescriptifDefi())
+                  ->setConsignes($uneCase->getConsignes())
+                  ->setCodeValidation($uneCase->getCodeValidation())
+                  ->setNumero($uneCase->getNumero())
+              ;
+
+              $cases->setPlateauEnJeu($plateauEnJeu);
+
+              $manager->persist($cases);
+
+              // On récupère les ressources des cases du plateau et les copie une par une dans les cases du plateauEnJeu
+              $tabRessource = $uneCase->getRessources();
+              foreach($tabRessource as $uneRessource){
+                  $ressource = new Ressource();
+
+                  $ressource->setChemin($uneRessource->getChemin());
+
+
+                  $ressource->setCases($cases);
+                  $cases->addRessource($ressource);
+                  $manager->persist($cases);
+
+                  $manager->persist($ressource);
+
+              }
+          }
+
+          $manager->persist($plateauEnJeu);
         }
 
-        $partie->setPlateauDeJeu($plateauEnJeu);
-        $partie->setCreateur($user);
 
-        $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
-        $partie->setCode($code);
-        $partie->setEstLance(false);
+          $partie->setCreateur($user);
+          $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
+          $partie->setCode($code);
+          $partie->setEstLance(false);
+          $partie->setNbPlateaux(count($plateaux));
 
-        $user->addPartiesCree($partie);
+          $user->addPartiesCree($partie);
 
-        $manager->persist($partie);
-
-        $plateauEnJeu->setPartie($partie);
-
-        $manager->persist($user);
-
-        // On récupère les cases du plateau et les copie une par une dans le plateauEnJeu
-        $tabCase = $plateau->getCases();
-        foreach($tabCase as $uneCase){
-            $cases = new Cases();
-            $cases->setDescriptifDefi($uneCase->getDescriptifDefi())
-                ->setConsignes($uneCase->getConsignes())
-                ->setCodeValidation($uneCase->getCodeValidation())
-                ->setNumero($uneCase->getNumero())
-            ;
-
-            $cases->setPlateauEnJeu($plateauEnJeu);
-
-            $manager->persist($cases);
-
-            // On récupère les ressources des cases du plateau et les copie une par une dans les cases du plateauEnJeu
-            $tabRessource = $uneCase->getRessources();
-            foreach($tabRessource as $uneRessource){
-                $ressource = new Ressource();
-
-                $ressource->setChemin($uneRessource->getChemin());
-
-
-                $ressource->setCases($cases);
-                $cases->addRessource($ressource);
-                $manager->persist($cases);
-
-                $manager->persist($ressource);
-
-            }
-        }
-
-            $manager->persist($plateauEnJeu);
+          $manager->persist($partie);
+          $manager->persist($user);
 
           // Enregistrer en base de données
           $manager->flush();
@@ -624,14 +635,14 @@ class LesRoisDuController extends AbstractController
 
 
         if(!is_null($partie)){
-            $plateauDeJeu = $partie->getPlateauDeJeu();
+            $plateauDeJeu = $partie->getplateauDeJeu();
             if($partie->getJoueurs()->isEmpty()){
 
                 $date = new \DateTime();
                 $partie->setDateRejoins($date);
 
                 $user->addPartiesRejoin($partie);
-                $user->addPlateauEnJeux($partie->getPlateauDeJeu());
+                $user->addPlateauEnJeux($partie->getplateauDeJeu());
 
                 $plateauDeJeu->setJoueur($user);
 
@@ -917,48 +928,51 @@ class LesRoisDuController extends AbstractController
 
         if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){ // Seul le créateur peut supprimer sa partie
 
-            $plateauEnJeu = $partie->getPlateauDeJeu();
+            $plateauxEnJeu = $partie->getplateauEnJeu();
+            foreach ($plateauxEnJeu as $plateauEnJeu) {
 
-            $tabCase = $plateauEnJeu->getCases();
-            foreach($tabCase as $uneCase){ // On enlève les cases une par une
+              $tabCase = $plateauEnJeu->getCases();
+              foreach($tabCase as $uneCase){ // On enlève les cases une par une
 
-                $tabRessource = $uneCase->getRessources();
-                foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
+                  $tabRessource = $uneCase->getRessources();
+                  foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
 
-                    $entityManager->remove($uneRessource);
+                      $entityManager->remove($uneRessource);
 
-                }
+                  }
 
-                $entityManager->remove($uneCase);
+                  $entityManager->remove($uneCase);
+              }
+
+              $tabPion = $plateauEnJeu->getPions();
+              foreach($tabPion as $unPion){ // On enlève chaque pion un par un
+
+                  $entityManager->remove($unPion);
+              }
+              $entityManager->remove($plateauEnJeu); // On supprime le plateauEnJeu
+
             }
 
-            $tabPion = $plateauEnJeu->getPions();
-            foreach($tabPion as $unPion){ // On enlève chaque pion un par un
-
-                $entityManager->remove($unPion);
-            }
-
-            $entityManager->remove($plateauEnJeu); // On supprime le plateauEnJeu
-
-            $plateau = $partie->getPlateau();
-
-            if($plateau->getUtilisateurs()->isEmpty()){
-
-                $tabCase = $plateau->getCases();
-                foreach($tabCase as $uneCase){ // On enlève les cases une par une
-
-                    $tabRessource = $uneCase->getRessources();
-                    foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
-
-                        $entityManager->remove($uneRessource);
-
-                    }
-
-                    $entityManager->remove($uneCase);
-                }
-
-                $entityManager->remove($plateau); // On supprime la partie
-            }
+            //Supprime les plateaux qui n'ont plus d'utilisateur
+            // $plateau = $partie->getPlateau();
+            //
+            // if($plateau->getUtilisateurs()->isEmpty()){
+            //
+            //     $tabCase = $plateau->getCases();
+            //     foreach($tabCase as $uneCase){ // On enlève les cases une par une
+            //
+            //         $tabRessource = $uneCase->getRessources();
+            //         foreach($tabRessource as $uneRessource){ // Pour chaque case on enlève les ressources une par une
+            //
+            //             $entityManager->remove($uneRessource);
+            //
+            //         }
+            //
+            //         $entityManager->remove($uneCase);
+            //     }
+            //
+            //     $entityManager->remove($plateau); // On supprime la partie
+            // }
 
             $entityManager->remove($partie); // On supprime la partie
 
@@ -1062,7 +1076,7 @@ class LesRoisDuController extends AbstractController
 
         //$this->redirectToRoute('app_logout');
 
-        $plateauEnJeu = $partie->getPlateauDeJeu();
+        $plateauEnJeu = $partie->getplateauDeJeu();
 
         $tabCase = $plateauEnJeu->getCases();
         foreach($tabCase as $uneCase){ // On enlève les cases une par une
@@ -1092,7 +1106,7 @@ class LesRoisDuController extends AbstractController
 
         foreach ($compte->getPartiesRejoins() as $partieR) {
             $compte->removePartiesRejoin($partieR);
-            $compte->removePlateauEnJeux($partieR->getPlateauDeJeu());
+            $compte->removePlateauEnJeux($partieR->getplateauDeJeu());
         }
 
         $entityManager->remove($compte);
@@ -1184,17 +1198,17 @@ class LesRoisDuController extends AbstractController
         // Si l'utilsateur est le créateur de la partie, il peut
         if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){
 
-            if($partie->getPlateauDeJeu()->getJoueur() != null){
+            if($partie->getplateauDeJeu()->getJoueur() != null){
 
                 $partie->setDateRejoins(NULL);
 
-                $joueur = $partie->getPlateauDeJeu()->getJoueur();
+                $joueur = $partie->getplateauDeJeu()->getJoueur();
                 $joueur->removePartiesRejoin($partie);
-                $joueur->removePlateauEnJeux($partie->getPlateauDeJeu());
+                $joueur->removePlateauEnJeux($partie->getplateauDeJeu());
 
                 $manager->persist($joueur);
                 $manager->persist($partie);
-                $manager->persist($partie->getPlateauDeJeu());
+                $manager->persist($partie->getplateauDeJeu());
 
                 $manager->flush();
 
@@ -1224,7 +1238,7 @@ class LesRoisDuController extends AbstractController
         // Si l'utilsateur est le créateur de la partie, il peut
         if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){
 
-            $pions = $partie->getPlateauDeJeu()->getPions();
+            $pions = $partie->getplateauDeJeu()->getPions();
             foreach ($pions as $unPion) {
                 $unPion->setAvancementPlateau(0);
                 $manager->persist($unPion);
@@ -1297,41 +1311,18 @@ class LesRoisDuController extends AbstractController
      */
     public function apiPartie($idPartie, Request $request, ObjectManager $manager, PartieRepository $repositoryPartie)
     {
-
+        //LECTURE dans l'api
+        //On récupère la partie
         $partie = $repositoryPartie->find($idPartie);
 
-        $plateau = $partie->getPlateauDeJeu();
-
-        $pions = $plateau->getPions();
-
-        if ($request->getMethod() == 'POST') {
-
-            $pionsNouveau = json_decode($request->request->get('$data'),true);
-
-            foreach ($pions as $unPion) {
-
-                foreach ($pionsNouveau['pions'] as $unPionNouveau) {
-
-                    if ($unPionNouveau['player'] == $unPion->getNumeroJoueur()) {
-
-                        $unPion->setAvancementPlateau($unPionNouveau["placement"]);
-                        $manager->persist($unPion);
-                        $manager->flush();
-
-                    }
-
-                }
-            }
-        }
-
-
-        // On récupère les informations de la partie pour les retourner en json
-
+        //Informations relatives à la partie
         $name = $partie->getNom();
-
         $description = $partie->getDescription();
-
+        $nbPlateaux = $partie->getNbPlateaux();
         $createur = $partie->getCreateur()->getPseudo();
+        $estLance = $partie->getEstLance();
+        $derniereModification = $partie->getDerniereModification();
+
         if ($partie->getJoueurs()->isEmpty()){
             $joueur = "";
         }
@@ -1339,41 +1330,42 @@ class LesRoisDuController extends AbstractController
         {
             $joueur = $partie->getJoueurs()->get(0)->getPseudo();
         }
-        $nbPions = $partie->getNbPionParPlateau();
-        $nbPlateaux = $partie->getNbPlateaux();
-        $nbFacesDe = $partie->getNbFacesDe();
-        $estLance = $partie->getEstLance();
 
-        $nomPlateau = $plateau->getNom();
-        $descriptionP = $plateau->getDescription();
-        $difficulte = $plateau->getNiveauDifficulte();
-        $nbCases = $plateau->getNbCases();
+        //Informations relatives aux plateaux
+        $plateaux = $partie->getPlateauEnJeu();
 
-        if (is_null($plateau->getJoueur())){
-            $joueurPlateau = "";
-        }
-        else
-        {
-            $joueurPlateau = $plateau->getJoueur()->getPseudo();
-        }
+        $plateauInfo = [];
+        $tabPlateaux = [];
 
-        $arrayInfoPions = [];
+        foreach ($plateaux as $plateau) {
 
-        foreach ($pions as $unPion) {
-            $player = $unPion->getNumeroJoueur();
-            $nomPion= $unPion->getNom();
-            $couleur= $unPion->getCouleur();
-            $position= $unPion->getAvancementPlateau();
+          //Informations relatives au plateau
+          $nom = $plateau->getNom();
+          $plateauInfo[$nom]['description'] = $plateau->getDescription();
+          $plateauInfo[$nom]['difficulte'] = $plateau->getNiveauDifficulte();
+          $plateauInfo[$nom]['nombre_de_pion'] = $plateau->getNbPion();
+          $plateauInfo[$nom]['nombre_de_face_de'] = $plateau->getNbFaceDe();
+          $plateauInfo[$nom]['nombre_de_cases'] = $plateau->getNbCases();
 
-            array_push($arrayInfoPions, ['player' => $player, 'nom' => $nomPion, 'couleur' => $couleur, 'position' => $position]);
-        }
+          //GESTION DES PIONS
+          $tabPions = [];
+          $pions = $plateau->getPions();
+          foreach ($pions as $unPion) {
+             $player = $unPion->getNumeroJoueur();
+             $nomPion= $unPion->getNom();
+             $couleur= $unPion->getCouleur();
+             $position= $unPion->getAvancementPlateau();
 
-        $caseData = [];
+             $pionNormalized = ['player' => $player, 'nom' => $nomPion, 'couleur' => $couleur, 'position' => $position];
+             array_push($tabPions, $pionNormalized);
+          }
+          $plateauInfo[$nom]['pions'] = $tabPions;
 
-        // On récupère les informations des cases du plateau pour les retourner en json
-        $tabCase = $plateau->getCases();
-
-        foreach($tabCase as $uneCase){
+          //GESTION DES CASES
+          // On récupère les informations des cases du plateau pour les retourner en json
+          $tabCase = $plateau->getCases();
+          $caseData = [];
+          foreach($tabCase as $uneCase){
 
             $ressourceData = [];
 
@@ -1391,18 +1383,39 @@ class LesRoisDuController extends AbstractController
                 array_push($ressourceData, $infosR);
 
             }
-
-
-
             $infos = ['numero' => $numero, 'defi' => $defi, 'consignes' => $consignes, 'code' => $code, 'ressources' => $ressourceData];
-
             array_push($caseData, $infos);
+            $plateauInfo[$nom]['cases'] = $caseData;
+
+          }
+          array_push($tabPlateaux, $plateauInfo[$nom]);
         }
 
-        $plateauDeJeu = ['nom' => $nomPlateau, 'description' => $descriptionP, 'difficulte' => $difficulte, 'nbCases' => $nbCases, 'joueur' => $joueurPlateau,'pions' => $arrayInfoPions, 'cases' => $caseData];
+        //ECRITURE dans l'api
+        if ($request->getMethod() == 'POST') {
 
-        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPionsParPlateau' => $nbPions, 'nbPlateaux' => $nbPlateaux, 'nbFacesDe' => $nbFacesDe, 'estLance' => $estLance, 'plateau_de_jeu' => $plateauDeJeu]);
-    }
+          foreach ($plateaux as $plateau) {
+            $pions = $plateau->getPions();
+            $pionsNouveau = json_decode($request->request->get('$data'),true);
+
+            foreach ($pions as $unPion) {
+
+                foreach ($pionsNouveau['pions'] as $unPionNouveau) {
+
+                    if ($unPionNouveau['player'] == $unPion->getNumeroJoueur()) {
+
+                        $unPion->setAvancementPlateau($unPionNouveau["placement"]);
+                        $manager->persist($unPion);
+                        $manager->flush();
+                    }
+                }
+            }
+          }
+
+        }
+        return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPlateaux' => $nbPlateaux, 'estLance' => $estLance, 'plateaux' => $tabPlateaux]);
+
+      }
 
     /**
      * @Route("/testjs", name="testjs")

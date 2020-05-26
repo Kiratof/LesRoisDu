@@ -49,11 +49,6 @@ class Plateau
     private $niveauDifficulte;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Partie", mappedBy="plateau")
-     */
-    private $parties;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cases", mappedBy="plateau", orphanRemoval=true)
      */
     private $cases;
@@ -77,6 +72,21 @@ class Plateau
      * @ORM\Column(type="datetime")
      */
     private $derniereModification;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $nbPion;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $nbFaceDe;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Partie", mappedBy="plateau")
+     */
+    private $parties;
 
     public function __construct()
     {
@@ -122,37 +132,6 @@ class Plateau
     public function setNiveauDifficulte(string $niveauDifficulte): self
     {
         $this->niveauDifficulte = $niveauDifficulte;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Partie[]
-     */
-    public function getParties(): Collection
-    {
-        return $this->parties;
-    }
-
-    public function addParty(Partie $party): self
-    {
-        if (!$this->parties->contains($party)) {
-            $this->parties[] = $party;
-            $party->setPlateau($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParty(Partie $party): self
-    {
-        if ($this->parties->contains($party)) {
-            $this->parties->removeElement($party);
-            // set the owning side to null (unless already changed)
-            if ($party->getPlateau() === $this) {
-                $party->setPlateau(null);
-            }
-        }
 
         return $this;
     }
@@ -246,6 +225,58 @@ class Plateau
     public function setDerniereModification(\DateTimeInterface $derniereModification): self
     {
         $this->derniereModification = $derniereModification;
+
+        return $this;
+    }
+
+    public function getNbPion(): ?int
+    {
+        return $this->nbPion;
+    }
+
+    public function setNbPion(int $nbPion): self
+    {
+        $this->nbPion = $nbPion;
+
+        return $this;
+    }
+
+    public function getNbFaceDe(): ?int
+    {
+        return $this->nbFaceDe;
+    }
+
+    public function setNbFaceDe(int $nbFaceDe): self
+    {
+        $this->nbFaceDe = $nbFaceDe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Partie[]
+     */
+    public function getParties(): Collection
+    {
+        return $this->parties;
+    }
+
+    public function addParty(Partie $party): self
+    {
+        if (!$this->parties->contains($party)) {
+            $this->parties[] = $party;
+            $party->addPlateau($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParty(Partie $party): self
+    {
+        if ($this->parties->contains($party)) {
+            $this->parties->removeElement($party);
+            $party->removePlateau($this);
+        }
 
         return $this;
     }

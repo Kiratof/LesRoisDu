@@ -1,16 +1,16 @@
 class SceneGameplay {
 
-  constructor(parametresJSON)
+  constructor(id, plateauJSON)
   {
+    this.id = id;
     //Liste de tous les acteurs du jeu
     this.listeActeurs = [];
-
     //Paramètres de la partie
-    var nbCases = parametresJSON.plateau_de_jeu.nbCases + 1;
-    var nbFacesDe = parametresJSON.nbFacesDe;
-    var casesDuPlateau = parametresJSON.plateau_de_jeu.cases;
-    var nbPion = parametresJSON.nbPionsParPlateau;
-    var lesPions = parametresJSON.plateau_de_jeu.pions;
+    var nbCases = plateauJSON.nombre_de_cases + 1;
+    var nbFacesDe = plateauJSON.nombre_de_face_de;
+    var casesDuPlateau = plateauJSON.cases;
+    var nbPion = plateauJSON.nombre_de_pion;
+    var lesPions = plateauJSON.pions;
 
 
     //Création de l'objet contenant toutes les informations de la map
@@ -22,7 +22,7 @@ class SceneGameplay {
     this.createCanvas(map);
 
     //Création du background
-    this.background = new Background();
+    this.background = new Background(map);
 
     //Créer le dé
     this.dice = new De(nbFacesDe);
@@ -37,7 +37,7 @@ class SceneGameplay {
         const element = casesDuPlateau[index];
         defis.push(element.defi);
     }
-    this.parcours = new Parcours(defis);
+    this.parcours = new Parcours(defis, map);
     this.listeActeurs.push(this.parcours);
 
     //Nos cases
@@ -46,7 +46,7 @@ class SceneGameplay {
     //Créer le/les pions
     this.pions = [];
     for (let index = 0; index < nbPion; index++) {
-        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases);
+        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases, map);
         this.listeActeurs.push(pion);
         this.pions.push(pion);
     }
@@ -54,7 +54,7 @@ class SceneGameplay {
 
     //Gestionnaire d'évênement
     this.mouse = new Mouse();
-    new InputHandler(this.mouse);
+    new InputHandler(this.canvas, this.mouse);
     this.oldMouseState = this.mouse.getState();
 
 
@@ -82,6 +82,8 @@ class SceneGameplay {
       yClick = newMouseState.Y;
     }
     this.oldMouseState = newMouseState;
+
+
 
     //Traitement des informations
     if (leftClick) {
@@ -127,8 +129,6 @@ class SceneGameplay {
               this.dice.toggleSwitch();
             }
           }
-
-
           break;
 
         case "de":
@@ -137,7 +137,6 @@ class SceneGameplay {
           break;
 
         default:
-
       }
     }
 
@@ -153,13 +152,13 @@ class SceneGameplay {
   }
 
   createCanvas(map){
-    var canvas = document.createElement('canvas');
-    this.setCanvasSize(canvas, map);
+    this.canvas = document.createElement('canvas');
+    this.setCanvasSize(this.canvas, map);
 
-    var body = document.getElementById('canvas');
-    body.appendChild(canvas);
+    var tabsToInsert = document.getElementById('plateau-' + this.id);
+    tabsToInsert.appendChild(this.canvas);
 
-    this.ctx = canvas.getContext("2d");
+    this.ctx = this.canvas.getContext("2d");
 
   }
 

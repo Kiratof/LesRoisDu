@@ -1,0 +1,107 @@
+.partie-container{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+}
+
+.tabs{
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	&__sidebar{
+		display: flex;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		width: 100%;
+		background: _palette(bg);
+	}
+	&__button{
+		background: _palette(bg);
+		cursor: pointer;
+		border-radius: 2rem 2rem 0 0;
+		&:hover {
+			&:after {
+				opacity: 0;
+			}
+		}
+		&:active{
+			border: 0;
+		}
+		&--active{
+			font-weight: bold;
+			background: _palette(accent1);
+			}
+		}
+	&__content{
+		height: 100vh;
+		font-size: 0.8rem;
+		display: none;
+		background: _palette(accent1);
+		&--active{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		> :first-child{
+			margin-top: 0;
+		}
+	}
+}
+
+.info-partie{
+	display: flex;
+	flex-direction: column;
+	width: 20%;
+	text-align: center;
+	margin-right: 1rem;
+	margin-left: 1rem;
+	&__heading{
+		font-size: 1rem;
+		margin-top: 2rem;
+		border: 1px solid _palette(bg-alt);
+		border-radius: 1rem;
+	}
+	&__plateaux{
+		border: 1px _palette(bg-alt) solid;
+		border-radius: 1rem;
+		border-bottom: 0;
+		margin-top: 0.5rem;
+		font-size: 0.6rem;
+	}
+}
+
+.option-partie{
+	margin-top: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	&__button{
+		margin-bottom: 1rem;
+	}
+}
+
+.alt {
+	margin-bottom: 0;
+	& th{
+		border-radius: 1rem 1rem 0 0;
+		text-align: center;
+	}
+	& td{
+	border-radius: 0 0 1rem 1rem;;
+	text-align: center;
+}
+}
+
+
+#couleur-green{
+	background-color: green;
+}
+#couleur-red{
+	background-color: red;
+}
+#couleur-yellow{
+	background-color: yellow;
+}
+#couleur-blue{
+	background-color: blue;
+}

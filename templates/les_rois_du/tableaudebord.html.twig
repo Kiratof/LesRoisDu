@@ -33,7 +33,7 @@
                 <br>
 
                 <div class="row row-cols-1 row-cols-md-2">
-                    
+
 
                     {% for partie in parties %}
 
@@ -45,9 +45,10 @@
                           </div>
                           <ul class="list-group list-group-flush text-white bg-dark mb-3">
 
-                            {% for pion in partie.plateauDeJeu.pions %}
+                            {% for plateauEnJeu in partie.plateauEnJeu %}
+                              {% for pion in plateauEnJeu.pions %}
 
-                                {% if loop.index <= partie.nbPionParPlateau %}
+                                {% if loop.index <= plateauEnJeu.nbPion %}
 
                                     {% if pion.couleur == 'green' %}
 
@@ -78,7 +79,7 @@
                                     <li class="list-group-item text-secondary border-secondary mb-3">Pion {{pion.nom}} hors-jeu</li>
 
                                 {% endif %}
-
+                              {% endfor %}
                             {% endfor %}
 
                           </ul>
@@ -99,7 +100,7 @@
 
                     </div>
                 </div>
- 
+
             </div>
         </section>
     </div>
