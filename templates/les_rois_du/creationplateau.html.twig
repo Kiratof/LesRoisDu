@@ -1,5 +1,8 @@
 {% extends 'monTemplate.html.twig' %}
 
+{% block extra_js %}
+  <script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% endblock %}
 
 {% block sidebar %}
 
@@ -29,6 +32,9 @@
         <section id="three" class="wrapper style1 fade-up">
           <div class="inner">
 
+            {% form_theme vueFormulaireCreationPlateau with
+                          ['jquery.collection.html.twig',
+                          ]   %}
           <div class="inner" id="ensembleformulaire">
             {{form_start(vueFormulaireCreationPlateau) }}
             <div class="inner" id="unecase">
@@ -40,13 +46,12 @@
             {{ form_row(vueFormulaireCreationPlateau.nbCases, { 'label' : 'Taille du plateau (nombre de défis)' })}}
             </div>
 
+
+
             <div id="ensemblecases">
             <h3>Cases/Défis</h3>
-               <ul class="casesliste" id="casesliste" data-prototype="{{ form_widget(vueFormulaireCreationPlateau.cases.vars.prototype)|e('html_attr')}}">
-                   {% for unecase in vueFormulaireCreationPlateau.cases %}
-                       <li>{{ form_row(unecase.descriptifDefi) }}</li>
-                   {% endfor %}
-               </ul>
+                  {{ form_row(vueFormulaireCreationPlateau.cases) }}
+
             </div>
 
           </div>
@@ -93,94 +98,23 @@
       </div>
     </section>
   </div>
-  </section>
-
-  </div>
 
 
-
-  <script>
-
-
-  document.addEventListener("DOMContentLoaded", function(event) {
-
-
-    //mise en place d'un lien "ajouter une case"
-    var $addCaseLink = $('<button href="#" class="add_cases_link">Ajouter une case</button>');
-    var $newLinkLi = $('<li></li>').append($addCaseLink);
-
-
-    jQuery(document).ready(function() {
-        // prendre la liste qui contient la collection de cases
-       var $collectionHolder = $('ul.casesliste');
-
-        $collectionHolder.append($newLinkLi);
-
-        $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-        selecteur = document.getElementById('plateau_nbCases');
-        selecteur.addEventListener("change", function(){
-          // Vide tout les enfants afin d'eviter que les champs de saisie s'ajoutent après changement de valeur dans le selecteur
-          // while (ensemblecases.firstChild) { //Mettre case liste ?
-          //  ensemblecases.removeChild(ensemblecases.lastChild);
-          //     }
-          //
-        nbDefis = document.getElementById('plateau_nbCases').value;
-        for (i=0; i<nbDefis; i++) {
-        addCaseForm($collectionHolder, $newLinkLi);
-        }
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+          $('.collection-cases').collection({
+              prefix: 'cases',
+              preserve_names: false,
+          });
         });
+      </script>
 
-
-        $addCaseLink.on('click', function(e) {
-
-            e.preventDefault();
-
-            addCaseForm($collectionHolder, $newLinkLi);
-        });
-    });
-
-    function addCaseForm($collectionHolder, $newLinkLi) {
-        // prendre le data prototype
-        var prototype = $collectionHolder.data('prototype');
-
-        // prendre le nouvel index
-        var index = $collectionHolder.data('index');
-
-        var newForm = prototype.replace(/__name__/g, index);
-
-        $collectionHolder.data('index', index + 1);
-
-        var $newFormLi = $('<li></li>').append(newForm);
-
-        $newLinkLi.before($newFormLi);
-
-        // add a delete link to the new form
-        addCaseFormDeleteLink($newFormLi);
-    }
-
-    function addCaseFormDeleteLink($caseFormLi) {
-    var $removeFormButton = $('<button class="button small" type="button">Supprimer</button> <br> <br>');
-    $caseFormLi.append($removeFormButton);
-
-    $removeFormButton.on('click', function(e) {
-        // remove the li for the tag form
-        $caseFormLi.remove();
-    });
-}
-
-});
-
-
-  </script>
 
 
 
   {% endblock %}
 
-  {% block vueFormulaireCreationPlateau_cases_entry_widget %}
-{{ dump() }}
-  {% endblock %}
+
 
 
   {% block footer %}
