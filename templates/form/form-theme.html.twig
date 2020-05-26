@@ -1,0 +1,24 @@
+
+{% block cases_label %}{% endblock %}
+{% block cases_errors %}{% endblock %}
+
+{% block cases_widget %}
+
+    <div class="row">
+        <div class="col-md-7">
+            {{ form_widget(form) }}
+        </div>
+        <div class="col-md-2">
+            <a href="#" class="collection-up btn btn-default">Up</a>
+            <a href="#" class="collection-down btn btn-default">Down</a>
+        </div>
+        <div class="col-md-2">
+            <a href="#" class="collection-remove btn btn-default button medium">Remove</a>
+            <a href="#" class="collection-add btn btn-default button.small">Add</a>
+        </div>
+        <div class="col-md-1">
+            <a href="#" class="collection-duplicate btn btn-default">Duplicate</a>
+        </div>
+    </div>
+
+{% endblock %}
