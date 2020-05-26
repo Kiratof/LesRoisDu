@@ -26,4 +26,9 @@ class CasesType extends AbstractType
             'data_class' => Cases::class,
         ]);
     }
+
+    public function getBlockPrefix()
+  {
+      return 'cases';
+  }
 }

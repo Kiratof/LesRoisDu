@@ -51,7 +51,11 @@ class PlateauType extends AbstractType
                   'entry_options' => ['label' => false],
                   'allow_add' => true,
                   'allow_delete' => true,
-                  'by_reference' => false
+                  'by_reference' => false,
+                  'prototype' => true,
+                  'attr'         => [
+                   'class' => 'collection-cases',
+               ],
                 ])
 
         ;
@@ -63,4 +67,9 @@ class PlateauType extends AbstractType
             'data_class' => Plateau::class,
         ]);
     }
+
+    public function getBlockPrefix()
+      {
+          return 'plateau';
+      }
 }
