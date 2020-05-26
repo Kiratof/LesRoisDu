@@ -55,9 +55,11 @@
 	text-align: center;
 	margin-right: 1rem;
 	margin-left: 1rem;
+	overflow-x: hidden;
+	overflow-y: scroll;
 	&__heading{
-		font-size: 1rem;
-		margin-top: 2rem;
+		font-size: 0.8rem;
+		margin-top: 1rem;
 		border: 1px solid _palette(bg-alt);
 		border-radius: 1rem;
 	}
