@@ -5,7 +5,7 @@ class Background{
 		this.map = map;
 
     //Chargement du Tileset composant le background
-    var nomTileSet = 'Octogone_128.png'
+    var nomTileSet = 'case_128.png'
     this.tileset = new Tileset(nomTileSet);
 
 	}
@@ -69,4 +69,7 @@ class Background{
 		}
 	}
 
+	modifyTilesetSize(){
+		this.tileset.setImageSrc('case_64.png');
+	}
 }

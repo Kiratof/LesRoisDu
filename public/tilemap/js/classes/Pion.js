@@ -5,15 +5,14 @@ class Pion {
 
 		this.nbCases = nbCases;
 		this.parcours = parcours;
-
+		this.compteur = 0;
 		this.player = player;
-		//Position dans le canvas
-		this.setPlayer(player);
+
 
 		this.setPosition(position);
 		this.posCases = parcours.casesPosition;
 		this.positionnePionByPositionDansParcours();
-		this.updateXandYposition();
+
 		this.z = 2;
 		this.id = "pion";
 
@@ -27,7 +26,7 @@ class Pion {
 
 		//Etat du pion
 		this.isSelected = false;
-
+		this.setCouleur(player);
 		//Etat du dé
 		this.faceCouranteDe = 0;
 
@@ -43,38 +42,28 @@ class Pion {
 			this.referenceDuPerso.hauteur = this.height;
 		}
 
-		this.image.src = assetsBaseDir + "sprites/" + "pion_" + this.couleur + ".png";
+		this.image.src = assetsBaseDir + "sprites/large/pion_" + this.couleur + ".png";
 
-		this.compteur = 0;
+
 
 	}
 
-
-
-	setPlayer(player){
+	setCouleur(player){
 		switch (player) {
 			case 1:
-				this.posXPlayer = 32 - 32 / 2;
-				this.posYPlayer = 32 - 32 / 2;
 				this.couleur = 'vert';
 				break;
 
 			case 2:
-				this.posXPlayer = 96 - 32 / 2;
-				this.posYPlayer = 32 - 32 / 2;
 				this.couleur = 'rouge';
 				break;
 
 
 			case 3:
-				this.posXPlayer = 32 - 32 / 2;
-				this.posYPlayer = 96 - 32 / 2;
 				this.couleur = 'jaune';
 				break;
 
 			case 4:
-				this.posXPlayer = 96 - 32 / 2;
-				this.posYPlayer = 96 - 32 / 2;
 				this.couleur = 'bleu';
 				break;
 
@@ -84,11 +73,54 @@ class Pion {
 		}
 	}
 
+	premierQuart(tailleOctogone, taillePion) {
+	   var quart = ((1 * tailleOctogone) - 2 * taillePion) / 4;
+	  return quart;
+	}
+
+	troisiemeQuart(tailleOctogone, taillePion) {
+
+   	var quart = ((3 * tailleOctogone) - 2 * taillePion) / 4;
+
+  	return quart;
+	}
+
+	setPositionXY(player){
+		switch (player) {
+			case 1:
+				this.posXPlayer = this.premierQuart(this.map.TILE_WIDTH, this.largeur);
+				this.posYPlayer = this.premierQuart(this.map.TILE_HEIGHT, this.hauteur);
+				break;
+
+			case 2:
+				this.posXPlayer = this.troisiemeQuart(this.map.TILE_WIDTH, this.largeur);
+				this.posYPlayer = this.premierQuart(this.map.TILE_HEIGHT, this.hauteur);
+				break;
+
+
+			case 3:
+				this.posXPlayer = this.premierQuart(this.map.TILE_WIDTH, this.largeur);
+				this.posYPlayer = this.troisiemeQuart(this.map.TILE_HEIGHT, this.hauteur);
+				break;
+
+			case 4:
+				this.posXPlayer = this.troisiemeQuart(this.map.TILE_WIDTH, this.largeur);
+				this.posYPlayer = this.troisiemeQuart(this.map.TILE_HEIGHT, this.hauteur);
+				break;
+
+			default:
+				alert('Il ne peut exister de joueur ' + player + '.');
+		}
+
+		this.updateXandYposition();
+	}
+
 	setPosition(position){
 			this.posPion = position;
 	}
 
 	update() {
+
 		if (this.isSelected) {
 			this.advanceBasedOnPawnValue();
 			this.updateXandYposition();
@@ -222,11 +254,11 @@ class Pion {
 	}
 
 	showMeSelected() {
-		this.image.src = assetsBaseDir + "sprites/" + "pion_" + this.couleur + "_selected.png";
+		this.image.src = assetsBaseDir + "sprites/small/pion_" + this.couleur + "_selected_64.png";
 	}
 
 	showMeNormally() {
-		this.image.src = assetsBaseDir + "sprites/" + "pion_" + this.couleur + ".png";
+		this.image.src = assetsBaseDir + "sprites/small/pion_" + this.couleur + "_64.png";
 	}
 
 	positionnePionByPositionDansParcours(){
@@ -272,4 +304,7 @@ class Pion {
 		this.y = (this.lig * this.map.TILE_HEIGHT) + this.posYPlayer;
 	}
 
+	resizeSmaller(){
+		this.image.src = assetsBaseDir + "sprites/small/pion_" + this.couleur + "_64.png";
+	}
 }

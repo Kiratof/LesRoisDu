@@ -2,6 +2,7 @@ class SceneGameplay {
 
   constructor(id, plateauJSON)
   {
+    //Identifiant pour insertion dans le bon onglet
     this.id = id;
     //Liste de tous les acteurs du jeu
     this.listeActeurs = [];
@@ -9,20 +10,19 @@ class SceneGameplay {
     var nbCases = plateauJSON.nombre_de_cases + 1;
     var nbFacesDe = plateauJSON.nombre_de_face_de;
     var casesDuPlateau = plateauJSON.cases;
-    var nbPion = plateauJSON.nombre_de_pion;
     var lesPions = plateauJSON.pions;
 
 
     //Création de l'objet contenant toutes les informations de la map
-    var nomMap = 'plateau_' + nbCases +'_128';
-    var map = new Map(nomMap);
+    var nomMap = 'Large/L_' + nbCases;
+    this.map = new Map(nomMap);
 
 
     //Création du canvas
-    this.createCanvas(map);
+    this.createCanvas(this.map);
 
     //Création du background
-    this.background = new Background(map);
+    this.background = new Background(this.map);
 
     //Créer le dé
     this.dice = new De(nbFacesDe);
@@ -37,7 +37,7 @@ class SceneGameplay {
         const element = casesDuPlateau[index];
         defis.push(element.defi);
     }
-    this.parcours = new Parcours(defis, map);
+    this.parcours = new Parcours(defis, this.map);
     this.listeActeurs.push(this.parcours);
 
     //Nos cases
@@ -45,8 +45,8 @@ class SceneGameplay {
 
     //Créer le/les pions
     this.pions = [];
-    for (let index = 0; index < nbPion; index++) {
-        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases, map);
+    for (let index = 0; index < lesPions.length; index++) {
+        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases, this.map);
         this.listeActeurs.push(pion);
         this.pions.push(pion);
     }
@@ -61,6 +61,12 @@ class SceneGameplay {
     //Chaque pion observe l'état du dé
     this.pions.forEach(pion => {
         this.dice.addObservers(pion);
+    });
+
+    this.resizePlateau();
+    this.listeActeurs.forEach(acteur => {
+
+      console.log(acteur);
     });
 
   }
@@ -83,12 +89,14 @@ class SceneGameplay {
     }
     this.oldMouseState = newMouseState;
 
-
+    this.pions.forEach(pion => {
+      pion.setPositionXY(pion.player);
+    });
 
     //Traitement des informations
     if (leftClick) {
 
-
+      console.log(this.oldMouseState);
       var listObjectClicked = [];
       this.listeActeurs.forEach(acteur => {
 
@@ -153,7 +161,7 @@ class SceneGameplay {
 
   createCanvas(map){
     this.canvas = document.createElement('canvas');
-    this.setCanvasSize(this.canvas, map);
+    this.setCanvasSize();
 
     var tabsToInsert = document.getElementById('plateau-' + this.id);
     tabsToInsert.appendChild(this.canvas);
@@ -162,9 +170,9 @@ class SceneGameplay {
 
   }
 
-  setCanvasSize(canvas, map){
-    canvas.width  = map.getLargeur();
-    canvas.height = map.getHauteur();
+  setCanvasSize(){
+    this.canvas.width  = this.map.getLargeur();
+    this.canvas.height = this.map.getHauteur();
   }
 
   setMouseXPosition(x){
@@ -173,6 +181,26 @@ class SceneGameplay {
 
   setMouseYPosition(y){
     this.mouse.setMouseYPosition(y);
+  }
+
+  resizePlateau(){
+    //Modifier la taille des éléments
+    //pions
+    this.pions.forEach(pion => {
+        pion.resizeSmaller();
+    });
+    //Background
+    this.background.modifyTilesetSize();
+    //cases
+    this.cases.forEach(casess => {
+        casess.resizeSmaller();
+
+    });
+    //Dé
+    this.dice.resizeSmaller();
+    //Canvas
+    this.map.hydraterMap('Small/S_13');
+    this.setCanvasSize();
   }
 
 }

@@ -9,12 +9,15 @@ class Tileset{
 				throw new Error("Erreur de chargement du tileset nommé \"" + nomTileSet + "\".");
 			}
 			//Largeur du tileset et tile
-			this.referenceDuTileset.largeur = this.width / 128;
+			this.referenceDuTileset.largeur = this.width / 64;
 
 		}
 
 		this.image.src = assetsBaseDir + 'tilesets/' + nomTileSet;
 	}
 
+	setImageSrc(nomTileSet) {
+		this.image.src = assetsBaseDir + 'tilesets/' + nomTileSet;
+	}
 
 }

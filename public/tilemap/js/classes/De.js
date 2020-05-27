@@ -2,8 +2,8 @@ class De{
 
 	constructor(faceDe){
 		//Position du dé
-		this.x = 128;
-		this.y = 128;
+		this.x = 0;
+		this.y = 64;
 		this.z = 2;
 		this.id = "de";
 
@@ -83,19 +83,19 @@ class De{
 
 		switch (nbFaceDe) {
 			case 1:
-				this.image.src = assetsBaseDir + "sprites/De-1.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-1.png";
 				break;
 
 			case 2:
-				this.image.src = assetsBaseDir + "sprites/De-2.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-2.png";
 				break;
 
 			case 3:
-				this.image.src = assetsBaseDir + "sprites/De-3.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-3.png";
 				break;
 
 			case 4:
-				this.image.src = assetsBaseDir + "sprites/de.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-4.png";
 				break;
 
 			default:
@@ -123,4 +123,27 @@ class De{
 		}
 	}
 
+	resizeSmaller(){
+
+		switch (this.nbFaces) {
+			case 1:
+				this.image.src = assetsBaseDir + "sprites/small/De-1_64.png";
+				break;
+
+			case 2:
+				this.image.src = assetsBaseDir + "sprites/small/De-2_64.png";
+				break;
+
+			case 3:
+				this.image.src = assetsBaseDir + "sprites/small/De-3_64.png";
+				break;
+
+			case 4:
+				this.image.src = assetsBaseDir + "sprites/small/De-4_64.png";
+				break;
+
+			default:
+
+		}
+	}
 }
