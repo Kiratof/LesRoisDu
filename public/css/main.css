@@ -3185,8 +3185,21 @@ body.is-preload #sidebar nav ul li {
 
 .partie-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
+}
+@media screen and (max-width: 980px) {
+  .partie-container {
+    flex-direction: column;
+    width: 100vw;
+  }
+  .partie-container .tabs {
+    width: 100%;
+  }
+  .partie-container .info-partie {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 .tabs {
@@ -3221,6 +3234,7 @@ body.is-preload #sidebar nav ul li {
   font-size: 0.8rem;
   display: none;
   background: #5e42a6;
+  overflow-y: scroll;
 }
 .tabs__content--active {
   display: flex;
