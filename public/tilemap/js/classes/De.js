@@ -32,6 +32,25 @@ class De{
 	this.setSprite(faceDe);
 }
 
+	setX(x){
+		this.x = x;
+	}
+	getX(){
+		return this.x;
+	}
+	setY(y){
+		this.y = y;
+	}
+	getY(){
+		return this.y;
+	}
+
+	setPosition(x, y){
+		this.x = this.setX(x);
+		this.Y = this.sety(y);
+	}
+
+
 	update(){
 
 	}
@@ -140,6 +159,30 @@ class De{
 
 			case 4:
 				this.image.src = assetsBaseDir + "sprites/small/De-4_64.png";
+				break;
+
+			default:
+
+		}
+	}
+
+	resizeLarger(){
+
+		switch (this.nbFaces) {
+			case 1:
+				this.image.src = assetsBaseDir + "sprites/large/De-1_64.png";
+				break;
+
+			case 2:
+				this.image.src = assetsBaseDir + "sprites/large/De-2_64.png";
+				break;
+
+			case 3:
+				this.image.src = assetsBaseDir + "sprites/large/De-3_64.png";
+				break;
+
+			case 4:
+				this.image.src = assetsBaseDir + "sprites/large/De-4_64.png";
 				break;
 
 			default:

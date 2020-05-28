@@ -9,8 +9,8 @@ class Case {
 		this.map = map;
 
 		//Position relative au Canvas
-		this.x = this.colonne * 64;
-		this.y = this.ligne * 64;
+		this.x = this.colonne * 128;
+		this.y = this.ligne * 128;
 		this.z = 1;
 
 		this.id = "case";
@@ -68,6 +68,9 @@ class Case {
 
 	resizeSmaller(){
 		this.image.src = assetsBaseDir + "sprites/small/case_64.png";
+	}
+	resizeLarger(){
+		this.image.src = assetsBaseDir + "sprites/large/case_128.png";
 	}
 
 }

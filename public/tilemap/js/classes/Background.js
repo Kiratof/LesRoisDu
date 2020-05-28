@@ -23,7 +23,7 @@ class Background{
 			for (var colonne = 0, nbColonne = this.map.terrainWidth; colonne < nbColonne; colonne++) {
 
 				var tuile = this.map.terrain[(ligne * nbColonne) + colonne];
-				var xDestination = colonne * this.map.TILE_HEIGHT;
+				var xDestination = colonne * this.map.TILE_WIDTH;
 				var yDestination = ligne * this.map.TILE_HEIGHT;
 
 				var xSourceEnTiles = tuile % this.tileset.largeur;
@@ -69,7 +69,10 @@ class Background{
 		}
 	}
 
-	modifyTilesetSize(){
+	resizeTilesetSmaller(){
 		this.tileset.setImageSrc('case_64.png');
+	}
+	resizeTilesetLarger(){
+		this.tileset.setImageSrc('case_128.png');
 	}
 }

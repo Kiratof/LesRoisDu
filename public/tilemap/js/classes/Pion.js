@@ -307,4 +307,8 @@ class Pion {
 	resizeSmaller(){
 		this.image.src = assetsBaseDir + "sprites/small/pion_" + this.couleur + "_64.png";
 	}
+
+	resizeLarger(){
+		this.image.src = assetsBaseDir + "sprites/large/pion_" + this.couleur + "_128.png";
+	}
 }

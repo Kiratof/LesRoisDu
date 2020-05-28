@@ -57,17 +57,15 @@ class SceneGameplay {
     new InputHandler(this.canvas, this.mouse);
     this.oldMouseState = this.mouse.getState();
 
+    new ResizeHandler(this);
+
 
     //Chaque pion observe l'état du dé
     this.pions.forEach(pion => {
         this.dice.addObservers(pion);
     });
 
-    this.resizePlateau();
-    this.listeActeurs.forEach(acteur => {
 
-      console.log(acteur);
-    });
 
   }
 
@@ -93,10 +91,12 @@ class SceneGameplay {
       pion.setPositionXY(pion.player);
     });
 
-    //Traitement des informations
-    if (leftClick) {
 
-      console.log(this.oldMouseState);
+
+    //Traitement des informations
+    if (leftClick) { //Si cliqué
+
+      //Récupération des objets cliqués
       var listObjectClicked = [];
       this.listeActeurs.forEach(acteur => {
 
@@ -105,7 +105,7 @@ class SceneGameplay {
         }
       });
 
-
+      //Détermination de l'élément le plus proche selon l'index z
       var objectToUpdate = {
         z: 0,
       };
@@ -115,7 +115,7 @@ class SceneGameplay {
         }
       });
 
-
+      //Comportement selon l'objet selectionné
       switch (objectToUpdate.id) {
         case "case":
           objectToUpdate.displayDefi();
@@ -147,8 +147,6 @@ class SceneGameplay {
         default:
       }
     }
-
-
   }
 
   draw(){
@@ -183,14 +181,14 @@ class SceneGameplay {
     this.mouse.setMouseYPosition(y);
   }
 
-  resizePlateau(){
+  resizePlateauSmaller(){
     //Modifier la taille des éléments
     //pions
     this.pions.forEach(pion => {
         pion.resizeSmaller();
     });
     //Background
-    this.background.modifyTilesetSize();
+    this.background.resizeTilesetSmaller();
     //cases
     this.cases.forEach(casess => {
         casess.resizeSmaller();
@@ -200,6 +198,26 @@ class SceneGameplay {
     this.dice.resizeSmaller();
     //Canvas
     this.map.hydraterMap('Small/S_13');
+    this.setCanvasSize();
+  }
+
+  resizePlateauLarger(){
+    //Modifier la taille des éléments
+    //pions
+    this.pions.forEach(pion => {
+        pion.resizeLarger();
+    });
+    //Background
+    this.background.resizeTilesetLarger();
+    //cases
+    this.cases.forEach(casess => {
+        casess.resizeLarger();
+
+    });
+    //Dé
+    this.dice.resizeLarger();
+    //Canvas
+    this.map.hydraterMap('Large/L_13');
     this.setCanvasSize();
   }
 
