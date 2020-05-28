@@ -1,23 +1,24 @@
-
-{% block cases_label %}{% endblock %}
-{% block cases_errors %}{% endblock %}
+{% extends 'monTemplate.html.twig' %}
 
 {% block cases_widget %}
 
     <div class="row">
+      <p> 1 <p>
         <div class="col-md-7">
             {{ form_widget(form) }}
         </div>
         <div class="col-md-2">
-            <a href="#" class="collection-up btn btn-default">Up</a>
-            <a href="#" class="collection-down btn btn-default">Down</a>
+            <a href="#" class="cases-up btn btn-default" title="Move element up"><i class="fas fa-angle-up fa-2x" style="color:white"></i></a>
+            <a href="#" class="cases-down btn btn-default" title="Move element down"><i class="fas fa-angle-down fa-2x" style="color:white"></i>
+            </a>
         </div>
         <div class="col-md-2">
-            <a href="#" class="collection-remove btn btn-default button medium">Remove</a>
-            <a href="#" class="collection-add btn btn-default button.small">Add</a>
+            <a href="#" class="cases-remove btn btn-default" title="Delete element"><i class="fas fa-trash fa-2x" style="color:white"></i></a>
+            <a href="#" class="cases-add" title="Add element"><i class="fas fa-plus fa-2x" style="color:white"></i></a>
+
         </div>
-        <div class="col-md-1">
-            <a href="#" class="collection-duplicate btn btn-default">Duplicate</a>
+        <div class="col-md-2">
+            <a href="#" class="cases-duplicate btn btn-default" title="Duplicate element"><i class="fas fa-clone fa-2x"></i></a>
         </div>
     </div>
 
