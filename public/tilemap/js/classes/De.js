@@ -3,7 +3,7 @@ class De{
 	constructor(faceDe){
 		//Position du dé
 		this.x = 0;
-		this.y = 64;
+		this.y = 128;
 		this.z = 2;
 		this.id = "de";
 
@@ -102,19 +102,19 @@ class De{
 
 		switch (nbFaceDe) {
 			case 1:
-				this.image.src = assetsBaseDir + "sprites/large/De-1.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-1_128.png";
 				break;
 
 			case 2:
-				this.image.src = assetsBaseDir + "sprites/large/De-2.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-2_128.png";
 				break;
 
 			case 3:
-				this.image.src = assetsBaseDir + "sprites/large/De-3.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-3_128.png";
 				break;
 
 			case 4:
-				this.image.src = assetsBaseDir + "sprites/large/De-4.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-4_128.png";
 				break;
 
 			default:
@@ -170,19 +170,19 @@ class De{
 
 		switch (this.nbFaces) {
 			case 1:
-				this.image.src = assetsBaseDir + "sprites/large/De-1_64.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-1_128.png";
 				break;
 
 			case 2:
-				this.image.src = assetsBaseDir + "sprites/large/De-2_64.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-2_128.png";
 				break;
 
 			case 3:
-				this.image.src = assetsBaseDir + "sprites/large/De-3_64.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-3_128.png";
 				break;
 
 			case 4:
-				this.image.src = assetsBaseDir + "sprites/large/De-4_64.png";
+				this.image.src = assetsBaseDir + "sprites/large/De-4_128.png";
 				break;
 
 			default:

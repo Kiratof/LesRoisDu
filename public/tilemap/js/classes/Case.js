@@ -9,8 +9,8 @@ class Case {
 		this.map = map;
 
 		//Position relative au Canvas
-		this.x = this.colonne * 128;
-		this.y = this.ligne * 128;
+		this.x = this.colonne * this.map.TILE_WIDTH;
+		this.y = this.ligne * this.map.TILE_HEIGHT;
 		this.z = 1;
 
 		this.id = "case";

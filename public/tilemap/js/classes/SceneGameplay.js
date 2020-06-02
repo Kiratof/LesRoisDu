@@ -51,20 +51,20 @@ class SceneGameplay {
         this.pions.push(pion);
     }
 
-
     //Gestionnaire d'évênement
     this.mouse = new Mouse();
     new InputHandler(this.canvas, this.mouse);
     this.oldMouseState = this.mouse.getState();
 
+    //Taille du plateau
     new ResizeHandler(this);
+    this.setPlateauSize();
 
 
     //Chaque pion observe l'état du dé
     this.pions.forEach(pion => {
         this.dice.addObservers(pion);
     });
-
 
 
   }
@@ -87,19 +87,14 @@ class SceneGameplay {
     }
     this.oldMouseState = newMouseState;
 
-    this.pions.forEach(pion => {
-      pion.setPositionXY(pion.player);
-    });
 
 
 
     //Traitement des informations
     if (leftClick) { //Si cliqué
-
       //Récupération des objets cliqués
       var listObjectClicked = [];
       this.listeActeurs.forEach(acteur => {
-
         if (acteur.isClicked(xClick, yClick)) {
           listObjectClicked.push(acteur.getClickedItem(xClick, yClick));
         }
@@ -114,7 +109,6 @@ class SceneGameplay {
           objectToUpdate = object;
         }
       });
-
       //Comportement selon l'objet selectionné
       switch (objectToUpdate.id) {
         case "case":
@@ -132,6 +126,8 @@ class SceneGameplay {
               pion.unselect();
             });
             objectToUpdate.select();
+            objectToUpdate.setPositionIntoAPI(objectToUpdate);
+
 
             if (!this.dice.isDisplayed) {
               this.dice.toggleSwitch();
@@ -183,9 +179,13 @@ class SceneGameplay {
 
   resizePlateauSmaller(){
     //Modifier la taille des éléments
+    //Canvas
+    this.map.hydraterMap('Small/S_13');
+    this.setCanvasSize();
     //pions
     this.pions.forEach(pion => {
         pion.resizeSmaller();
+        pion.setPositionXY();
     });
     //Background
     this.background.resizeTilesetSmaller();
@@ -196,16 +196,18 @@ class SceneGameplay {
     });
     //Dé
     this.dice.resizeSmaller();
-    //Canvas
-    this.map.hydraterMap('Small/S_13');
-    this.setCanvasSize();
+
   }
 
   resizePlateauLarger(){
     //Modifier la taille des éléments
+    //Canvas
+    this.map.hydraterMap('Large/L_13');
+    this.setCanvasSize();
     //pions
     this.pions.forEach(pion => {
         pion.resizeLarger();
+        pion.setPositionXY();
     });
     //Background
     this.background.resizeTilesetLarger();
@@ -216,9 +218,20 @@ class SceneGameplay {
     });
     //Dé
     this.dice.resizeLarger();
-    //Canvas
-    this.map.hydraterMap('Large/L_13');
-    this.setCanvasSize();
+
   }
+
+  setPlateauSize(){
+
+    var largeScreen = 737;
+
+    //En fonction de la taille de l'écran
+    if (screen.width <= largeScreen ) {
+      this.resizePlateauSmaller();
+    }else {
+      this.resizePlateauLarger();
+    }
+  }
+
 
 }

@@ -10,6 +10,7 @@ class Pion {
 
 
 		this.setPosition(position);
+
 		this.posCases = parcours.casesPosition;
 		this.positionnePionByPositionDansParcours();
 
@@ -31,22 +32,14 @@ class Pion {
 		this.faceCouranteDe = 0;
 
 		// Chargement de l'image dans l'attribut image
-		this.image = new Image();
-		this.image.referenceDuPerso = this;
-		this.image.onload = function () {
-			if (!this.complete)
-				throw "Erreur de chargement du sprite nommé \"" + url + "\".";
-
-			// Taille du pion
-			this.referenceDuPerso.largeur = this.width;
-			this.referenceDuPerso.hauteur = this.height;
-		}
-
-		this.image.src = assetsBaseDir + "sprites/large/pion_" + this.couleur + ".png";
-
-
-
+		this.taille = 'small';
+		this.state = 'unselect';
+		this.images = this.loadImage();
+		this.largeur = this.images[this.taille][this.state].width;
+		this.hauteur = this.images[this.taille][this.state].height;
+		this.setPositionXY();
 	}
+
 
 	setCouleur(player){
 		switch (player) {
@@ -57,7 +50,6 @@ class Pion {
 			case 2:
 				this.couleur = 'rouge';
 				break;
-
 
 			case 3:
 				this.couleur = 'jaune';
@@ -85,8 +77,8 @@ class Pion {
   	return quart;
 	}
 
-	setPositionXY(player){
-		switch (player) {
+	setPositionXY(){
+		switch (this.player) {
 			case 1:
 				this.posXPlayer = this.premierQuart(this.map.TILE_WIDTH, this.largeur);
 				this.posYPlayer = this.premierQuart(this.map.TILE_HEIGHT, this.hauteur);
@@ -124,7 +116,6 @@ class Pion {
 		if (this.isSelected) {
 			this.advanceBasedOnPawnValue();
 			this.updateXandYposition();
-			this.setPositionIntoAPI(this.posPion, this.player);
 			this.unselect();
 		}
 	}
@@ -176,24 +167,41 @@ class Pion {
 	draw(context) {
 
 		if (this.isSelected) {
-			this.showMeSelected();
+			context.drawImage(
+				this.images[this.taille]['select'],
+				(((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer,
+				(((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer,
+				this.images[this.taille]['select'].width,
+				this.images[this.taille]['select'].height
+			);
 		}else {
-			this.showMeNormally();
+			context.drawImage(
+				this.images[this.taille]['unselect'],
+				(((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer,
+				(((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer,
+				this.images[this.taille]['unselect'].width,
+				this.images[this.taille]['unselect'].height
+			);
 		}
 
-		context.drawImage(
-			this.image,
-			(((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer,
-			(((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer,
-			this.largeur,
-			this.hauteur
-		);
 	}
 
+
+
 	isClicked(x, y) {
+
+		var largeur = 0;
+		var hauteur = 0;
+		if (this.taille === 'small') {
+			largeur = 16;
+			hauteur = 16;
+		} else {
+			largeur = 32;
+			hauteur = 32;
+		}
 		var myTop = this.y;
-		var myRgt = this.x + this.largeur;
-		var myBot = this.y + this.hauteur;
+		var myRgt = this.x + largeur;
+		var myBot = this.y + hauteur;
 		var myLft = this.x;
 
 		var clicked = true;
@@ -253,14 +261,6 @@ class Pion {
 		}
 	}
 
-	showMeSelected() {
-		this.image.src = assetsBaseDir + "sprites/small/pion_" + this.couleur + "_selected_64.png";
-	}
-
-	showMeNormally() {
-		this.image.src = assetsBaseDir + "sprites/small/pion_" + this.couleur + "_64.png";
-	}
-
 	positionnePionByPositionDansParcours(){
 
 		if (this.posPion > 0) {
@@ -277,17 +277,17 @@ class Pion {
 
 	}
 
-	setPositionIntoAPI(position, player){
+	setPositionIntoAPI(pion){
 		var parametres = 'http://localhost:8000/api/partie/' + idPartie;
 
-		if(position > this.nbCases){
-			var pos = this.nbCases-1;
+		if(pion.position > pion.nbCases){
+			var pos = pion.nbCases-1;
 		}
 		else{
-			var pos = position;
+			var pos = pion.position;
 		}
 
-		var pionstab = [{'player': player, 'placement': pos}];
+		var pionstab = [{'player': pion.player, 'placement': pion.pos}];
 
 		var jsonString = JSON.stringify({pions: pionstab});
 
@@ -304,11 +304,36 @@ class Pion {
 		this.y = (this.lig * this.map.TILE_HEIGHT) + this.posYPlayer;
 	}
 
+
+	setTaille(taille){
+		this.taille = taille;
+	}
+
+	getTaille(){
+		return this.taille;
+	}
+
 	resizeSmaller(){
-		this.image.src = assetsBaseDir + "sprites/small/pion_" + this.couleur + "_64.png";
+		this.setTaille('small');
 	}
 
 	resizeLarger(){
-		this.image.src = assetsBaseDir + "sprites/large/pion_" + this.couleur + "_128.png";
+		this.setTaille('large');
+	}
+
+	loadImage(){
+
+		var images = {
+			'small' : {
+				'select' : Graphics.newImage('sprites/small/pion_'+ this.couleur +'_selected_64.png'),
+				'unselect' : Graphics.newImage('sprites/small/pion_'+ this.couleur +'_64.png')
+			},
+			'large' : {
+				'select' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_selected_128.png'),
+				'unselect' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_128.png')
+			}
+		}
+
+		return images;
 	}
 }
