@@ -7,14 +7,14 @@ class SceneGameplay {
     //Liste de tous les acteurs du jeu
     this.listeActeurs = [];
     //Paramètres de la partie
-    var nbCases = plateauJSON.nombre_de_cases + 1;
+    this.nbCases = plateauJSON.nombre_de_cases + 1;
     var nbFacesDe = plateauJSON.nombre_de_face_de;
     var casesDuPlateau = plateauJSON.cases;
     var lesPions = plateauJSON.pions;
 
 
     //Création de l'objet contenant toutes les informations de la map
-    var nomMap = 'Large/L_' + nbCases;
+    var nomMap = 'Large/L_' + this.nbCases;
     this.map = new Map(nomMap);
 
 
@@ -46,7 +46,7 @@ class SceneGameplay {
     //Créer le/les pions
     this.pions = [];
     for (let index = 0; index < lesPions.length; index++) {
-        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, nbCases, this.map);
+        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, this.nbCases, this.map);
         this.listeActeurs.push(pion);
         this.pions.push(pion);
     }
@@ -180,7 +180,7 @@ class SceneGameplay {
   resizePlateauSmaller(){
     //Modifier la taille des éléments
     //Canvas
-    this.map.hydraterMap('Small/S_13');
+    this.map.hydraterMap('Small/S_' + this.nbCases);
     this.setCanvasSize();
     //pions
     this.pions.forEach(pion => {
@@ -202,7 +202,7 @@ class SceneGameplay {
   resizePlateauLarger(){
     //Modifier la taille des éléments
     //Canvas
-    this.map.hydraterMap('Large/L_13');
+    this.map.hydraterMap('Large/L_' + this.nbCases);
     this.setCanvasSize();
     //pions
     this.pions.forEach(pion => {

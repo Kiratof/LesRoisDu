@@ -1,12 +1,4 @@
-{ "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"L_10.json"
-        }
-    },
+{ "compressionlevel":0,
  "height":3,
  "infinite":false,
  "layers":[
@@ -31,7 +23,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/L_10.tsx"
+         "source":"..\/128\/large.tsx"
         }],
  "tilewidth":128,
  "type":"map",
