@@ -5,8 +5,9 @@ class Background{
 		this.map = map;
 
     //Chargement du Tileset composant le background
-    var nomTileSet = 'case_128.png'
-    this.tileset = new Tileset(nomTileSet);
+		this.taille = 'large';
+		this.tileset = this.loadImage();
+		console.log(this.tileset[this.taille].width);
 
 	}
 
@@ -26,17 +27,16 @@ class Background{
 				var xDestination = colonne * this.map.TILE_WIDTH;
 				var yDestination = ligne * this.map.TILE_HEIGHT;
 
-				var xSourceEnTiles = tuile % this.tileset.largeur;
+				var xSourceEnTiles = tuile % this.tileset[this.taille].width;
 				if(xSourceEnTiles == 0){
-					xSourceEnTiles = this.tileset.largeur;
+					xSourceEnTiles = this.tileset[this.taille].width;
 				}
-				var ySourceEnTiles = Math.ceil(tuile / this.tileset.largeur);
+				var ySourceEnTiles = Math.ceil(tuile / this.tileset[this.taille].width);
 				var xSource = (xSourceEnTiles - 1) * this.map.TILE_WIDTH;
 				var ySource = (ySourceEnTiles - 1) * this.map.TILE_HEIGHT;
 
-
 				context.drawImage(
-					this.tileset.image,
+					this.tileset[this.taille],
 					xSource,
 					ySource,
 					this.map.TILE_WIDTH,
@@ -62,6 +62,10 @@ class Background{
 
 	}
 
+	setTaille(taille){
+		this.taille = taille;
+	}
+
 	getNumCase(x, y, map){
 		return position = {
 			col: Math.floor(x/map.TILE_WIDTH),
@@ -70,9 +74,18 @@ class Background{
 	}
 
 	resizeTilesetSmaller(){
-		this.tileset.setImageSrc('case_64.png');
+		this.setTaille('small');
 	}
 	resizeTilesetLarger(){
-		this.tileset.setImageSrc('case_128.png');
+		this.setTaille('large');
+	}
+
+	loadImage(){
+		var images = {
+			'small' : Graphics.newImage('tilesets/case_64.png'),
+			'large' : Graphics.newImage('tilesets/case_128.png')
+		}
+
+		return images;
 	}
 }

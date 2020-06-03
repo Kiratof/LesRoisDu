@@ -1,13 +1,18 @@
 class De{
 
-	constructor(faceDe){
+	constructor(col, lig, zIndex, faceDe){
 		//Position du dé
-		this.x = 0;
-		this.y = 128;
-		this.z = 2;
-		this.id = "de";
+		this.col = col;
+		this.lig = lig;
+		this.x = "";
+		this.y = "";
+		this.z = zIndex;
 
+
+		this.id = "de";
 		this.isDisplayed = false;
+
+		this.map = "";
 
 		//Nombre de face du dé
 		this.nbFaces = faceDe;
@@ -31,6 +36,20 @@ class De{
 	}
 	this.setSprite(faceDe);
 }
+
+	setMap(map){
+		this.map = map;
+	}
+
+	connectMap(map){
+		//Set la Map
+		this.setMap(map);
+
+		//Positionne le dé
+		this.setX(ToolBox.convertColToX(this.col, map.TILE_WIDTH));
+		this.setY(ToolBox.convertLigToY(this.lig, map.TILE_HEIGHT));
+
+	}
 
 	setX(x){
 		this.x = x;

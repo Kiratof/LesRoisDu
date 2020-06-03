@@ -1,7 +1,7 @@
 class Pion {
-	constructor(parcours, player, position, nbCases, map) {
+	constructor(parcours, player, position, nbCases) {
 		//Informations de la map
-		this.map = map;
+		this.map = "";
 
 		this.nbCases = nbCases;
 		this.parcours = parcours;
@@ -37,7 +37,19 @@ class Pion {
 		this.images = this.loadImage();
 		this.largeur = this.images[this.taille][this.state].width;
 		this.hauteur = this.images[this.taille][this.state].height;
-		this.setPositionXY();
+	}
+
+	setMap(map){
+		this.map = map;
+	}
+
+	connectMap(map){
+		//Set la Map
+		this.setMap(map);
+
+		//Positionne le dé
+    this.setPositionXY();
+
 	}
 
 
@@ -300,8 +312,8 @@ class Pion {
 
 	updateXandYposition(){
 		//On met à jour la position
-		this.x = (this.col * this.map.TILE_WIDTH) + this.posXPlayer;
-		this.y = (this.lig * this.map.TILE_HEIGHT) + this.posYPlayer;
+		this.x = ToolBox.convertColToX(this.col, this.map.TILE_WIDTH) + this.posXPlayer;
+		this.y = ToolBox.convertLigToY(this.lig, this.map.TILE_HEIGHT) + this.posYPlayer;
 	}
 
 

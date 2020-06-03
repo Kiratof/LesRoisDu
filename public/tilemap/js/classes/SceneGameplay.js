@@ -4,14 +4,17 @@ class SceneGameplay {
   {
     //Identifiant pour insertion dans le bon onglet
     this.id = id;
+
     //Liste de tous les acteurs du jeu
     this.listeActeurs = [];
+
     //Paramètres de la partie
     this.nbCases = plateauJSON.nombre_de_cases + 1;
     var nbFacesDe = plateauJSON.nombre_de_face_de;
     var casesDuPlateau = plateauJSON.cases;
     var lesPions = plateauJSON.pions;
 
+    this.taille = this.setTaille('Large');
 
     //Création de l'objet contenant toutes les informations de la map
     var nomMap = 'Large/L_' + this.nbCases;
@@ -25,7 +28,10 @@ class SceneGameplay {
     this.background = new Background(this.map);
 
     //Créer le dé
-    this.dice = new De(nbFacesDe);
+    var col = 0;
+    var lig = 1;
+    var zIndex = 2;
+    this.dice = new De(col, lig, zIndex, nbFacesDe);
     this.listeActeurs.push(this.dice);
 
     //Créer le parcours
@@ -46,7 +52,7 @@ class SceneGameplay {
     //Créer le/les pions
     this.pions = [];
     for (let index = 0; index < lesPions.length; index++) {
-        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, this.nbCases, this.map);
+        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, this.nbCases);
         this.listeActeurs.push(pion);
         this.pions.push(pion);
     }
@@ -64,6 +70,12 @@ class SceneGameplay {
     //Chaque pion observe l'état du dé
     this.pions.forEach(pion => {
         this.dice.addObservers(pion);
+    });
+
+    //Tous les éléments du jeu on accès à la Map
+    this.dice.connectMap(this.map);
+    this.pions.forEach(pion => {
+        pion.connectMap(this.map);
     });
 
 
@@ -196,6 +208,7 @@ class SceneGameplay {
     });
     //Dé
     this.dice.resizeSmaller();
+    this.dice.connectMap(this.map);
 
   }
 
@@ -207,7 +220,8 @@ class SceneGameplay {
     //pions
     this.pions.forEach(pion => {
         pion.resizeLarger();
-        pion.setPositionXY();
+        pion.connectMap(this.map);
+
     });
     //Background
     this.background.resizeTilesetLarger();
@@ -218,6 +232,7 @@ class SceneGameplay {
     });
     //Dé
     this.dice.resizeLarger();
+    this.dice.connectMap(this.map);
 
   }
 
@@ -233,5 +248,13 @@ class SceneGameplay {
     }
   }
 
+  setTaille(taille){
+
+    this.taille = taille;
+  }
+
+  getTaille(){
+    return this.taille;
+  }
 
 }
