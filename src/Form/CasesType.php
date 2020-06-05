@@ -15,7 +15,7 @@ class CasesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('descriptifDefi',Textareatype::class, ['attr' => ['placeholder' => "Saisir un descriptif"], 'label' => false])
+            ->add('descriptifDefi',TextType::class, ['attr' => ['placeholder' => "Saisir un descriptif"], 'label' => false])
             //->add('consignes')
             //->add('codeValidation')
             //->add('numero')

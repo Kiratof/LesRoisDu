@@ -37,30 +37,54 @@
                           'jquery.collection.html.twig']   %}
           <div class="inner" id="ensembleformulaire">
             {{form_start(vueFormulaireCreationPlateau) }}
-            <div class="inner" id="unecase">
             {{ form_row(vueFormulaireCreationPlateau.nom)}}
-            </div>
             {{ form_row(vueFormulaireCreationPlateau.description)}}
             {{ form_row(vueFormulaireCreationPlateau.nbPion,  { 'label' : 'Nombre de pions' })}}
             {{ form_row(vueFormulaireCreationPlateau.nbFaceDe,  { 'label' : 'Nombre de faces du dé' })}}
             {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
 
-            <div id="ensemblecases">
+
             <h3>Cases/Défis</h3>
-            <blockquote>Veuillez saisir entre 12 et 31 descriptifs</blockquote>
-                  <div id="unelement">
+            <blockquote>Veuillez saisir entre 6 et 31 descriptifs</blockquote>
+
+
+                  <div id="ensemblecases">
+
                   {{ form_row(vueFormulaireCreationPlateau.cases) }}
                   </div>
+            </div>
+            <div id="ensemblenumero">
+
             </div>
 
           </div>
             <Br>
 
 
+          <!-- <div id="numerocase" style="position:absolute; left:80px; top:880px;">
+            <h4> N°1 </h4>
+            <h4 style="margin-top:51.8px"> N°2 </h4>
+            <h4 style="margin-top:51.8px"> N°3 </h4>
+            <h4 style="margin-top:51.8px"> N°4 </h4>
+            <h4 style="margin-top:51.8px"> N°5 </h4>
+            <h4 style="margin-top:51.8px"> N°6 </h4>
+            <h4 style="margin-top:51.8px"> N°7 </h4>
+            <h4 style="margin-top:51.8px"> N°8 </h4>
+            <h4 style="margin-top:51.8px"> N°9 </h4>
+            <h4 style="margin-top:51.8px"> N°10 </h4>
+            <h4 style="margin-top:51.8px"> N°11 </h4>
+            <h4 style="margin-top:51.8px"> N°12 </h4>
+
+
+          </div> -->
+
+
 
           </div>
 
           {{form_end(vueFormulaireCreationPlateau)}}
+
+
 
           <div class="row">
                     <div class="col-md-12">
@@ -94,44 +118,246 @@
 
           {{form_end(vueFormulaireCreationPlateau)}}
 
+
+
+
         {% endif %}
 
       </div>
-    </section>
-  </div>
+
 
 
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event) {
+
+          //
+          // $('.cookies').collection({
+          //       after_add:
+          //             function getCookie(ccollection) {
+          //               var collection = ccollection + "=";
+          //               var decodedCookie = decodeURIComponent(document.cookie);
+          //               var ca = decodedCookie.split(';');
+          //               for(var i = 0; i < ca.length; i++) {
+          //                 var c = ca[i];
+          //                 while (c.charAt(0) == ' ') {
+          //                   c = c.substring(1);
+          //                 }
+          //                 if (c.indexOf(name) == 0) {
+          //                   return c.substring(name.length, c.length);
+          //                 }
+          //               }
+          //               return "";
+          //             },
+          //
+          //       before_init:
+          //       function checkCookie(){
+          //         var collec=getCookie("collection");
+          //         if (collec != ""){alert("y'a cookie");}
+          //         else{alert("met les cookies dans le sac");}
+          //       },
+          //
+          // })
+
+
+
+
+
           $('.collection-cases').collection({
               prefix: 'cases',
               init_with_n_elements: 12,
               max: 31,
-              min: 12,
+              min: 6,
               fade_in: true,
               fade_out: true,
               position_field_selector: '.position-case',
+
+              //fonctions déclenchées après l'ajout, la suppression et le déplacement d'une case
+              after_add:
+
+                //Fonction qui attribue un chiffre pour chaque élément numéro en fonction de sa position dans la liste
+                function majIndex(){
+                    var k;
+                    listenumero = document.getElementsByName('numero');
+                    for(k=0; k<listenumero.length; k++){
+                      listenumero[k].textContent=k+1;
+                    };
+                  },
+
+             after_remove:
+
+             function majIndex(){
+                 var k;
+                 listenumero = document.getElementsByName('numero');
+                 for(k=0; k<listenumero.length; k++){
+                   listenumero[k].textContent=k+1;
+                 };
+             },
+
+             after_up:
+
+             function majIndex(){
+                 var k;
+                 listenumero = document.getElementsByName('numero');
+                 for(k=0; k<listenumero.length; k++){
+                   listenumero[k].textContent=k+1;
+                 };
+             },
+
+             after_down:
+
+             function majIndex(){
+                 var k;
+                 listenumero = document.getElementsByName('numero');
+                 for(k=0; k<listenumero.length; k++){
+                   listenumero[k].textContent=k+1;
+                 };
+             },
+
           });
-
-          tabBoutons = document.getElementsByClassName('fas fa-plus fa-2x');
-
-          for (var i=0; i < tabBoutons.length; i++) {
-            tabBoutons[i].onclick = function(){
-
-              };
-            };
-
-
-
-          nombreDescriptif = document.getElementById('unelement').children[0].children[0].childElementCount-2;
-
-          for (var j=0; j < nombreDescriptif ; j++){
-
-          };
-
 
 
       });
+
+          //compteurs
+          var j;
+          var i;
+
+
+
+          //variables
+          //tableaux de boutons
+            //ajouter
+          //   tabBoutonsAdd = document.getElementsByClassName('fas fa-plus fa-2x');
+          //   //supprimer
+          //   tabBoutonsDel = document.getElementsByClassName('fas fa-trash fa-2x');
+          //   //déplacer vers le haut
+          //   tabBoutonsUp = document.getElementsByClassName('fas fa-angle-up fa-2x');
+          //   //déplacer vers le bas
+          //   tabBoutonsDown = document.getElementsByClassName('fas fa-angle-down fa-2x');
+          //
+          //
+          // //on initialise tout les numéros à leur valeur
+          // majIndex();
+          //
+          //
+          // //si on clique sur ajouter une case
+          // parcourMaj(tabBoutonsAdd);
+          //
+          // //si on supprime
+          // parcourMaj(tabBoutonsDel);
+          //
+          // //si on déplace vers le haut
+          // parcourMaj(tabBoutonsUp);
+          //
+          // //si on déplace vers le bas
+          // parcourMaj(tabBoutonsDown);
+
+
+
+
+
+
+
+
+    //parcours le tableau donné en paramètre et lui applique un traitement à chaque clique effectué sur
+    //chaque élément du tableau: les éléments du tableaux sont des boutons
+    // function parcourMaj(tab){
+    //   for(i=0; i<tab.length; i++){
+    //     tab[i].addEventListener("click", function(){
+    //       alert('On clique');
+    //       majIndex();
+    //     });
+    //   };
+    //   };
+
+
+
+
+
+          ////date: 29/05/2020
+          //   tabBoutonsDel = document.getElementsByClassName('fas fa-trash fa-2x');
+          //
+          // //si on ajoute
+          // for(i; i<tabBoutonsAdd.length; i++){
+          //   tabBoutonsAdd[i].addEventListener("click", function(){
+          //     var ensemblecases = document.getElementById('three');
+          //     // var d1 = document.getElementById('numerocase');
+          //     three.insertAdjacentHTML('beforeend','<h4 style="margin-top:51.8px">N°'+(i+1)+'</h4>');
+          //     // i++;
+          //   })
+          // };
+          //
+          //
+          //
+          // // //si on supprime
+          // for(i; i<tabBoutonsAdd.length; i++){
+          //   tabBoutonsDel[i].addEventListener("click", function(){
+          //     var d1 = document.getElementById('numerocase');
+          //     alert('on clique sur del');
+          //   })
+          // };
+
+
+          // if(estAppuye==true){
+          //   alert('oeoe');
+          //   listenumero = document.getElementsByName('numero');
+          //   for(j=0; j<listenumero.length; j++){
+          //     listenumero[j].textContent=j+1;
+          //   }
+          // }
+
+
+          // // for (var j=0; j < nombreDescriptif ; j++){
+          // //   textAreaActuel = document.getElementById("plateau_cases_"+j+"_descriptifDefi");
+          // //
+          // //
+          // // };
+          //
+
+
+          //// date:28/05
+          //
+          // //tableaux
+          // tabBoutonsAdd = document.getElementsByClassName('fas fa-plus fa-2x');
+          // tabBoutonsUp = document.getElementsByClassName('fas fa-angle-up fa-2x');
+          // tabBoutonsDown = document.getElementsByClassName('fas fa-angle-down fa-2x');
+          // tabNum = document.getElementsByClassName('num');
+          //
+          //
+          //
+          // //initialisation
+          //
+          // for (j; j < tabNum.length; j++){
+          //
+          // // descriptifActuel = document.getElementById('plateau_cases_'+j+'_descriptifDefi');
+          // // nameDescriptifActuel = descriptifActuel.name;
+          // // nameDescriptifActuelDécoupé = nameDescriptifActuel.split(_)
+          //
+          //
+          //     tabNum[j].textContent=j+1;
+          // }
+          //
+          //
+          //
+          //   //si on ajoute
+          //   var d1 = document.getElementById('descriptifcase');
+          //   d1.insertAdjacentHTML('afterend', );
+          //
+          //   //si on supprime
+          //   tabBoutonsUp[i].onclick = function(){
+          //       tabNum = document.getElementsByClassName('num');
+          //       for (j; j < tabNum.length; j++){
+          //         tabNum[j].textContent=j+1;
+          //       };
+          //     };
+          //
+          //
+
+
+
+
+
+
 
 
 

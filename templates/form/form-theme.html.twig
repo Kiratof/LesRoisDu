@@ -2,24 +2,34 @@
 
 {% block cases_widget %}
 
+
     <div class="row">
-      <p> 1 <p>
-        <div class="col-md-7">
+    <div class="col-md-0" name="numero" style="color:aliceblue; font-size:large;">
+    <p>numero</p>
+    </div>
+
+        <div class="col-md-6">
             {{ form_widget(form) }}
         </div>
+
         <div class="col-md-2">
             <a href="#" class="cases-up btn btn-default" title="Move element up"><i class="fas fa-angle-up fa-2x" style="color:white"></i></a>
             <a href="#" class="cases-down btn btn-default" title="Move element down"><i class="fas fa-angle-down fa-2x" style="color:white"></i>
             </a>
         </div>
+
         <div class="col-md-2">
-            <a href="#" class="cases-remove btn btn-default" title="Delete element"><i class="fas fa-trash fa-2x" style="color:white"></i></a>
             <a href="#" class="cases-add" title="Add element"><i class="fas fa-plus fa-2x" style="color:white"></i></a>
+            <a href="#" class="cases-remove btn btn-default" title="Delete element"><i class="fas fa-trash fa-2x" style="color:white"></i></a>
+
 
         </div>
+
         <div class="col-md-2">
             <a href="#" class="cases-duplicate btn btn-default" title="Duplicate element"><i class="fas fa-clone fa-2x"></i></a>
         </div>
+
+
     </div>
 
 {% endblock %}
