@@ -1,14 +1,24 @@
 class Parcours {
 
-    constructor(tabDefis, map) {
+    constructor(tabDefis) {
         this.casesPosition = new Array();
         this.cases = new Array();
-        this.map = map;
+        this.map = "";
         this.toolBox = new ToolBox();
         this.listeDefis = tabDefis;
-        this.creerCasesDuParcours();
 
     }
+
+    setMap(map){
+  		this.map = map;
+  	}
+
+  	connectMap(map){
+  		//Set la Map
+  		this.setMap(map);
+
+
+  	}
 
     getCases(){
         return this.cases;
@@ -25,17 +35,19 @@ class Parcours {
 	  }
 
     isClicked(x, y){
-      var caseIsClicked = false;
+      var isCaseClicked = false;
+
       this.cases.forEach(casess => {
         if (casess.isClicked(x,y)) {
-          caseIsClicked = true;
+          isCaseClicked = true;
         }
       });
-      return caseIsClicked;
+
+      return isCaseClicked;
     }
 
     getClickedItem(x, y){
-      var caseClicked = undefined;
+      var caseClicked = "";
       this.cases.forEach(casess => {
         if (casess.isClicked(x,y)) {
           caseClicked = casess;
@@ -44,9 +56,9 @@ class Parcours {
       return caseClicked;
     }
 
-    draw(context, map) {
+    draw(context) {
         for (var i = 0; i < this.cases.length; i++) {
-            this.cases[i].draw(context, map);
+            this.cases[i].draw(context);
         }
     }
 
@@ -98,6 +110,20 @@ class Parcours {
 		}
 	}
 
+  resizeLarger(){
+    this.cases.forEach(casess => {
+      casess.resizeLarger();
+    });
+
+  }
+  resizeSmaller(){
+    this.cases.forEach(casess => {
+      casess.resizeSmaller();
+    });
+  }
+
+
+
     getPositionCases() {
         var colonne = 0;
         var ligne = 0;
@@ -113,8 +139,8 @@ class Parcours {
             var casesAround = this.getInfoCasesAround();
 
             casesAround.forEach(caseAround => { //Pour toutes les cases autour de ma case
-
-                if (caseAround[0].id == 1 && //Si la cases est une case du parcours
+              //console.log(caseAround[0].id);
+                if (caseAround[0].id === 1 && //Si la cases est une case du parcours
                     !this.isNextCaseWasMyLastOne(caseAround) && // Et qu'elle n'était pas ma case précédente
                     this.isNextCaseIsActuallyOnTheCanvas(caseAround)) { //Et que la case est dans le canvas
 
@@ -142,15 +168,44 @@ class Parcours {
     }
 
     creerCasesDuParcours() {
-
         var positionCases = this.getPositionCases();
-
         for (var i = 0; i < positionCases.length; i++) {
-            this.cases[i] = new Case('case_128.png',
-                this.listeDefis[i],
+            //Créer les cases
+            this.cases[i] = new Case(
                 positionCases[i][0],
                 positionCases[i][1],
-                this.map);
+                this.listeDefis[i]);
+            this.cases[i].setMap(this.map);
         }
     }
+
+    setWidthRatio(ratio){
+      this.cases.forEach(i => {
+        i.setWidthRatio(ratio);
+      });
+    }
+
+    setHeightRatio(ratio){
+      this.cases.forEach(i => {
+        i.setHeightRatio(ratio);
+      });
+    }
+
+    getHeightRatio(){
+      this.cases.forEach(i => {
+        return i.getHeightRatio();
+      });
+    }
+    getWidthRatio(){
+      this.cases.forEach(i => {
+        return i.getWidthRatio();
+      });
+    }
+
+    updateRatio(widthRatio, heightRatio){
+      this.setWidthRatio(widthRatio);
+      this.setHeightRatio(heightRatio);
+    }
+
+
 }

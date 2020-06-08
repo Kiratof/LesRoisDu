@@ -1,12 +1,16 @@
 .partie-container{
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	display: flex;
 	@include breakpoint('<=medium') {
 		flex-direction: column;
-		width: 100vw;
+		width: 100%;
 		.tabs{
 			width: 100%;
+			&__content{
+				height: 90vh;
+				width: 100vw;
+			}
 		}
 
 		.info-partie{
@@ -20,12 +24,12 @@
 .tabs{
 	display: flex;
 	flex-direction: column;
-	width: 80%;
+	width: 100%;
 	&__sidebar{
 		display: flex;
 		overflow-x: scroll;
-		overflow-y: hidden;
 		width: 100%;
+		height: 10%;
 		background: _palette(bg);
 	}
 	&__button{
@@ -37,24 +41,19 @@
 				opacity: 0;
 			}
 		}
-		&:active{
-			border: 0;
-		}
 		&--active{
 			font-weight: bold;
 			background: _palette(accent1);
 			}
 		}
 	&__content{
-		height: 100vh;
-		font-size: 0.8rem;
+		height: 90%;
+		width: 100%;
 		display: none;
 		background: _palette(accent1);
 		overflow-y: scroll;
 		&--active{
 			display: flex;
-			justify-content: center;
-			align-items: center;
 		}
 		> :first-child{
 			margin-top: 0;
@@ -105,7 +104,7 @@
 	& td{
 	border-radius: 0 0 1rem 1rem;;
 	text-align: center;
-}
+	}
 }
 
 

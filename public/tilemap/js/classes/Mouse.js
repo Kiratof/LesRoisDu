@@ -1,8 +1,8 @@
 class Mouse{
 	constructor(){
 
-		this.x = undefined;
-    this.y = undefined;
+		this.x = "";
+    this.y = "";
 
     this.isCliked = false;
 	}
@@ -21,21 +21,27 @@ class Mouse{
     return this.y;
   }
 
-  setIsCliked()
+	toggleSwitch() {
+
+		if (this.isCliked) {
+			this.isCliked = false
+		}else {
+			this.isCliked = true;
+		}
+
+	}
+
+  setIsCliked(bool)
   {
-    if (this.isCliked) {
-      this.isCliked = false
-    }else {
-      this.isCliked = true;
-    }
+		this.isCliked = bool;
   }
 
   isClicked(){
     return this.isCliked;
   }
 
-  setNewMouseState(x, y){
-    this.setIsCliked();
+  setNewMouseState(x, y, state){
+    this.setIsCliked(state);
     this.setMouseXPosition(x);
     this.setMouseYPosition(y);
   }

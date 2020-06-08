@@ -1,15 +1,24 @@
 class InputHandler {
     constructor(canvas, mouse) {
 
+        var clicked = false;
+        var rect = canvas.getBoundingClientRect();
+        var x = "";
+        var y = "";
+
         canvas.addEventListener('mousedown', function (event) {
-            var rect = canvas.getBoundingClientRect();
 
-            mouse.setNewMouseState(event.x - rect.left, event.y - rect.top)
-
+            clicked = true;
+            x = event.x - rect.left;
+            y = event.y - rect.top;
+            mouse.setNewMouseState(x, y, clicked);
         })
 
         canvas.addEventListener('mouseup', function (event) {
-            mouse.setNewMouseState();
+            clicked = false;
+            x = -1;
+            y = -1;
+            mouse.setNewMouseState(x, y, clicked);
         })
     }
 }

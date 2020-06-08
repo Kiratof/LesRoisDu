@@ -4,7 +4,6 @@ class SceneGameplay {
   {
     //Identifiant pour insertion dans le bon onglet
     this.id = id;
-
     //Liste de tous les acteurs du jeu
     this.listeActeurs = [];
 
@@ -14,7 +13,8 @@ class SceneGameplay {
     var casesDuPlateau = plateauJSON.cases;
     var lesPions = plateauJSON.pions;
 
-    this.taille = this.setTaille('Large');
+    this.widthRatio = 1;
+    this.heightRatio = 1;
 
     //Création de l'objet contenant toutes les informations de la map
     var nomMap = 'Large/L_' + this.nbCases;
@@ -22,10 +22,10 @@ class SceneGameplay {
 
 
     //Création du canvas
-    this.createCanvas(this.map);
+    this.createCanvas();
 
     //Création du background
-    this.background = new Background(this.map);
+    this.background = new Background();
 
     //Créer le dé
     var col = 0;
@@ -43,11 +43,8 @@ class SceneGameplay {
         const element = casesDuPlateau[index];
         defis.push(element.defi);
     }
-    this.parcours = new Parcours(defis, this.map);
+    this.parcours = new Parcours(defis);
     this.listeActeurs.push(this.parcours);
-
-    //Nos cases
-    this.cases = this.parcours.getCases();
 
     //Créer le/les pions
     this.pions = [];
@@ -56,16 +53,6 @@ class SceneGameplay {
         this.listeActeurs.push(pion);
         this.pions.push(pion);
     }
-
-    //Gestionnaire d'évênement
-    this.mouse = new Mouse();
-    new InputHandler(this.canvas, this.mouse);
-    this.oldMouseState = this.mouse.getState();
-
-    //Taille du plateau
-    new ResizeHandler(this);
-    this.setPlateauSize();
-
 
     //Chaque pion observe l'état du dé
     this.pions.forEach(pion => {
@@ -78,6 +65,28 @@ class SceneGameplay {
         pion.connectMap(this.map);
     });
 
+    this.background.connectMap(this.map);
+
+
+    this.parcours.connectMap(this.map);
+    this.parcours.creerCasesDuParcours();
+    this.cases = this.parcours.getCases();
+    this.cases.forEach( i => {
+      i.connectMap(this.map);
+    });
+
+
+
+    //Gestionnaire d'évênement
+    this.mouse = new Mouse();
+    new InputHandler(this.canvas, this.mouse);
+    this.oldMouseState = this.mouse.getState();
+
+    //Taille du plateau
+    new ResizeHandler(this);
+
+
+
 
   }
 
@@ -87,7 +96,7 @@ class SceneGameplay {
 
   update(){
 
-    //Récupération des informations
+    //Récupération des informations d'input
     var newMouseState = this.mouse.getState();
     var leftClick = false;
     var xClick = -1;
@@ -102,6 +111,7 @@ class SceneGameplay {
 
 
 
+
     //Traitement des informations
     if (leftClick) { //Si cliqué
       //Récupération des objets cliqués
@@ -112,6 +122,7 @@ class SceneGameplay {
         }
       });
 
+
       //Détermination de l'élément le plus proche selon l'index z
       var objectToUpdate = {
         z: 0,
@@ -121,6 +132,7 @@ class SceneGameplay {
           objectToUpdate = object;
         }
       });
+
       //Comportement selon l'objet selectionné
       switch (objectToUpdate.id) {
         case "case":
@@ -150,6 +162,7 @@ class SceneGameplay {
         case "de":
         objectToUpdate.lancerDe();
         objectToUpdate.toggleSwitch();
+
           break;
 
         default:
@@ -177,84 +190,57 @@ class SceneGameplay {
   }
 
   setCanvasSize(){
-    this.canvas.width  = this.map.getLargeur();
-    this.canvas.height = this.map.getHauteur();
-  }
-
-  setMouseXPosition(x){
-    this.mouse.setMouseXPosition(x);
-  }
-
-  setMouseYPosition(y){
-    this.mouse.setMouseYPosition(y);
-  }
-
-  resizePlateauSmaller(){
-    //Modifier la taille des éléments
-    //Canvas
-    this.map.hydraterMap('Small/S_' + this.nbCases);
-    this.setCanvasSize();
-    //pions
-    this.pions.forEach(pion => {
-        pion.resizeSmaller();
-        pion.setPositionXY();
-    });
-    //Background
-    this.background.resizeTilesetSmaller();
-    //cases
-    this.cases.forEach(casess => {
-        casess.resizeSmaller();
-
-    });
-    //Dé
-    this.dice.resizeSmaller();
-    this.dice.connectMap(this.map);
+    var blockSize = this.getBlockSize('tabs__content');
+    this.canvas.width  = blockSize.width;
+    this.canvas.height = blockSize.height;
 
   }
 
-  resizePlateauLarger(){
-    //Modifier la taille des éléments
-    //Canvas
-    this.map.hydraterMap('Large/L_' + this.nbCases);
-    this.setCanvasSize();
-    //pions
-    this.pions.forEach(pion => {
-        pion.resizeLarger();
-        pion.connectMap(this.map);
+  getBlockSize(block){
+    var blck = document.getElementsByClassName(block);
 
-    });
-    //Background
-    this.background.resizeTilesetLarger();
-    //cases
-    this.cases.forEach(casess => {
-        casess.resizeLarger();
+    var block_width = blck[0].clientWidth;
+    var block_height = blck[0].clientHeight;
 
-    });
-    //Dé
-    this.dice.resizeLarger();
-    this.dice.connectMap(this.map);
-
-  }
-
-  setPlateauSize(){
-
-    var largeScreen = 737;
-
-    //En fonction de la taille de l'écran
-    if (screen.width <= largeScreen ) {
-      this.resizePlateauSmaller();
-    }else {
-      this.resizePlateauLarger();
+    return {
+      width: block_width,
+      height: block_height
     }
+
   }
 
-  setTaille(taille){
-
-    this.taille = taille;
+  setWidthRatio(ratio){
+    this.widthRatio = ratio;
   }
 
-  getTaille(){
-    return this.taille;
+  getWidthRatio(){
+    return this.widthRatio;
+  }
+
+  setHeightRatio(ratio){
+    this.heightRatio = ratio;
+  }
+
+  getWidthRatio(){
+    return this.widthRatio;
+  }
+
+  updateRatio(widthRatio, heightRatio){
+    this.setWidthRatio(widthRatio);
+    this.setHeightRatio(heightRatio);
+    this.notifyRatioObservers();
+  }
+
+
+  notifyRatioObservers(){
+    this.dice.updateRatio(this.widthRatio, this.heightRatio);
+    this.pions.forEach( i => {
+      i.updateRatio(this.widthRatio, this.heightRatio);
+    });
+
+    this.parcours.updateRatio(this.widthRatio, this.heightRatio);
+    this.background.updateRatio(this.widthRatio, this.heightRatio);
+
   }
 
 }

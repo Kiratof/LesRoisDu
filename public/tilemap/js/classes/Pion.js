@@ -1,5 +1,7 @@
 class Pion {
 	constructor(parcours, player, position, nbCases) {
+
+		this.id = "pion";
 		//Informations de la map
 		this.map = "";
 
@@ -15,7 +17,6 @@ class Pion {
 		this.positionnePionByPositionDansParcours();
 
 		this.z = 2;
-		this.id = "pion";
 
 		//Position du pion avant le déplacement
 		this.oldCol = 0;
@@ -32,11 +33,13 @@ class Pion {
 		this.faceCouranteDe = 0;
 
 		// Chargement de l'image dans l'attribut image
-		this.taille = 'small';
 		this.state = 'unselect';
 		this.images = this.loadImage();
-		this.largeur = this.images[this.taille][this.state].width;
-		this.hauteur = this.images[this.taille][this.state].height;
+		this.largeur = this.images[this.state].width;
+		this.hauteur = this.images[this.state].height;
+
+		this.widthRatio = 1;
+		this.heightRatio = 1;
 	}
 
 	setMap(map){
@@ -180,19 +183,19 @@ class Pion {
 
 		if (this.isSelected) {
 			context.drawImage(
-				this.images[this.taille]['select'],
-				(((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer,
-				(((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer,
-				this.images[this.taille]['select'].width,
-				this.images[this.taille]['select'].height
+				this.images['select'],
+				((((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer) * this.widthRatio,
+				((((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer) * this.heightRatio,
+				this.largeur * this.widthRatio,
+				this.hauteur * this.heightRatio
 			);
 		}else {
 			context.drawImage(
-				this.images[this.taille]['unselect'],
-				(((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer,
-				(((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer,
-				this.images[this.taille]['unselect'].width,
-				this.images[this.taille]['unselect'].height
+				this.images['unselect'],
+				((((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer) * this.widthRatio,
+				((((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer) * this.heightRatio,
+				this.largeur * this.widthRatio,
+				this.hauteur * this.heightRatio
 			);
 		}
 
@@ -201,21 +204,10 @@ class Pion {
 
 
 	isClicked(x, y) {
-
-		var largeur = 0;
-		var hauteur = 0;
-		if (this.taille === 'small') {
-			largeur = 16;
-			hauteur = 16;
-		} else {
-			largeur = 32;
-			hauteur = 32;
-		}
 		var myTop = this.y;
-		var myRgt = this.x + largeur;
-		var myBot = this.y + hauteur;
+		var myRgt = this.x + this.largeur;
+		var myBot = this.y + this.hauteur;
 		var myLft = this.x;
-
 		var clicked = true;
 		if (y < myTop || y > myBot || x < myLft || x > myRgt) {
 			clicked = false;
@@ -316,36 +308,32 @@ class Pion {
 		this.y = ToolBox.convertLigToY(this.lig, this.map.TILE_HEIGHT) + this.posYPlayer;
 	}
 
-
-	setTaille(taille){
-		this.taille = taille;
-	}
-
-	getTaille(){
-		return this.taille;
-	}
-
-	resizeSmaller(){
-		this.setTaille('small');
-	}
-
-	resizeLarger(){
-		this.setTaille('large');
-	}
-
 	loadImage(){
 
 		var images = {
-			'small' : {
-				'select' : Graphics.newImage('sprites/small/pion_'+ this.couleur +'_selected_64.png'),
-				'unselect' : Graphics.newImage('sprites/small/pion_'+ this.couleur +'_64.png')
-			},
-			'large' : {
-				'select' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_selected_128.png'),
-				'unselect' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_128.png')
-			}
+			'select' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_selected_128.png'),
+			'unselect' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_128.png')
 		}
 
 		return images;
+	}
+
+	setWidthRatio(ratio){
+		this.widthRatio = ratio;
+	}
+	getWidthRatio(){
+		return this.widthRatio;
+	}
+
+	setHeightRatio(ratio){
+		this.heightRatio = ratio;
+	}
+	getHeightRatio(){
+		return this.heightRatio;
+	}
+
+	updateRatio(widthRatio, heightRatio){
+		this.setWidthRatio(widthRatio);
+		this.setHeightRatio(heightRatio);
 	}
 }

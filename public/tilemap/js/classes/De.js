@@ -1,6 +1,8 @@
 class De{
 
-	constructor(col, lig, zIndex, faceDe){
+	constructor(col, lig, zIndex, nbFaces){
+
+		this.id = "de";
 		//Position du dé
 		this.col = col;
 		this.lig = lig;
@@ -9,13 +11,13 @@ class De{
 		this.z = zIndex;
 
 
-		this.id = "de";
+
 		this.isDisplayed = false;
 
 		this.map = "";
 
 		//Nombre de face du dé
-		this.nbFaces = faceDe;
+		this.nbFaces = nbFaces;
 
 		//Face courante
 		this.faceCourante = 0;
@@ -23,18 +25,11 @@ class De{
 		//Obervers du dé
 		this.observers = [];
 
-		// Chargement de l'image dans l'attribut image
-		this.image = new Image();
-		this.image.referenceDuPerso = this;
-		this.image.onload = function() {
-			if(!this.complete) {
-				throw "Erreur de chargement du sprite";
-			}
-		// Taille du sprite De
-		this.referenceDuPerso.largeur = this.width;
-		this.referenceDuPerso.hauteur = this.height;
-	}
-	this.setSprite(faceDe);
+		this.images = this.loadImage();
+		this.largeur = this.images[0].width;
+		this.hauteur = this.images[0].height;
+		this.widthRatio = 1;
+		this.heightRatio = 1;
 }
 
 	setMap(map){
@@ -69,7 +64,6 @@ class De{
 		this.Y = this.sety(y);
 	}
 
-
 	update(){
 
 	}
@@ -79,9 +73,6 @@ class De{
 			return this;
 		}
 	}
-
-
-
 
 	addObservers(o){
 		this.observers.push(o);
@@ -117,30 +108,6 @@ class De{
 		}
 	}
 
-	setSprite(nbFaceDe){
-
-		switch (nbFaceDe) {
-			case 1:
-				this.image.src = assetsBaseDir + "sprites/large/De-1_128.png";
-				break;
-
-			case 2:
-				this.image.src = assetsBaseDir + "sprites/large/De-2_128.png";
-				break;
-
-			case 3:
-				this.image.src = assetsBaseDir + "sprites/large/De-3_128.png";
-				break;
-
-			case 4:
-				this.image.src = assetsBaseDir + "sprites/large/De-4_128.png";
-				break;
-
-			default:
-
-		}
-	}
-
 	toggleSwitch(){
 		if (this.isDisplayed) {
 			this.isDisplayed = false
@@ -152,60 +119,44 @@ class De{
 	draw(context, map){
 		if (this.isDisplayed) {
 			context.drawImage(
-				this.image,
-				this.x,
-				this.y,
-				this.largeur,
-				this.hauteur
+				this.images[this.nbFaces - 1],
+				this.x  * this.widthRatio,
+				this.y  * this.heightRatio,
+				this.largeur * this.widthRatio,
+				this.hauteur * this.heightRatio
 				);
 		}
 	}
 
-	resizeSmaller(){
+	loadImage(){
 
-		switch (this.nbFaces) {
-			case 1:
-				this.image.src = assetsBaseDir + "sprites/small/De-1_64.png";
-				break;
+		var images =
+			[
+				Graphics.newImage('sprites/large/De-1_128.png'),
+				Graphics.newImage('sprites/large/De-2_128.png'),
+				Graphics.newImage('sprites/large/De-3_128.png'),
+				Graphics.newImage('sprites/large/De-4_128.png')
+			]
 
-			case 2:
-				this.image.src = assetsBaseDir + "sprites/small/De-2_64.png";
-				break;
-
-			case 3:
-				this.image.src = assetsBaseDir + "sprites/small/De-3_64.png";
-				break;
-
-			case 4:
-				this.image.src = assetsBaseDir + "sprites/small/De-4_64.png";
-				break;
-
-			default:
-
-		}
+		return images;
 	}
 
-	resizeLarger(){
+	setWidthRatio(ratio){
+		this.widthRatio = ratio;
+	}
+	getWidthRatio(){
+		return this.widthRatio;
+	}
 
-		switch (this.nbFaces) {
-			case 1:
-				this.image.src = assetsBaseDir + "sprites/large/De-1_128.png";
-				break;
+	setHeightRatio(ratio){
+		this.heightRatio = ratio;
+	}
+	getHeightRatio(){
+		return this.heightRatio;
+	}
 
-			case 2:
-				this.image.src = assetsBaseDir + "sprites/large/De-2_128.png";
-				break;
-
-			case 3:
-				this.image.src = assetsBaseDir + "sprites/large/De-3_128.png";
-				break;
-
-			case 4:
-				this.image.src = assetsBaseDir + "sprites/large/De-4_128.png";
-				break;
-
-			default:
-
-		}
+	updateRatio(widthRatio, heightRatio){
+		this.setWidthRatio(widthRatio);
+		this.setHeightRatio(heightRatio);
 	}
 }

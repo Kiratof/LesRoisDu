@@ -1,23 +1,17 @@
 class ResizeHandler {
     constructor(scene) {
 
-        this.oldScreen = undefined;
-        window.addEventListener('resize', function () {
+      var widthRatio = 1;
+      var heightRatio = 1;
+      var newWidth = scene.map.getLargeur();
+      var newHeight = scene.map.getHauteur();
 
-              if (window.matchMedia("(max-width: 737px)").matches) {
-                if (this.oldScreen !== 'petit') {
-                  scene.resizePlateauSmaller();
-                  this.oldScreen = 'petit';
-                }
+      window.addEventListener('resize', function () {
+        scene.setCanvasSize();
+        widthRatio = scene.canvas.width / newWidth;
+        heightRatio = scene.canvas.height / newHeight;
+        scene.updateRatio(widthRatio, heightRatio);
+    })
 
-              } else{
-                if (this.oldScreen !== 'grand') {
-                  scene.resizePlateauLarger();
-                  this.oldScreen = 'grand';
-                }
-              }
-
-        })
-    }
-
+  }
 }

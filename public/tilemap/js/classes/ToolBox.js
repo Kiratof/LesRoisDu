@@ -25,8 +25,4 @@ class ToolBox {
         return id;
   }
 
-  static (col, lig, map){
-
-  }
-
 }
