@@ -1,16 +1,16 @@
 class ResizeHandler {
-    constructor(scene) {
+  constructor(scene) {
 
-      var widthRatio = 1;
-      var heightRatio = 1;
-      var newWidth = scene.map.getLargeur();
-      var newHeight = scene.map.getHauteur();
+    var widthRatio = "";
+    var heightRatio = "";
+    var widthInitiale = scene.map.getLargeur();
+    var heightInitiale = scene.map.getHauteur();
 
-      window.addEventListener('resize', function () {
-        scene.setCanvasSize();
-        widthRatio = scene.canvas.width / newWidth;
-        heightRatio = scene.canvas.height / newHeight;
-        scene.updateRatio(widthRatio, heightRatio);
+    window.addEventListener('resize', function () {
+      scene.setCanvasSize('tabs__content');
+      widthRatio = scene.canvas.width / widthInitiale;
+      heightRatio = scene.canvas.height / heightInitiale;
+      scene.updateRatio(widthRatio, heightRatio);
     })
 
   }

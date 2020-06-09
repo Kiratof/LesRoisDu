@@ -21,8 +21,8 @@ class SceneGameplay {
     this.map = new Map(nomMap);
 
 
-    //Création du canvas
-    this.createCanvas();
+    //Création du canvas dans le bloc correspondant
+    this.createCanvas('tabs__content');
 
     //Création du background
     this.background = new Background();
@@ -40,8 +40,8 @@ class SceneGameplay {
     defis.push(caseDepart);
 
     for (let index = 0; index < casesDuPlateau.length; index++) {
-        const element = casesDuPlateau[index];
-        defis.push(element.defi);
+      const element = casesDuPlateau[index];
+      defis.push(element.defi);
     }
     this.parcours = new Parcours(defis);
     this.listeActeurs.push(this.parcours);
@@ -49,20 +49,20 @@ class SceneGameplay {
     //Créer le/les pions
     this.pions = [];
     for (let index = 0; index < lesPions.length; index++) {
-        var pion = new Pion(this.parcours, lesPions[index].player, lesPions[index].position, this.nbCases);
-        this.listeActeurs.push(pion);
-        this.pions.push(pion);
+      var pion = new Pion(0, 0, 2, this.parcours, lesPions[index].player, lesPions[index].position, this.nbCases);
+      this.listeActeurs.push(pion);
+      this.pions.push(pion);
     }
 
     //Chaque pion observe l'état du dé
     this.pions.forEach(pion => {
-        this.dice.addObservers(pion);
+      this.dice.addObservers(pion);
     });
 
     //Tous les éléments du jeu on accès à la Map
     this.dice.connectMap(this.map);
     this.pions.forEach(pion => {
-        pion.connectMap(this.map);
+      pion.connectMap(this.map);
     });
 
     this.background.connectMap(this.map);
@@ -75,19 +75,13 @@ class SceneGameplay {
       i.connectMap(this.map);
     });
 
-
-
     //Gestionnaire d'évênement
     this.mouse = new Mouse();
     new InputHandler(this.canvas, this.mouse);
     this.oldMouseState = this.mouse.getState();
 
-    //Taille du plateau
     new ResizeHandler(this);
-
-
-
-
+    this.sacrefonction();
   }
 
   load(){ // Chargement des images et des sons
@@ -107,10 +101,6 @@ class SceneGameplay {
       yClick = newMouseState.Y;
     }
     this.oldMouseState = newMouseState;
-
-
-
-
 
     //Traitement des informations
     if (leftClick) { //Si cliqué
@@ -136,34 +126,31 @@ class SceneGameplay {
       //Comportement selon l'objet selectionné
       switch (objectToUpdate.id) {
         case "case":
-          objectToUpdate.displayDefi();
-          break;
+        objectToUpdate.displayDefi();
+        break;
 
         case "pion":
+        if (objectToUpdate.isSelected) {
+          objectToUpdate.unselect();
+          this.dice.toggleSwitch();
+        }else {
+          this.pions.forEach(pion => {
+            pion.unselect();
+          });
+          objectToUpdate.select();
+          objectToUpdate.setPositionIntoAPI(objectToUpdate);
 
-          if (objectToUpdate.isSelected) {
-            objectToUpdate.unselect();
+          if (!this.dice.isDisplayed) {
             this.dice.toggleSwitch();
-
-          }else {
-            this.pions.forEach(pion => {
-              pion.unselect();
-            });
-            objectToUpdate.select();
-            objectToUpdate.setPositionIntoAPI(objectToUpdate);
-
-
-            if (!this.dice.isDisplayed) {
-              this.dice.toggleSwitch();
-            }
           }
-          break;
+        }
+        break;
 
         case "de":
         objectToUpdate.lancerDe();
         objectToUpdate.toggleSwitch();
 
-          break;
+        break;
 
         default:
       }
@@ -178,19 +165,18 @@ class SceneGameplay {
     });
   }
 
-  createCanvas(map){
+  createCanvas(htmlBlock){
     this.canvas = document.createElement('canvas');
-    this.setCanvasSize();
+    this.setCanvasSize(htmlBlock);
 
     var tabsToInsert = document.getElementById('plateau-' + this.id);
     tabsToInsert.appendChild(this.canvas);
 
     this.ctx = this.canvas.getContext("2d");
-
   }
 
-  setCanvasSize(){
-    var blockSize = this.getBlockSize('tabs__content');
+  setCanvasSize(htmlBlock){
+    var blockSize = this.getBlockSize(htmlBlock);
     this.canvas.width  = blockSize.width;
     this.canvas.height = blockSize.height;
 
@@ -198,7 +184,6 @@ class SceneGameplay {
 
   getBlockSize(block){
     var blck = document.getElementsByClassName(block);
-
     var block_width = blck[0].clientWidth;
     var block_height = blck[0].clientHeight;
 
@@ -206,7 +191,6 @@ class SceneGameplay {
       width: block_width,
       height: block_height
     }
-
   }
 
   setWidthRatio(ratio){
@@ -231,16 +215,25 @@ class SceneGameplay {
     this.notifyRatioObservers();
   }
 
-
   notifyRatioObservers(){
-    this.dice.updateRatio(this.widthRatio, this.heightRatio);
+    this.dice.updateOnResizing(this.widthRatio, this.heightRatio);
     this.pions.forEach( i => {
-      i.updateRatio(this.widthRatio, this.heightRatio);
+      i.updateOnResizing(this.widthRatio, this.heightRatio);
     });
 
-    this.parcours.updateRatio(this.widthRatio, this.heightRatio);
-    this.background.updateRatio(this.widthRatio, this.heightRatio);
-
+    this.parcours.updateOnResizing(this.widthRatio, this.heightRatio);
+    //this.background.updateOnResizing(this.widthRatio, this.heightRatio);
   }
 
+  sacrefonction(){
+    var widthRatio = "";
+    var heightRatio = "";
+    var widthInitiale = this.map.getLargeur();
+    var heightInitiale = this.map.getHauteur();
+
+    this.setCanvasSize('tabs__content');
+    widthRatio = this.canvas.width / widthInitiale;
+    heightRatio = this.canvas.height / heightInitiale;
+    this.updateRatio(widthRatio, heightRatio);
+  }
 }

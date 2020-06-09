@@ -1,77 +1,22 @@
-class De{
-
+class De extends Element{
 	constructor(col, lig, zIndex, nbFaces){
-
-		this.id = "de";
-		//Position du dé
-		this.col = col;
-		this.lig = lig;
-		this.x = "";
-		this.y = "";
-		this.z = zIndex;
-
-
-
+		super(col, lig, zIndex);
+		this.setId('de')
 		this.isDisplayed = false;
-
-		this.map = "";
-
 		//Nombre de face du dé
 		this.nbFaces = nbFaces;
-
 		//Face courante
 		this.faceCourante = 0;
-
 		//Obervers du dé
 		this.observers = [];
 
-		this.images = this.loadImage();
-		this.largeur = this.images[0].width;
-		this.hauteur = this.images[0].height;
-		this.widthRatio = 1;
-		this.heightRatio = 1;
-}
-
-	setMap(map){
-		this.map = map;
-	}
-
-	connectMap(map){
-		//Set la Map
-		this.setMap(map);
-
-		//Positionne le dé
-		this.setX(ToolBox.convertColToX(this.col, map.TILE_WIDTH));
-		this.setY(ToolBox.convertLigToY(this.lig, map.TILE_HEIGHT));
-
-	}
-
-	setX(x){
-		this.x = x;
-	}
-	getX(){
-		return this.x;
-	}
-	setY(y){
-		this.y = y;
-	}
-	getY(){
-		return this.y;
-	}
-
-	setPosition(x, y){
-		this.x = this.setX(x);
-		this.Y = this.sety(y);
+		this.image = this.loadImage();
+		this.setLargeurInitiale(this.image[0].width);
+		this.setHauteurInitiale(this.image[0].height);
 	}
 
 	update(){
 
-	}
-
-	getClickedItem(x, y){
-		if (this.isClicked(x,y)) {
-			return this;
-		}
 	}
 
 	addObservers(o){
@@ -82,21 +27,6 @@ class De{
 		for (let o of this.observers) {
 			o.updateFaceCourante(this.faceCourante);
 		}
-	}
-
-	isClicked(x, y) {
-		var myTop = this.y;
-		var myRgt = this.x + this.largeur;
-		var myBot = this.y + this.hauteur;
-		var myLft = this.x;
-
-		var clicked = true;
-		if(y < myTop || y > myBot || x < myLft || x > myRgt)
-		{
-			return false;
-		}
-		return clicked;
-
 	}
 
 	lancerDe(){
@@ -116,47 +46,26 @@ class De{
 		}
 	}
 
-	draw(context, map){
+	draw(context){
 		if (this.isDisplayed) {
 			context.drawImage(
-				this.images[this.nbFaces - 1],
-				this.x  * this.widthRatio,
-				this.y  * this.heightRatio,
-				this.largeur * this.widthRatio,
-				this.hauteur * this.heightRatio
-				);
+				this.image[this.nbFaces - 1],
+				this.x,
+				this.y,
+				this.largeur,
+				this.hauteur
+			);
 		}
 	}
 
 	loadImage(){
-
 		var images =
-			[
-				Graphics.newImage('sprites/large/De-1_128.png'),
-				Graphics.newImage('sprites/large/De-2_128.png'),
-				Graphics.newImage('sprites/large/De-3_128.png'),
-				Graphics.newImage('sprites/large/De-4_128.png')
-			]
-
+		[
+			Graphics.newImage('sprites/large/De-1_128.png'),
+			Graphics.newImage('sprites/large/De-2_128.png'),
+			Graphics.newImage('sprites/large/De-3_128.png'),
+			Graphics.newImage('sprites/large/De-4_128.png')
+		];
 		return images;
-	}
-
-	setWidthRatio(ratio){
-		this.widthRatio = ratio;
-	}
-	getWidthRatio(){
-		return this.widthRatio;
-	}
-
-	setHeightRatio(ratio){
-		this.heightRatio = ratio;
-	}
-	getHeightRatio(){
-		return this.heightRatio;
-	}
-
-	updateRatio(widthRatio, heightRatio){
-		this.setWidthRatio(widthRatio);
-		this.setHeightRatio(heightRatio);
 	}
 }

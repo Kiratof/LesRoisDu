@@ -1,6 +1,6 @@
 .partie-container{
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	@include breakpoint('<=medium') {
 		flex-direction: column;
@@ -24,7 +24,7 @@
 .tabs{
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: 80%;
 	&__sidebar{
 		display: flex;
 		overflow-x: scroll;

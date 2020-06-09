@@ -1,22 +1,22 @@
-class Pion {
-	constructor(parcours, player, position, nbCases) {
-
-		this.id = "pion";
-		//Informations de la map
-		this.map = "";
+class Pion extends Element {
+	constructor(col, lig, zIndex, parcours, player, position, nbCases) {
+		super(col, lig, zIndex);
+		this.setId('pion');
+		this.posXPlayer = "";
+		this.posYPlayer = "";
 
 		this.nbCases = nbCases;
 		this.parcours = parcours;
 		this.compteur = 0;
 		this.player = player;
 
+		this.widthRatio = 1;
+		this.heightRatio = 1;
 
 		this.setPosition(position);
 
 		this.posCases = parcours.casesPosition;
 		this.positionnePionByPositionDansParcours();
-
-		this.z = 2;
 
 		//Position du pion avant le déplacement
 		this.oldCol = 0;
@@ -34,27 +34,82 @@ class Pion {
 
 		// Chargement de l'image dans l'attribut image
 		this.state = 'unselect';
-		this.images = this.loadImage();
-		this.largeur = this.images[this.state].width;
-		this.hauteur = this.images[this.state].height;
-
-		this.widthRatio = 1;
-		this.heightRatio = 1;
+		this.image = this.loadImage();
+		this.setLargeurInitiale(this.image[this.state].width);
+		this.setHauteurInitiale(this.image[this.state].height);
 	}
 
-	setMap(map){
-		this.map = map;
+	setWidthRatio(ratio){
+		this.widthRatio = ratio;
+	}
+
+	getWidthRatio(){
+		return this.widthRatio;
+	}
+
+	setHeightRatio(ratio){
+		this.heightRatio = ratio;
+	}
+
+	getWidthRatio(){
+		return this.widthRatio;
+	}
+
+	updateRatio(widthRatio, heightRatio){
+		this.setWidthRatio(widthRatio);
+		this.setHeightRatio(heightRatio);
+	}
+
+	setPosXPlayer(PosXPlayer){
+		this.posXPlayer = PosXPlayer;
+	}
+
+	getPosXPlayer(){
+		return this.posXPlayer;
+	}
+
+	setPosYPlayer(PosYPlayer){
+		this.posYPlayer = PosYPlayer;
+	}
+
+	getPosYPlayer(){
+		return this.posYPlayer;
 	}
 
 	connectMap(map){
 		//Set la Map
 		this.setMap(map);
 
-		//Positionne le dé
-    this.setPositionXY();
-
+		//Positionne l'élément
+		var x = ToolBox.convertColToX(this.col, map.TILE_WIDTH);
+		var y = ToolBox.convertLigToY(this.lig, map.TILE_HEIGHT);
+		this.setPositionXYInitiale(x, y);
+		this.setPlayerRelativePosition(this.player, 1, 1);
 	}
 
+	setPositionXYInitiale(xInitiale, yInitiale){
+		this.setXInitiale(xInitiale + this.posXPlayer);
+		this.setYInitiale(yInitiale + this.posYPlayer);
+	}
+
+	setPositionXY(x, y){
+		this.setX(x + this.posXPlayer);
+		this.setY(y + this.posYPlayer);
+	}
+
+	updateOnResizing(widthRatio, heightRatio){
+		this.updateRatio(widthRatio, heightRatio);
+		this.updateSize(this, widthRatio, heightRatio);
+		this.setPlayerRelativePosition(this.player, widthRatio, heightRatio);
+		this.updateRelativePosition(this, widthRatio, heightRatio);
+	}
+
+
+	updateXandYposition(){
+		var x = ToolBox.convertColToX(this.col, this.map.TILE_WIDTH) * this.widthRatio;
+		var y = ToolBox.convertLigToY(this.lig, this.map.TILE_HEIGHT) * this.heightRatio;
+		this.setPositionXY(x, y);
+	}
 
 	setCouleur(player){
 		switch (player) {
@@ -81,45 +136,39 @@ class Pion {
 	}
 
 	premierQuart(tailleOctogone, taillePion) {
-	   var quart = ((1 * tailleOctogone) - 2 * taillePion) / 4;
-	  return quart;
+	   return ((1 * tailleOctogone) - 2 * taillePion) / 4;
 	}
 
 	troisiemeQuart(tailleOctogone, taillePion) {
-
-   	var quart = ((3 * tailleOctogone) - 2 * taillePion) / 4;
-
-  	return quart;
+   	return ((3 * tailleOctogone) - 2 * taillePion) / 4;
 	}
 
-	setPositionXY(){
-		switch (this.player) {
+	setPlayerRelativePosition(player, widthRatio, heightRatio){
+		switch (player) {
 			case 1:
-				this.posXPlayer = this.premierQuart(this.map.TILE_WIDTH, this.largeur);
-				this.posYPlayer = this.premierQuart(this.map.TILE_HEIGHT, this.hauteur);
+				this.setPosXPlayer(this.premierQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.premierQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
 				break;
 
 			case 2:
-				this.posXPlayer = this.troisiemeQuart(this.map.TILE_WIDTH, this.largeur);
-				this.posYPlayer = this.premierQuart(this.map.TILE_HEIGHT, this.hauteur);
+				this.setPosXPlayer(this.troisiemeQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.premierQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
 				break;
 
 
 			case 3:
-				this.posXPlayer = this.premierQuart(this.map.TILE_WIDTH, this.largeur);
-				this.posYPlayer = this.troisiemeQuart(this.map.TILE_HEIGHT, this.hauteur);
+				this.setPosXPlayer(this.premierQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.troisiemeQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
 				break;
 
 			case 4:
-				this.posXPlayer = this.troisiemeQuart(this.map.TILE_WIDTH, this.largeur);
-				this.posYPlayer = this.troisiemeQuart(this.map.TILE_HEIGHT, this.hauteur);
+				this.setPosXPlayer(this.troisiemeQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.troisiemeQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
 				break;
 
 			default:
 				alert('Il ne peut exister de joueur ' + player + '.');
 		}
-
-		this.updateXandYposition();
 	}
 
 	setPosition(position){
@@ -171,56 +220,26 @@ class Pion {
 		}
 	}
 
-	getClickedItem(x, y){
-		if (this.isClicked(x,y)) {
-			return this;
-		}
-	}
-
-
-
 	draw(context) {
 
 		if (this.isSelected) {
 			context.drawImage(
-				this.images['select'],
-				((((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer) * this.widthRatio,
-				((((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer) * this.heightRatio,
-				this.largeur * this.widthRatio,
-				this.hauteur * this.heightRatio
+				this.image['select'],
+				this.x,
+				this.y,
+				this.largeur,
+				this.hauteur
 			);
 		}else {
 			context.drawImage(
-				this.images['unselect'],
-				((((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer) * this.widthRatio,
-				((((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer) * this.heightRatio,
-				this.largeur * this.widthRatio,
-				this.hauteur * this.heightRatio
+				this.image['unselect'],
+				this.x,
+				this.y,
+				this.largeur,
+				this.hauteur
 			);
 		}
 
-	}
-
-
-
-	isClicked(x, y) {
-		var myTop = this.y;
-		var myRgt = this.x + this.largeur;
-		var myBot = this.y + this.hauteur;
-		var myLft = this.x;
-		var clicked = true;
-		if (y < myTop || y > myBot || x < myLft || x > myRgt) {
-			clicked = false;
-		}
-		return clicked;
-	}
-
-	setCol(col) {
-		this.col = col;
-	}
-
-	setLig(lig) {
-		this.lig = lig;
 	}
 
 	teleportToCase(col, lig) {
@@ -230,12 +249,10 @@ class Pion {
 	}
 
 	goToNextCase() {
-
 		var posCol = this.parcours.casesPosition[this.posPion][0];
 		var posLig = this.parcours.casesPosition[this.posPion][1];
 
 		this.teleportToCase(posCol, posLig);
-
 	}
 
 	advanceBasedOnPawnValue() {
@@ -302,12 +319,6 @@ class Pion {
     	});
 	}
 
-	updateXandYposition(){
-		//On met à jour la position
-		this.x = ToolBox.convertColToX(this.col, this.map.TILE_WIDTH) + this.posXPlayer;
-		this.y = ToolBox.convertLigToY(this.lig, this.map.TILE_HEIGHT) + this.posYPlayer;
-	}
-
 	loadImage(){
 
 		var images = {
@@ -316,24 +327,5 @@ class Pion {
 		}
 
 		return images;
-	}
-
-	setWidthRatio(ratio){
-		this.widthRatio = ratio;
-	}
-	getWidthRatio(){
-		return this.widthRatio;
-	}
-
-	setHeightRatio(ratio){
-		this.heightRatio = ratio;
-	}
-	getHeightRatio(){
-		return this.heightRatio;
-	}
-
-	updateRatio(widthRatio, heightRatio){
-		this.setWidthRatio(widthRatio);
-		this.setHeightRatio(heightRatio);
 	}
 }

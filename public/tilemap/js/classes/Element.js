@@ -1,80 +1,173 @@
 class Element{
-
 	constructor(col, lig, zIndex){
 
 		this.id = "";
-		//Position du dé
-		this.col = col;
-		this.lig = lig;
+
 		this.x = "";
 		this.y = "";
+		this.xInitiale = "";
+		this.yInitiale = "";
 		this.z = zIndex;
+		this.col = col;
+		this.lig = lig;
 		this.map = "";
 
-		this.images = this.loadImage();
-
-		this.largeur = this.images[0].width;
-		this.hauteur = this.images[0].height;
-		this.ratio = 1;
-}
-
-	setRatio(ratio){
-		this.ratio = ratio;
+		this.image = "";
+		this.largeur = "";
+		this.hauteur = "";
+		this.largeurInitiale = "";
+		this.hauteurInitiale = "";
 	}
-	getRatio(){
-		return this.ratio;
+
+	setId(id){
+		this.id = id;
+	}
+
+	getId(){
+		return this.id;
+	}
+
+	setImage(image){
+		this.image = image;
+	}
+
+	getImage(){
+		return this.image;
+	}
+
+	setX(x){
+		this.x = x;
+	}
+
+	getX(){
+		return this.x;
+	}
+
+	setY(y){
+		this.y = y;
+	}
+
+	getY(){
+		return this.y;
+	}
+
+	setXInitiale(x){
+		this.xInitiale = x;
+	}
+
+	getXInitiale(){
+		return this.xInitiale;
+	}
+
+	setYInitiale(y){
+		this.yInitiale = y;
+	}
+
+	getYInitiale(){
+		return this.yInitiale;
+	}
+
+	setPositionXY(x, y){
+		this.setX(x);
+		this.setY(y);
+	}
+
+	setPositionXYInitiale(xInitiale, yInitiale){
+		this.setXInitiale(xInitiale);
+		this.setYInitiale(yInitiale);
+	}
+
+	setZ(z){
+		this.z = z;
+	}
+
+	getZ(){
+		return this.z;
+	}
+
+	setCol(col){
+		this.col = col;
+	}
+
+	getCol(){
+		return this.col;
+	}
+	setLig(lig){
+		this.lig = lig;
+	}
+
+	getLig(){
+		return this.lig;
 	}
 
 	setMap(map){
 		this.map = map;
 	}
 
+	getMap(){
+		return this.map;
+	}
+
 	connectMap(map){
 		//Set la Map
 		this.setMap(map);
 
-		//Positionne le dé
-		this.setX(ToolBox.convertColToX(this.col, map.TILE_WIDTH));
-		this.setY(ToolBox.convertLigToY(this.lig, map.TILE_HEIGHT));
-
+		//Positionne l'élément
+		var x = ToolBox.convertColToX(this.col, map.TILE_WIDTH);
+		var y = ToolBox.convertLigToY(this.lig, map.TILE_HEIGHT);
+		this.setPositionXYInitiale(x, y);
 	}
 
-	setX(x){
-		this.x = x;
-	}
-	getX(){
-		return this.x;
-	}
-	setY(y){
-		this.y = y;
-	}
-	getY(){
-		return this.y;
+	updateOnResizing(widthRatio, heightRatio){
+		this.updateRelativePosition(this, widthRatio, heightRatio);
+		this.updateSize(this, widthRatio, heightRatio);
 	}
 
-	setPosition(x, y){
-		this.x = this.setX(x);
-		this.Y = this.sety(y);
+	updateSize(element, widthRatio, heightRatio){
+		var largeur = element.getLargeurInitiale() * widthRatio;
+		var hauteur =  element.getHauteurInitiale() * heightRatio;
+
+		element.setLargeur(largeur);
+		element.setHauteur(hauteur);
 	}
 
-	update(){
+	updateRelativePosition(element, widthRatio, heightRatio){
+		var x = element.getXInitiale() * widthRatio;
+		var y = element.getYInitiale() * heightRatio;
 
+		element.setPositionXY(x, y);
 	}
 
-	getClickedItem(x, y){
-		if (this.isClicked(x,y)) {
-			return this;
-		}
+	setLargeur(largeur){
+		this.largeur = largeur;
 	}
 
-	addObservers(o){
-		this.observers.push(o);
+	getLargeur(){
+		return this.largeur;
 	}
 
-	notifyObservers(){
-		for (let o of this.observers) {
-			o.updateFaceCourante(this.faceCourante);
-		}
+	setHauteur(hauteur){
+		this.hauteur = hauteur;
+	}
+
+	getHauteur(){
+		return this.hauteur;
+	}
+
+	setLargeurInitiale(largeur){
+		this.largeurInitiale = largeur;
+	}
+
+	getLargeurInitiale(){
+		return this.largeurInitiale;
+	}
+
+	setHauteurInitiale(hauteur){
+		this.hauteurInitiale = hauteur;
+	}
+
+	getHauteurInitiale(){
+		return this.hauteurInitiale;
 	}
 
 	isClicked(x, y) {
@@ -89,53 +182,22 @@ class Element{
 			return false;
 		}
 		return clicked;
-
 	}
 
-	lancerDe(){
-		if (this.isDisplayed) {
-			var faceObtenue = Math.floor(Math.random() * this.nbFaces) + 1;
-			this.faceCourante = faceObtenue;
-			alert("Vous avez obtenu : " + this.faceCourante);
-			this.notifyObservers();
+	getClickedItem(x, y){
+		if (this.isClicked(x,y)) {
+			return this;
 		}
 	}
 
-	toggleSwitch(){
-		if (this.isDisplayed) {
-			this.isDisplayed = false
-		}else {
-			this.isDisplayed = true;
-		}
+	update(){
+
 	}
 
-	draw(context, map){
-		if (this.isDisplayed) {
-			context.drawImage(
-				this.images[this.nbFaces - 1],
-				this.x,
-				this.y,
-				this.largeur * this.ratio,
-				this.hauteur * this.ratio
-				);
-		}
+	draw(context){
 	}
-
 
 	loadImage(){
 
-		var images =
-			[
-				Graphics.newImage('sprites/large/De-1_128.png'),
-				Graphics.newImage('sprites/large/De-2_128.png'),
-				Graphics.newImage('sprites/large/De-3_128.png'),
-				Graphics.newImage('sprites/large/De-4_128.png')
-			]
-
-		return images;
-	}
-
-	updateRatio(ratio){
-		this.setRatio(ratio);
 	}
 }

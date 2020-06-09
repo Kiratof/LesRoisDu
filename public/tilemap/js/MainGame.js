@@ -16,12 +16,11 @@ class MainGame {
 
 	    constructor()
 	    {
-
+					this.plateaux = [];
 	    }
 
 	    initialize(){
 	      var parametresPartieJSON = Api.getParametresPartieJSON(idPartie);
-				this.plateaux = [];
 
 				for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
 					var gameScene = new SceneGameplay(i + 1, parametresPartieJSON.plateaux[i]);
