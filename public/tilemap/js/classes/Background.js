@@ -3,7 +3,6 @@ class Background{
 
 		this.largeurInitiale = map.getLargeur();
 		this.hauteurInitiale = map.getHauteur();
-		console.log(this);
 		this.largeur = 400;
 		this.hauteur = 400;
 		this.couleur = '#7da0a3';
@@ -57,7 +56,6 @@ class Background{
 
 
 	updateOnResizing(widthRatio, heightRatio){
-			console.log('Background resize');
 			this.updateSize(this, widthRatio, heightRatio);
 	}
 

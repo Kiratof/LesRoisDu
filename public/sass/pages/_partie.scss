@@ -4,20 +4,15 @@
 	display: flex;
 	@include breakpoint('<=medium') {
 		flex-direction: column;
-		width: 100%;
+		align-items: center;
 		.tabs{
 			width: 100%;
-			&__content{
-				height: 90vh;
-				width: 100vw;
-			}
+			height: 100vh;
 		}
-
 		.info-partie{
-			width: 100%;
+			width: 90%;
 			margin: 0;
 		}
-
 	}
 }
 
@@ -25,21 +20,24 @@
 	display: flex;
 	flex-direction: column;
 	width: 80%;
+	height: 100vh;
 	&__sidebar{
 		display: flex;
 		overflow-x: scroll;
+		overflow-y: hidden;
 		width: 100%;
-		height: 10%;
 		background: _palette(bg);
 	}
 	&__button{
 		background: _palette(bg);
-		cursor: pointer;
 		border-radius: 2rem 2rem 0 0;
 		&:hover {
 			&:after {
 				opacity: 0;
 			}
+		}
+		&:focus{
+			outline: none;
 		}
 		&--active{
 			font-weight: bold;
@@ -47,11 +45,12 @@
 			}
 		}
 	&__content{
-		height: 90%;
 		width: 100%;
+		height: 100%;
 		display: none;
-		background: _palette(accent1);
-		overflow-y: scroll;
+		& canvas:hover{
+			cursor: pointer;
+		}
 		&--active{
 			display: flex;
 		}
@@ -65,6 +64,7 @@
 	display: flex;
 	flex-direction: column;
 	width: 20%;
+	height: 100%;
 	text-align: center;
 	margin-right: 1rem;
 	margin-left: 1rem;

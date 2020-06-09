@@ -86,7 +86,6 @@ class SceneGameplay {
   }
 
   update(){
-
     //Récupération des informations d'input
     var newMouseState = this.mouse.getState();
     var leftClick = false;
