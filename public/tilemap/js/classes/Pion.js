@@ -101,9 +101,8 @@ class Pion extends Element {
 		this.updateRatio(widthRatio, heightRatio);
 		this.updateSize(this, widthRatio, heightRatio);
 		this.setPlayerRelativePosition(this.player, widthRatio, heightRatio);
-		this.updateRelativePosition(this, widthRatio, heightRatio);
+		this.updateXandYposition(this, widthRatio, heightRatio);
 	}
-
 
 	updateXandYposition(){
 		var x = ToolBox.convertColToX(this.col, this.map.TILE_WIDTH) * this.widthRatio;

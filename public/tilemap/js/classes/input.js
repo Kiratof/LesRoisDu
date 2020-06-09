@@ -1,13 +1,14 @@
 class InputHandler {
     constructor(canvas, mouse) {
-
         var clicked = false;
-        var rect = canvas.getBoundingClientRect();
+        var rect = {
+          'left' : document.getElementById('plateau-1').offsetLeft,
+          'top' : document.getElementById('plateau-1').offsetTop
+        }
         var x = "";
         var y = "";
 
         canvas.addEventListener('mousedown', function (event) {
-
             clicked = true;
             x = event.x - rect.left;
             y = event.y - rect.top;

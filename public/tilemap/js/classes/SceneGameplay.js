@@ -22,10 +22,10 @@ class SceneGameplay {
 
 
     //Création du canvas dans le bloc correspondant
-    this.createCanvas('tabs__content');
+    this.createCanvas('tabs__content--active');
 
     //Création du background
-    this.background = new Background();
+    this.background = new Background(this.map);
 
     //Créer le dé
     var col = 0;
@@ -65,9 +65,6 @@ class SceneGameplay {
       pion.connectMap(this.map);
     });
 
-    this.background.connectMap(this.map);
-
-
     this.parcours.connectMap(this.map);
     this.parcours.creerCasesDuParcours();
     this.cases = this.parcours.getCases();
@@ -102,6 +99,7 @@ class SceneGameplay {
     }
     this.oldMouseState = newMouseState;
 
+
     //Traitement des informations
     if (leftClick) { //Si cliqué
       //Récupération des objets cliqués
@@ -133,6 +131,7 @@ class SceneGameplay {
         if (objectToUpdate.isSelected) {
           objectToUpdate.unselect();
           this.dice.toggleSwitch();
+
         }else {
           this.pions.forEach(pion => {
             pion.unselect();
@@ -222,7 +221,7 @@ class SceneGameplay {
     });
 
     this.parcours.updateOnResizing(this.widthRatio, this.heightRatio);
-    //this.background.updateOnResizing(this.widthRatio, this.heightRatio);
+    this.background.updateOnResizing(this.widthRatio, this.heightRatio);
   }
 
   sacrefonction(){
@@ -231,7 +230,7 @@ class SceneGameplay {
     var widthInitiale = this.map.getLargeur();
     var heightInitiale = this.map.getHauteur();
 
-    this.setCanvasSize('tabs__content');
+    this.setCanvasSize('tabs__content--active');
     widthRatio = this.canvas.width / widthInitiale;
     heightRatio = this.canvas.height / heightInitiale;
     this.updateRatio(widthRatio, heightRatio);

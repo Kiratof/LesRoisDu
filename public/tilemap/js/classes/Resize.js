@@ -7,7 +7,7 @@ class ResizeHandler {
     var heightInitiale = scene.map.getHauteur();
 
     window.addEventListener('resize', function () {
-      scene.setCanvasSize('tabs__content');
+      scene.setCanvasSize('tabs__content--active');
       widthRatio = scene.canvas.width / widthInitiale;
       heightRatio = scene.canvas.height / heightInitiale;
       scene.updateRatio(widthRatio, heightRatio);
