@@ -41,7 +41,6 @@ class Api {
     // Chargement du fichier
     xhr.open("POST", url);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    console.log(jsonString);
     xhr.send("$data=" + jsonString);
   }
 
