@@ -432,35 +432,19 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
   public function affichageCreationPlateau(Request $request, ObjectManager $manager, UserInterface $user)
   {
 
-<<<<<<< HEAD
-       // Création d'un plateau vierge
-       $plateau=new Plateau();
-
-
-
-       // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
-       $formulairePlateau = $this->createForm(PlateauType::class, $plateau);
-=======
     // Création d'une partie vierge
     $plateau=new Plateau();
 
     // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
     $formulairePlateau = $this->createForm(PlateauType::class, $plateau);
->>>>>>> responsive-plateaux
 
     $formulairePlateau->handleRequest($request);
 
     if ($formulairePlateau->isSubmitted() && $formulairePlateau->isValid())
     {
 
-<<<<<<< HEAD
-
-        $date = New \DateTime();
-        $plateau->setDerniereModification($date);
-=======
       $date = New \DateTime();
       $plateau->setDerniereModification($date);
->>>>>>> responsive-plateaux
 
       $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
       $plateau->setCode($code);
