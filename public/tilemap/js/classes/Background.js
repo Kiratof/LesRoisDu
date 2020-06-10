@@ -1,72 +1,69 @@
 class Background{
-	constructor(map){
+	constructor(largeur, hauteur){
 
-		//Chargement de la map
-		this.map = map;
+		this.largeurInitiale = largeur;
+		this.hauteurInitiale = hauteur;
+		this.largeur = 400;
+		this.hauteur = 400;
+		this.couleur = '#7da0a3';
+	}
 
-    //Chargement du Tileset composant le background
-    var nomTileSet = 'Octogone_128.png'
-    this.tileset = new Tileset(nomTileSet);
+	setLargeurInitiale(largeur){
+		this.largeurInitiale = largeur;
+	}
 
+	getLargeurInitiale(){
+		return this.largeurInitiale;
+	}
+
+	setHauteurInitiale(hauteur){
+		this.hauteurInitiale = hauteur;
+	}
+
+	getHauteurInitiale(){
+		return this.hauteurInitiale;
+	}
+
+	setCouleur(couleur){
+		this.couleur = couleur;
+	}
+
+	getCouleur(){
+		return this.couleur;
+	}
+
+	setLargeur(largeur){
+		this.largeur = largeur;
+	}
+
+	getLargeur(){
+		return this.largeur;
+	}
+
+	setHauteur(hauteur){
+		this.hauteur = hauteur;
+	}
+
+	getHauteur(){
+		return this.hauteur;
 	}
 
 	draw(context){
-
-		//Dessin du tileset
-		var nbLignes = this.map.terrain.length / this.map.terrainWidth;
-		var ligne = 0;
-		var colonne = 0;
-
-
-		for (ligne; ligne < nbLignes; ligne++) {
-
-			for (var colonne = 0, nbColonne = this.map.terrainWidth; colonne < nbColonne; colonne++) {
-
-				var tuile = this.map.terrain[(ligne * nbColonne) + colonne];
-				var xDestination = colonne * this.map.TILE_HEIGHT;
-				var yDestination = ligne * this.map.TILE_HEIGHT;
-
-				var xSourceEnTiles = tuile % this.tileset.largeur;
-				if(xSourceEnTiles == 0){
-					xSourceEnTiles = this.tileset.largeur;
-				}
-				var ySourceEnTiles = Math.ceil(tuile / this.tileset.largeur);
-				var xSource = (xSourceEnTiles - 1) * this.map.TILE_WIDTH;
-				var ySource = (ySourceEnTiles - 1) * this.map.TILE_HEIGHT;
-
-
-				context.drawImage(
-					this.tileset.image,
-					xSource,
-					ySource,
-					this.map.TILE_WIDTH,
-					this.map.TILE_HEIGHT,
-					xDestination,
-					yDestination,
-					this.map.TILE_WIDTH,
-					this.map.TILE_HEIGHT);
-			}
-		}
+		context.rect(0, 0, this.getLargeur(), this.getHauteur());
+		context.fillStyle = this.getCouleur();
+		context.fill();
 	}
 
 
-
-	getIdTile(col, lig, map){
-		var id = "undefined";
-		if (col>= 0 && col <= map.terrainWidth && lig >= 0 && lig<= map.terrainHeight)
-		{
-			id = map.terrain[(lig  * map.terrainWidth) + col];
-		}
-
-		return id;
-
+	updateOnResizing(widthRatio, heightRatio){
+			this.updateSize(this, widthRatio, heightRatio);
 	}
 
-	getNumCase(x, y, map){
-		return position = {
-			col: Math.floor(x/map.TILE_WIDTH),
-			lig: Math.floor(y/map.TILE_HEIGHT)
-		}
-	}
+	updateSize(element, widthRatio, heightRatio){
+		var largeur = element.getLargeurInitiale() * widthRatio;
+		var hauteur =  element.getHauteurInitiale() * heightRatio;
 
+		element.setLargeur(largeur);
+		element.setHauteur(hauteur);
+	}
 }

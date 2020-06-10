@@ -1,21 +1,23 @@
-class Pion {
-	constructor(parcours, player, position, nbCases, map) {
-		//Informations de la map
-		this.map = map;
+class Pion extends Element {
+	constructor(col, lig, zIndex, parcours, player, position, nbCases) {
+		super(col, lig, zIndex);
+		this.setId('pion');
+		this.posXPlayer = "";
+		this.posYPlayer = "";
 
 		this.nbCases = nbCases;
 		this.parcours = parcours;
-
+		this.compteur = 0;
 		this.player = player;
-		//Position dans le canvas
-		this.setPlayer(player);
+		this.plateau = "";
+
+		this.widthRatio = 1;
+		this.heightRatio = 1;
 
 		this.setPosition(position);
+
 		this.posCases = parcours.casesPosition;
 		this.positionnePionByPositionDansParcours();
-		this.updateXandYposition();
-		this.z = 2;
-		this.id = "pion";
 
 		//Position du pion avant le déplacement
 		this.oldCol = 0;
@@ -27,54 +29,127 @@ class Pion {
 
 		//Etat du pion
 		this.isSelected = false;
-
+		this.setCouleur(player);
 		//Etat du dé
 		this.faceCouranteDe = 0;
 
 		// Chargement de l'image dans l'attribut image
-		this.image = new Image();
-		this.image.referenceDuPerso = this;
-		this.image.onload = function () {
-			if (!this.complete)
-				throw "Erreur de chargement du sprite nommé \"" + url + "\".";
-
-			// Taille du pion
-			this.referenceDuPerso.largeur = this.width;
-			this.referenceDuPerso.hauteur = this.height;
-		}
-
-		this.image.src = assetsBaseDir + "sprites/" + "pion_" + this.couleur + ".png";
-
-		this.compteur = 0;
-
+		this.state = 'unselect';
+		this.image = this.loadImage();
+		this.setLargeurInitiale(32);
+		this.setHauteurInitiale(32);
 	}
 
+	setPlateau(plateau){
+		this.plateau = plateau;
+	}
 
+	getPlateau(){
+		return this.plateau;
+	}
 
 	setPlayer(player){
+		this.player = player;
+	}
+
+	getPlayer(){
+		return this.player;
+	}
+
+	setPosPion(position){
+		this.posPion = position;
+	}
+
+	getPosPion(){
+		return this.posPion;
+	}
+
+	setWidthRatio(ratio){
+		this.widthRatio = ratio;
+	}
+
+	getWidthRatio(){
+		return this.widthRatio;
+	}
+
+	setHeightRatio(ratio){
+		this.heightRatio = ratio;
+	}
+
+	getWidthRatio(){
+		return this.widthRatio;
+	}
+
+	updateRatio(widthRatio, heightRatio){
+		this.setWidthRatio(widthRatio);
+		this.setHeightRatio(heightRatio);
+	}
+
+	setPosXPlayer(PosXPlayer){
+		this.posXPlayer = PosXPlayer;
+	}
+
+	getPosXPlayer(){
+		return this.posXPlayer;
+	}
+
+	setPosYPlayer(PosYPlayer){
+		this.posYPlayer = PosYPlayer;
+	}
+
+	getPosYPlayer(){
+		return this.posYPlayer;
+	}
+
+	connectMap(map){
+		//Set la Map
+		this.setMap(map);
+
+		//Positionne l'élément
+		var x = ToolBox.convertColToX(this.col, map.TILE_WIDTH);
+		var y = ToolBox.convertLigToY(this.lig, map.TILE_HEIGHT);
+		this.setPositionXYInitiale(x, y);
+		this.setPlayerRelativePosition(this.player, 1, 1);
+	}
+
+	setPositionXYInitiale(xInitiale, yInitiale){
+		this.setXInitiale(xInitiale + this.posXPlayer);
+		this.setYInitiale(yInitiale + this.posYPlayer);
+	}
+
+	setPositionXY(x, y){
+		this.setX(x + this.posXPlayer);
+		this.setY(y + this.posYPlayer);
+	}
+
+	updateOnResizing(widthRatio, heightRatio){
+		this.updateRatio(widthRatio, heightRatio);
+		this.updateSize(this, widthRatio, heightRatio);
+		this.setPlayerRelativePosition(this.player, widthRatio, heightRatio);
+		this.updateXandYposition(this, widthRatio, heightRatio);
+	}
+
+	updateXandYposition(){
+		var x = ToolBox.convertColToX(this.col, this.map.TILE_WIDTH) * this.widthRatio;
+		var y = ToolBox.convertLigToY(this.lig, this.map.TILE_HEIGHT) * this.heightRatio;
+		this.setPositionXY(x, y);
+	}
+
+	setCouleur(player){
 		switch (player) {
 			case 1:
-				this.posXPlayer = 32 - 32 / 2;
-				this.posYPlayer = 32 - 32 / 2;
 				this.couleur = 'vert';
 				break;
 
 			case 2:
-				this.posXPlayer = 96 - 32 / 2;
-				this.posYPlayer = 32 - 32 / 2;
 				this.couleur = 'rouge';
 				break;
 
-
 			case 3:
-				this.posXPlayer = 32 - 32 / 2;
-				this.posYPlayer = 96 - 32 / 2;
 				this.couleur = 'jaune';
 				break;
 
 			case 4:
-				this.posXPlayer = 96 - 32 / 2;
-				this.posYPlayer = 96 - 32 / 2;
 				this.couleur = 'bleu';
 				break;
 
@@ -84,16 +159,54 @@ class Pion {
 		}
 	}
 
+	premierQuart(tailleOctogone, taillePion) {
+	   return ((1 * tailleOctogone) - 2 * taillePion) / 4;
+	}
+
+	troisiemeQuart(tailleOctogone, taillePion) {
+   	return ((3 * tailleOctogone) - 2 * taillePion) / 4;
+	}
+
+	setPlayerRelativePosition(player, widthRatio, heightRatio){
+		switch (player) {
+			case 1:
+				this.setPosXPlayer(this.premierQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.premierQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
+				break;
+
+			case 2:
+				this.setPosXPlayer(this.troisiemeQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.premierQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
+				break;
+
+
+			case 3:
+				this.setPosXPlayer(this.premierQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.troisiemeQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
+				break;
+
+			case 4:
+				this.setPosXPlayer(this.troisiemeQuart(this.map.TILE_WIDTH * widthRatio, this.largeur));
+				this.setPosYPlayer(this.troisiemeQuart(this.map.TILE_HEIGHT * heightRatio, this.hauteur));
+				break;
+
+			default:
+				alert('Il ne peut exister de joueur ' + player + '.');
+		}
+	}
+
 	setPosition(position){
 			this.posPion = position;
 	}
 
 	update() {
+
 		if (this.isSelected) {
 			this.advanceBasedOnPawnValue();
 			this.updateXandYposition();
-			this.setPositionIntoAPI(this.posPion, this.player);
 			this.unselect();
+			Api.postPositionPionSync(this);
+
 		}
 	}
 
@@ -133,50 +246,26 @@ class Pion {
 		}
 	}
 
-	getClickedItem(x, y){
-		if (this.isClicked(x,y)) {
-			return this;
-		}
-	}
-
-
-
 	draw(context) {
 
 		if (this.isSelected) {
-			this.showMeSelected();
+			context.drawImage(
+				this.image['select'],
+				this.x,
+				this.y,
+				this.largeur,
+				this.hauteur
+			);
 		}else {
-			this.showMeNormally();
+			context.drawImage(
+				this.image['unselect'],
+				this.x,
+				this.y,
+				this.largeur,
+				this.hauteur
+			);
 		}
 
-		context.drawImage(
-			this.image,
-			(((this.col - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posXPlayer,
-			(((this.lig - 1) * this.map.TILE_HEIGHT) + this.map.TILE_HEIGHT) + this.posYPlayer,
-			this.largeur,
-			this.hauteur
-		);
-	}
-
-	isClicked(x, y) {
-		var myTop = this.y;
-		var myRgt = this.x + this.largeur;
-		var myBot = this.y + this.hauteur;
-		var myLft = this.x;
-
-		var clicked = true;
-		if (y < myTop || y > myBot || x < myLft || x > myRgt) {
-			clicked = false;
-		}
-		return clicked;
-	}
-
-	setCol(col) {
-		this.col = col;
-	}
-
-	setLig(lig) {
-		this.lig = lig;
 	}
 
 	teleportToCase(col, lig) {
@@ -186,12 +275,10 @@ class Pion {
 	}
 
 	goToNextCase() {
-
 		var posCol = this.parcours.casesPosition[this.posPion][0];
 		var posLig = this.parcours.casesPosition[this.posPion][1];
 
 		this.teleportToCase(posCol, posLig);
-
 	}
 
 	advanceBasedOnPawnValue() {
@@ -221,14 +308,6 @@ class Pion {
 		}
 	}
 
-	showMeSelected() {
-		this.image.src = assetsBaseDir + "sprites/" + "pion_" + this.couleur + "_selected.png";
-	}
-
-	showMeNormally() {
-		this.image.src = assetsBaseDir + "sprites/" + "pion_" + this.couleur + ".png";
-	}
-
 	positionnePionByPositionDansParcours(){
 
 		if (this.posPion > 0) {
@@ -245,17 +324,20 @@ class Pion {
 
 	}
 
-	setPositionIntoAPI(position, player){
+	setPositionIntoAPI(pion){
 		var parametres = 'http://localhost:8000/api/partie/' + idPartie;
 
-		if(position > this.nbCases){
-			var pos = this.nbCases-1;
+		if(pion.position > pion.nbCases){
+			var pos = pion.nbCases-1;
 		}
 		else{
-			var pos = position;
+			var pos = pion.position;
 		}
 
-		var pionstab = [{'player': player, 'placement': pos}];
+		var pionstab = [{
+			'player': pion.player,
+			'placement': pion.pos
+		 }];
 
 		var jsonString = JSON.stringify({pions: pionstab});
 
@@ -266,10 +348,13 @@ class Pion {
     	});
 	}
 
-	updateXandYposition(){
-		//On met à jour la position
-		this.x = (this.col * this.map.TILE_WIDTH) + this.posXPlayer;
-		this.y = (this.lig * this.map.TILE_HEIGHT) + this.posYPlayer;
-	}
+	loadImage(){
 
+		var images = {
+			'select' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_selected_128.png'),
+			'unselect' : Graphics.newImage('sprites/large/pion_'+ this.couleur +'_128.png')
+		}
+
+		return images;
+	}
 }

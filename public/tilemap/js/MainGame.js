@@ -3,6 +3,7 @@ window.onload = function() {
 	var deltaTime = 60;
 	var mainGame = new MainGame();
 	mainGame.initialize();
+	mainGame.load();
 
 	//GAMELOOP
 	setInterval(function() {
@@ -15,18 +16,23 @@ class MainGame {
 
 	    constructor()
 	    {
-
+					this.plateaux = [];
 	    }
 
 	    initialize(){
-	      var parametresPartieJSON = this.getParametresPartieJSON();
-				this.plateaux = [];
+	      var parametresPartieJSON = Api.getParametresPartieJSON(idPartie);
 
 				for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
 					var gameScene = new SceneGameplay(i + 1, parametresPartieJSON.plateaux[i]);
 					this.plateaux.push(gameScene);
 				}
 	    }
+
+			load(){
+				this.plateaux.forEach(plateau => {
+					plateau.load();
+				});
+			}
 
 	    update(deltaTime){
 
@@ -44,25 +50,4 @@ class MainGame {
 
 	    }
 
-	    getParametresPartieJSON() {
-
-	        var UrlApiPartie = 'http://localhost:8000/api/partie/' + idPartie;
-
-	        // Création de l'objet XmlHttpRequest
-	        var xhr = getXMLHttpRequest();
-
-	        // Chargement du fichier
-	        xhr.open("GET", UrlApiPartie, false);
-	        xhr.send(null);
-	        if (xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 0)){// Code == 0 en local
-	          throw new Error("Impossible de charger la carte nommée \"" + nom + "\" (code HTTP : " + xhr.status + ").");
-	        }
-
-	        //Récupération des données & parsing
-	        var donneesTexte = xhr.responseText;
-	        var donneesJSON = JSON.parse(donneesTexte);
-
-	        return donneesJSON;
-
-	    }
 	}

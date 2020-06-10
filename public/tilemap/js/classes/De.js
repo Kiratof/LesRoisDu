@@ -1,49 +1,23 @@
-class De{
-
-	constructor(faceDe){
-		//Position du dé
-		this.x = 128;
-		this.y = 128;
-		this.z = 2;
-		this.id = "de";
-
+class De extends Element{
+	constructor(col, lig, zIndex, nbFaces){
+		super(col, lig, zIndex);
+		this.setId('de')
 		this.isDisplayed = false;
-
 		//Nombre de face du dé
-		this.nbFaces = faceDe;
-
+		this.nbFaces = nbFaces;
 		//Face courante
 		this.faceCourante = 0;
-
 		//Obervers du dé
 		this.observers = [];
 
-		// Chargement de l'image dans l'attribut image
-		this.image = new Image();
-		this.image.referenceDuPerso = this;
-		this.image.onload = function() {
-			if(!this.complete) {
-				throw "Erreur de chargement du sprite";
-			}
-		// Taille du sprite De
-		this.referenceDuPerso.largeur = this.width;
-		this.referenceDuPerso.hauteur = this.height;
+		this.image = this.loadImage();
+		this.setLargeurInitiale(64);
+		this.setHauteurInitiale(64);
 	}
-	this.setSprite(faceDe);
-}
 
 	update(){
 
 	}
-
-	getClickedItem(x, y){
-		if (this.isClicked(x,y)) {
-			return this;
-		}
-	}
-
-
-
 
 	addObservers(o){
 		this.observers.push(o);
@@ -55,51 +29,12 @@ class De{
 		}
 	}
 
-	isClicked(x, y) {
-		var myTop = this.y;
-		var myRgt = this.x + this.largeur;
-		var myBot = this.y + this.hauteur;
-		var myLft = this.x;
-
-		var clicked = true;
-		if(y < myTop || y > myBot || x < myLft || x > myRgt)
-		{
-			return false;
-		}
-		return clicked;
-
-	}
-
 	lancerDe(){
 		if (this.isDisplayed) {
 			var faceObtenue = Math.floor(Math.random() * this.nbFaces) + 1;
 			this.faceCourante = faceObtenue;
 			alert("Vous avez obtenu : " + this.faceCourante);
 			this.notifyObservers();
-		}
-	}
-
-	setSprite(nbFaceDe){
-
-		switch (nbFaceDe) {
-			case 1:
-				this.image.src = assetsBaseDir + "sprites/De-1.png";
-				break;
-
-			case 2:
-				this.image.src = assetsBaseDir + "sprites/De-2.png";
-				break;
-
-			case 3:
-				this.image.src = assetsBaseDir + "sprites/De-3.png";
-				break;
-
-			case 4:
-				this.image.src = assetsBaseDir + "sprites/de.png";
-				break;
-
-			default:
-
 		}
 	}
 
@@ -111,16 +46,26 @@ class De{
 		}
 	}
 
-	draw(context, map){
+	draw(context){
 		if (this.isDisplayed) {
 			context.drawImage(
-				this.image,
+				this.image[this.nbFaces - 1],
 				this.x,
 				this.y,
 				this.largeur,
 				this.hauteur
-				);
+			);
 		}
 	}
 
+	loadImage(){
+		var images =
+		[
+			Graphics.newImage('sprites/large/De-1_128.png'),
+			Graphics.newImage('sprites/large/De-2_128.png'),
+			Graphics.newImage('sprites/large/De-3_128.png'),
+			Graphics.newImage('sprites/large/De-4_128.png')
+		];
+		return images;
+	}
 }
