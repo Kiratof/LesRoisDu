@@ -1,12 +1,14 @@
 class Parcours {
-
   constructor(tabDefis) {
     this.casesPosition = new Array();
     this.cases = new Array();
     this.map = "";
     this.toolBox = new ToolBox();
     this.listeDefis = tabDefis;
+  }
 
+  getCasesPosition(){
+    return this.casesPosition;
   }
 
   setMap(map){
@@ -16,7 +18,6 @@ class Parcours {
   connectMap(map){
     //Set la Map
     this.setMap(map);
-
   }
 
   getCases(){

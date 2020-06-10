@@ -11,8 +11,8 @@ class De extends Element{
 		this.observers = [];
 
 		this.image = this.loadImage();
-		this.setLargeurInitiale(this.image[0].width);
-		this.setHauteurInitiale(this.image[0].height);
+		this.setLargeurInitiale(64);
+		this.setHauteurInitiale(64);
 	}
 
 	update(){

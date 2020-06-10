@@ -4,8 +4,8 @@ class Case extends Element {
 		this.id = "case";
 		this.defi = defi;
 		this.image = this.loadImage();
-		this.setLargeurInitiale(this.image.width);
-		this.setHauteurInitiale(this.image.height);
+		this.setLargeurInitiale(128);
+		this.setHauteurInitiale(128);
 	}
 
 	update() {

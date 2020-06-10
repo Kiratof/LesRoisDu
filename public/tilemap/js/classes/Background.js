@@ -1,8 +1,8 @@
 class Background{
-	constructor(map){
+	constructor(largeur, hauteur){
 
-		this.largeurInitiale = map.getLargeur();
-		this.hauteurInitiale = map.getHauteur();
+		this.largeurInitiale = largeur;
+		this.hauteurInitiale = hauteur;
 		this.largeur = 400;
 		this.hauteur = 400;
 		this.couleur = '#7da0a3';

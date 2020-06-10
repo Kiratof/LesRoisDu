@@ -25,7 +25,7 @@ class SceneGameplay {
     this.createCanvas('tabs__content--active');
 
     //Création du background
-    this.background = new Background(this.map);
+    this.background = new Background(this.map.getLargeur(), this.map.getHauteur());
 
     //Créer le dé
     var col = 0;
@@ -45,11 +45,18 @@ class SceneGameplay {
     }
     this.parcours = new Parcours(defis);
     this.listeActeurs.push(this.parcours);
+    this.parcours.connectMap(this.map);
+    this.parcours.creerCasesDuParcours();
+    this.cases = this.parcours.getCases();
+    this.cases.forEach( i => {
+      i.connectMap(this.map);
+    });
 
     //Créer le/les pions
     this.pions = [];
     for (let index = 0; index < lesPions.length; index++) {
       var pion = new Pion(0, 0, 2, this.parcours, lesPions[index].player, lesPions[index].position, this.nbCases);
+      pion.setPlateau(this.id);
       this.listeActeurs.push(pion);
       this.pions.push(pion);
     }
@@ -63,13 +70,6 @@ class SceneGameplay {
     this.dice.connectMap(this.map);
     this.pions.forEach(pion => {
       pion.connectMap(this.map);
-    });
-
-    this.parcours.connectMap(this.map);
-    this.parcours.creerCasesDuParcours();
-    this.cases = this.parcours.getCases();
-    this.cases.forEach( i => {
-      i.connectMap(this.map);
     });
 
     //Gestionnaire d'évênement
@@ -136,7 +136,6 @@ class SceneGameplay {
             pion.unselect();
           });
           objectToUpdate.select();
-          objectToUpdate.setPositionIntoAPI(objectToUpdate);
 
           if (!this.dice.isDisplayed) {
             this.dice.toggleSwitch();
@@ -147,7 +146,6 @@ class SceneGameplay {
         case "de":
         objectToUpdate.lancerDe();
         objectToUpdate.toggleSwitch();
-
         break;
 
         default:

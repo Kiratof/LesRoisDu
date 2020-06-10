@@ -9,6 +9,7 @@ class Pion extends Element {
 		this.parcours = parcours;
 		this.compteur = 0;
 		this.player = player;
+		this.plateau = "";
 
 		this.widthRatio = 1;
 		this.heightRatio = 1;
@@ -35,8 +36,32 @@ class Pion extends Element {
 		// Chargement de l'image dans l'attribut image
 		this.state = 'unselect';
 		this.image = this.loadImage();
-		this.setLargeurInitiale(this.image[this.state].width);
-		this.setHauteurInitiale(this.image[this.state].height);
+		this.setLargeurInitiale(32);
+		this.setHauteurInitiale(32);
+	}
+
+	setPlateau(plateau){
+		this.plateau = plateau;
+	}
+
+	getPlateau(){
+		return this.plateau;
+	}
+
+	setPlayer(player){
+		this.player = player;
+	}
+
+	getPlayer(){
+		return this.player;
+	}
+
+	setPosPion(position){
+		this.posPion = position;
+	}
+
+	getPosPion(){
+		return this.posPion;
 	}
 
 	setWidthRatio(ratio){
@@ -180,6 +205,8 @@ class Pion extends Element {
 			this.advanceBasedOnPawnValue();
 			this.updateXandYposition();
 			this.unselect();
+			Api.postPositionPionSync(this);
+
 		}
 	}
 
@@ -307,7 +334,10 @@ class Pion extends Element {
 			var pos = pion.position;
 		}
 
-		var pionstab = [{'player': pion.player, 'placement': pion.pos}];
+		var pionstab = [{
+			'player': pion.player,
+			'placement': pion.pos
+		 }];
 
 		var jsonString = JSON.stringify({pions: pionstab});
 
