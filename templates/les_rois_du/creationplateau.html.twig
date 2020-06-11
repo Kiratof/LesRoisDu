@@ -37,7 +37,7 @@
               ['form/form-theme.html.twig',
               'jquery.collection.html.twig']   %}
               <div class="inner" id="ensembleformulaire">
-                {{form_start(vueFormulaireCreationPlateau) }}
+                {{form_start(vueFormulaireCreationPlateau, {'attr': {'id': 'form_plateau'}}) }}
                 {{ form_row(vueFormulaireCreationPlateau.nom)}}
                 {{ form_row(vueFormulaireCreationPlateau.description)}}
                 {{ form_row(vueFormulaireCreationPlateau.nbPion,  { 'label' : 'Nombre de pions' })}}
@@ -60,24 +60,6 @@
 
             </div>
             <Br>
-
-
-              <!-- <div id="numerocase" style="position:absolute; left:80px; top:880px;">
-              <h4> N°1 </h4>
-              <h4 style="margin-top:51.8px"> N°2 </h4>
-              <h4 style="margin-top:51.8px"> N°3 </h4>
-              <h4 style="margin-top:51.8px"> N°4 </h4>
-              <h4 style="margin-top:51.8px"> N°5 </h4>
-              <h4 style="margin-top:51.8px"> N°6 </h4>
-              <h4 style="margin-top:51.8px"> N°7 </h4>
-              <h4 style="margin-top:51.8px"> N°8 </h4>
-              <h4 style="margin-top:51.8px"> N°9 </h4>
-              <h4 style="margin-top:51.8px"> N°10 </h4>
-              <h4 style="margin-top:51.8px"> N°11 </h4>
-              <h4 style="margin-top:51.8px"> N°12 </h4>
-
-
-            </div> -->
 
 
 
@@ -131,40 +113,8 @@
             <script type="text/javascript">
               document.addEventListener("DOMContentLoaded", function(event) {
 
-                //
-                // $('.cookies').collection({
-                //       after_add:
-                //             function getCookie(ccollection) {
-                //               var collection = ccollection + "=";
-                //               var decodedCookie = decodeURIComponent(document.cookie);
-                //               var ca = decodedCookie.split(';');
-                //               for(var i = 0; i < ca.length; i++) {
-                //                 var c = ca[i];
-                //                 while (c.charAt(0) == ' ') {
-                //                   c = c.substring(1);
-                //                 }
-                //                 if (c.indexOf(name) == 0) {
-                //                   return c.substring(name.length, c.length);
-                //                 }
-                //               }
-                //               return "";
-                //             },
-                //
-                //       before_init:
-                //       function checkCookie(){
-                //         var collec=getCookie("collection");
-                //         if (collec != ""){alert("y'a cookie");}
-                //         else{alert("met les cookies dans le sac");}
-                //       },
-                //
-                // })
-
-
-
-
                 $('.collection-cases').collection({
                   prefix: 'cases',
-                  // init_with_n_elements: 12,
                   max: 31,
                   min: 6,
                   fade_in: true,
@@ -175,56 +125,58 @@
                   after_add:
 
                   //Fonction qui attribue un chiffre pour chaque élément numéro en fonction de sa position dans la liste
-                  function majIndex(){
+                  function majIndex(collection){
                     var k;
                     listenumero = document.getElementsByName('numero');
                     for(k=0; k<listenumero.length; k++){
                       listenumero[k].textContent=k+1;
                       nombreCases= k+1;
                     };
-
+                    localStorage.setItem("form_plateau", collection[0].outerHTML);
                   },
 
                   after_remove:
 
-                  function majIndex(){
+                  function majIndex(collection){
                     var k;
                     listenumero = document.getElementsByName('numero');
                     for(k=0; k<listenumero.length; k++){
                       listenumero[k].textContent=k+1;
                       nombreCases= k+1;
                     };
-
+                    localStorage.setItem("form_plateau", collection[0].outerHTML);
                   },
 
 
                   after_up:
 
-                  function majIndex(){
+                  function majIndex(collection){
                     var k;
                     listenumero = document.getElementsByName('numero');
                     for(k=0; k<listenumero.length; k++){
                       listenumero[k].textContent=k+1;
                     };
+                    localStorage.setItem("form_plateau", collection[0].outerHTML);
                   },
 
                   after_down:
 
-                  function majIndex(){
+                  function majIndex(collection){
                     var k;
                     listenumero = document.getElementsByName('numero');
                     for(k=0; k<listenumero.length; k++){
                       listenumero[k].textContent=k+1;
                     };
+                    localStorage.setItem("form_plateau", collection[0].outerHTML);
                   },
 
+                  after_init:
+
+                  function restoreData(collection){
+                    collection[0].outerHTML = localStorage.getItem("form_plateau");
+                  },
 
                 });
-
-                  $('form').sisyphus();
-
-
-
 
               });
 
