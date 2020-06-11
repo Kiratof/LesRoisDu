@@ -21,7 +21,7 @@ class Cases
 
   /**
   * @ORM\Column(type="string", length=100)
-  * @Assert\NotBlank(message= "Le descriptif doit être renseigné")
+  * @Assert\NotBlank(message="Le descriptif doit être renseigné")
   * @Assert\Length(
   *      min = 10,
   *      max = 100,

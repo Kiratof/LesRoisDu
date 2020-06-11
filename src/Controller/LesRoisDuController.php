@@ -440,14 +440,8 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
 
     if ($formulairePlateau->isSubmitted() && $formulairePlateau->isValid())
     {
-      $date = New \DateTime();
-      $plateau->setDerniereModification($date);
-
-      $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
-      $plateau->setCode($code);
+      //Gestion des cases créés, renseignement des informations non renseignées
       $cases = $plateau->getCases();
-      $plateau->setNbCases(count($cases));
-
       $i = 1;
       foreach ($cases as $case) {
         $case->setNumero($i);
@@ -455,15 +449,21 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
         $i += 1;
       }
 
+      //Gestion du plateau
+      $date = New \DateTime();
+      $plateau->setDerniereModification($date);
+      $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
+      $plateau->setCode($code);
+      $plateau->setNbCases(count($cases));
       $plateau->addUtilisateur($user);
-      $manager->persist($plateau);
 
       // Enregistrer en base de données
+      $manager->persist($plateau);
       $manager->flush();
 
       $this->addFlash('success', 'Le plateau a été créé, vous pouvez désormais l\'utiliser dans une partie');
 
-      // Rediriger l'utilisateur vers la page d'accueil
+      // Rediriger l'utilisateur vers la page espace_plateau
       return $this->redirectToRoute('espace_plateau');
     }
     return $this->render('les_rois_du/creationplateau.html.twig', ['vueFormulaireCreationPlateau'=>$formulairePlateau->createview(), 'action' => 'creer', 'plateau' => null
@@ -515,59 +515,6 @@ public function affichageModificationPlateau(Request $request, ObjectManager $ma
   else{
     return $this->redirectToRoute('espace_plateau');
   }
-}
-
-/**
-* @Route("/creation/cases/{idPlateau}", name="creation_cases")
-*/
-public function affichageCreationCases(Request $request, ObjectManager $manager, UserInterface $user, PlateauRepository $repositoryPlateau, $idPlateau)
-{
-
-  $plateau = $repositoryPlateau->find($idPlateau);
-
-  if(in_array($plateau, $user->getPlateaux()->toArray()) && $plateau->getCases()->isEmpty()){
-
-    if ($request->getMethod() == 'POST') {
-
-      $date = New \DateTime();
-      $plateau->setDerniereModification($date);
-
-      for ($i=1; $i <= $plateau->getNbCases(); $i++) {
-
-        $cases = new Cases();
-
-        $descriptif = $request->request->get('descriptif'.$i);
-
-        $cases->setDescriptifDefi($descriptif);
-
-        $cases->setNumero($i);
-
-        $cases->setPlateau($plateau);
-
-        $manager->persist($cases);
-
-
-      }
-
-      $manager->persist($plateau);
-
-      $manager->flush();
-
-      $this->addFlash('success', 'Les défis ont bien été saisis, vous pouvez désormais consulter votre plateau.');
-
-      // Rediriger l'utilisateur vers la page d'accueil
-      return $this->redirectToRoute('espace_plateau');
-
-    }
-
-
-    return $this->render('les_rois_du/creationcases.html.twig', ['plateau' => $plateau, 'cases' => null]);
-  }
-  else{
-    return $this->redirectToRoute('espace_plateau');
-  }
-
-
 }
 
 /**
@@ -1375,7 +1322,7 @@ public function apiPartie($idPartie, Request $request, ObjectManager $manager, P
         $infosR = ['chemin' => $chemin];
 
         array_push($ressourceData, $infosR);
-
+        
       }
       $infos = ['numero' => $numero, 'defi' => $defi, 'consignes' => $consignes, 'code' => $code, 'ressources' => $ressourceData];
       array_push($caseData, $infos);
@@ -1408,22 +1355,4 @@ public function apiPartie($idPartie, Request $request, ObjectManager $manager, P
   return $this->json(['nom' => $name, 'description' => $description, 'createur' => $createur, 'joueur' => $joueur, 'nbPlateaux' => $nbPlateaux, 'estLance' => $estLance, 'plateaux' => $tabPlateaux]);
 
 }
-
-    /**
-     * @Route("/testjs", name="testjs")
-     */
-    public function testjs()
-    {
-      // Création d'un plateau vierge
-      $cases=new Cases();
-
-      // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
-      $formulaireCase = $this->createForm(CasesType::class, $cases);
-
-    return $this->render('les_rois_du/testjs.html.twig', ['formCase'=>$formulaireCase->createview(),
-                                                                                                ]);
-
-    }
-
-
 }
