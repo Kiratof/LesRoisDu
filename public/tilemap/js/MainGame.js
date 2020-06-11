@@ -1,5 +1,4 @@
 window.onload = function() {
-
 	var deltaTime = 60;
 	var mainGame = new MainGame();
 	mainGame.initialize();
@@ -13,41 +12,35 @@ window.onload = function() {
 }
 
 class MainGame {
-
-	    constructor()
-	    {
-					this.plateaux = [];
-	    }
-
-	    initialize(){
-	      var parametresPartieJSON = Api.getParametresPartieJSON(idPartie);
-
-				for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
-					var gameScene = new SceneGameplay(i + 1, parametresPartieJSON.plateaux[i]);
-					this.plateaux.push(gameScene);
-				}
-	    }
-
-			load(){
-				this.plateaux.forEach(plateau => {
-					plateau.load();
-				});
-			}
-
-	    update(deltaTime){
-
-				this.plateaux.forEach(plateau => {
-					plateau.update(deltaTime);
-				});
-
-	    }
-
-	    draw(){
-
-				this.plateaux.forEach(plateau => {
-					plateau.draw();
-				});
-
-	    }
-
+	constructor()
+	{
+		this.plateaux = [];
 	}
+
+	initialize(){
+		var parametresPartieJSON = Api.getParametresPartieJSON(idPartie);
+		for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
+			var idPlateau = i + 1;
+			var gameScene = new SceneGameplay(idPlateau, parametresPartieJSON.plateaux[i]);
+			this.plateaux.push(gameScene);
+		}
+	}
+
+	load(){
+		this.plateaux.forEach(plateau => {
+			plateau.load();
+		});
+	}
+
+	update(deltaTime){
+		this.plateaux.forEach(plateau => {
+			plateau.update(deltaTime);
+		});
+	}
+
+	draw(){
+		this.plateaux.forEach(plateau => {
+			plateau.draw();
+		});
+	}
+}

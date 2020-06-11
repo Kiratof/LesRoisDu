@@ -276,8 +276,6 @@ class LesRoisDuController extends AbstractController
 
     if ($formulairePartie->isSubmitted() && $formulairePartie->isValid())
     {
-
-
       $donneesPions = [
         ['numero' => 1, 'nom' => "vert", 'couleur' => "green"],
         ['numero' => 2, 'nom' => "rouge", 'couleur' => "red"],
@@ -433,7 +431,7 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
   {
 
     // Création d'une partie vierge
-    $plateau=new Plateau();
+    $plateau = new Plateau();
 
     // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
     $formulairePlateau = $this->createForm(PlateauType::class, $plateau);
@@ -442,12 +440,20 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
 
     if ($formulairePlateau->isSubmitted() && $formulairePlateau->isValid())
     {
-
       $date = New \DateTime();
       $plateau->setDerniereModification($date);
 
       $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
       $plateau->setCode($code);
+      $cases = $plateau->getCases();
+      $plateau->setNbCases(count($cases));
+
+      $i = 1;
+      foreach ($cases as $case) {
+        $case->setNumero($i);
+        $case->setPlateau($plateau);
+        $i += 1;
+      }
 
       $plateau->addUtilisateur($user);
       $manager->persist($plateau);
@@ -455,7 +461,7 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
       // Enregistrer en base de données
       $manager->flush();
 
-      $this->addFlash('success', 'Le plateau a été créé, vous pouvez désormais aller saisir les défis.');
+      $this->addFlash('success', 'Le plateau a été créé, vous pouvez désormais l\'utiliser dans une partie');
 
       // Rediriger l'utilisateur vers la page d'accueil
       return $this->redirectToRoute('espace_plateau');

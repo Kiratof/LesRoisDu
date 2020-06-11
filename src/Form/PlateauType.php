@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Plateau;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,10 +47,10 @@ class PlateauType extends AbstractType
                   'label'=> false,
                   'prototype' => true,
                   'attr'         => [
-                   'class' => 'collection-cases',
+                  'class' => 'collection-cases',
                ],
                 ])
-
+              ->add('Valider', SubmitType::class)
         ;
     }
 

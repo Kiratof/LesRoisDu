@@ -49,7 +49,7 @@ class Plateau
     private $niveauDifficulte;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cases", mappedBy="plateau", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Cases", mappedBy="plateau", orphanRemoval=true,cascade={"persist"} )
      */
     private $cases;
 

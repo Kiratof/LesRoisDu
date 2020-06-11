@@ -29,57 +29,54 @@
           <div class="inner">
 
             {{form_start(vueFormulaireCreationPartie) }}
-              {{ form_row(vueFormulaireCreationPartie.nom)}}
-              {{ form_row(vueFormulaireCreationPartie.description)}}
-              {{ form_row(vueFormulaireCreationPartie.plateau, { 'label' : 'Plateau(x)' })}}
-            <Br>
-
-          <div class="row">
-                    <div class="col-md-12">
-             <a href="" class="button submit">Valider la création </a>
-             <a href="{{ path('hub')}}" class="button scrolly">Annuler la création </a>
-          </div>
-        </div>
-
-          </div>
-
-          {{form_end(vueFormulaireCreationPartie)}}
-
-        {%else%}
-
-        <h1>MODIFIER UNE PARTIE</h1>
-        <section id="three" class="wrapper style1 fade-up">
-          <div class="inner">
-
-            {{form_start(vueFormulaireCreationPartie) }}
             {{ form_row(vueFormulaireCreationPartie.nom)}}
             {{ form_row(vueFormulaireCreationPartie.description)}}
-            {{ form_row(vueFormulaireCreationPartie.nbPlateaux, { 'label' : 'Nombre de plateaux' })}}
-            {{ form_row(vueFormulaireCreationPartie.nbPionParPlateau, { 'label' : 'Nombre de pions par plateau (de 1 à 4)' })}}
-            {{ form_row(vueFormulaireCreationPartie.nbFacesDe, { 'label' : 'Nombre de faces sur le dé (de 1 à 4)' })}}
+            {{ form_row(vueFormulaireCreationPartie.plateau, { 'label' : 'Plateau(x)' })}}
             <Br>
 
-          <div class="row">
+              <div class="row">
+                <div class="col-md-12">
+                  <a href="" class="button submit">Valider la création</a>
+                  <a href="{{ path('hub')}}" class="button scrolly">Annuler la création</a>
+                </div>
+              </div>
+
+            </div>
+
+            {{form_end(vueFormulaireCreationPartie)}}
+
+            {%else%}
+
+            <h1>MODIFIER UNE PARTIE</h1>
+            <section id="three" class="wrapper style1 fade-up">
+              <div class="inner">
+
+                {{form_start(vueFormulaireCreationPartie) }}
+                {{ form_row(vueFormulaireCreationPartie.nom)}}
+                {{ form_row(vueFormulaireCreationPartie.description)}}
+                {{ form_row(vueFormulaireCreationPartie.nbPlateaux, { 'label' : 'Nombre de plateaux' })}}
+                {{ form_row(vueFormulaireCreationPartie.nbPionParPlateau, { 'label' : 'Nombre de pions par plateau (de 1 à 4)' })}}
+                {{ form_row(vueFormulaireCreationPartie.nbFacesDe, { 'label' : 'Nombre de faces sur le dé (de 1 à 4)' })}}
+                <Br>
+
+                  <div class="row">
                     <div class="col-md-12">
-             <a href="" class="button submit">Valider la modification </a>
-             <a href="{{ path('parametres_partie', {'idPartie' : partie.id}) }}" class="button scrolly">Annuler la modification </a>
+                      <a href="" class="button submit">Valider la modification </a>
+                      <a href="{{ path('parametres_partie', {'idPartie' : partie.id}) }}" class="button scrolly">Annuler la modification </a>
+                    </div>
+                  </div>
+
+                </div>
+
+                {{form_end(vueFormulaireCreationPartie)}}
+
+                {%endif%}
+
+              </div>
+            </section>
           </div>
-        </div>
-
-          </div>
-
-          {{form_end(vueFormulaireCreationPartie)}}
-
-        {%endif%}
-
-      </div>
-    </section>
-  </div>
-  </section>
-
-  </div>
-  {% endblock %}
+      {% endblock %}
 
 
-  {% block footer %}
-  {% endblock %}
+      {% block footer %}
+      {% endblock %}
