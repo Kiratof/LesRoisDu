@@ -2,6 +2,7 @@
 
 {% block extra_js %}
 <script src="{{ asset('js/jquery.collection.js') }}"></script>
+<script src="{{ asset('js/sisyphus.js') }}"></script>
 {% endblock %}
 
 {% block sidebar %}
@@ -99,122 +100,98 @@
               {{ form_row(vueFormulaireCreationPlateau.description)}}
               {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
 
-              <Br>
 
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <a href="" class="button submit">Valider la modification </a>
-                    <a href="{{ path('parametres_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">Annuler la modification </a>
-                  </div>
-                </div>
+                {% endif %}
 
               </div>
 
-              {{form_end(vueFormulaireCreationPlateau)}}
+              </div>
+
+
+              <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded", function(event) {
+
+                  $('.collection-cases').collection({
+                    prefix: 'cases',
+                    init_with_n_elements: 12,
+                    max: 31,
+                    min: 6,
+                    fade_in: true,
+                    fade_out: true,
+                    position_field_selector: '.position-case',
+
+                    //fonctions déclenchées après l'ajout, la suppression et le déplacement d'une case
+                    after_add:
+
+                    //Fonction qui attribue un chiffre pour chaque élément numéro en fonction de sa position dans la liste
+                    function majIndex(){
+                      var k;
+                      listenumero = document.getElementsByName('numero');
+                      for(k=0; k<listenumero.length; k++){
+                        listenumero[k].textContent=k+1;
+                        nombreCases= k+1;
+                      };
+
+                    },
+
+                    after_remove:
+
+                    function majIndex(){
+                      var k;
+                      listenumero = document.getElementsByName('numero');
+                      for(k=0; k<listenumero.length; k++){
+                        listenumero[k].textContent=k+1;
+                        nombreCases= k+1;
+                      };
+                    },
+
+
+                    after_up:
+
+                    function majIndex(){
+                      var k;
+                      listenumero = document.getElementsByName('numero');
+                      for(k=0; k<listenumero.length; k++){
+                        listenumero[k].textContent=k+1;
+                      };
+                    },
+
+                    after_down:
+
+                    function majIndex(){
+                      var k;
+                      listenumero = document.getElementsByName('numero');
+                      for(k=0; k<listenumero.length; k++){
+                        listenumero[k].textContent=k+1;
+                      };
+                    },
 
 
 
+                  });
 
-              {% endif %}
+                  $('.collection-cases').sisyphus();
 
-            </div>
-
-
-
-            <script type="text/javascript">
-              document.addEventListener("DOMContentLoaded", function(event) {
-
-                //
-                // $('.cookies').collection({
-                //       after_add:
-                //             function getCookie(ccollection) {
-                //               var collection = ccollection + "=";
-                //               var decodedCookie = decodeURIComponent(document.cookie);
-                //               var ca = decodedCookie.split(';');
-                //               for(var i = 0; i < ca.length; i++) {
-                //                 var c = ca[i];
-                //                 while (c.charAt(0) == ' ') {
-                //                   c = c.substring(1);
-                //                 }
-                //                 if (c.indexOf(name) == 0) {
-                //                   return c.substring(name.length, c.length);
-                //                 }
-                //               }
-                //               return "";
-                //             },
-                //
-                //       before_init:
-                //       function checkCookie(){
-                //         var collec=getCookie("collection");
-                //         if (collec != ""){alert("y'a cookie");}
-                //         else{alert("met les cookies dans le sac");}
-                //       },
-                //
-                // })
-
-
-
-
-
-                $('.collection-cases').collection({
-                  prefix: 'cases',
-                  init_with_n_elements: 12,
-                  max: 31,
-                  min: 6,
-                  fade_in: true,
-                  fade_out: true,
-                  position_field_selector: '.position-case',
-
-                  //fonctions déclenchées après l'ajout, la suppression et le déplacement d'une case
-                  after_add:
-
-                  //Fonction qui attribue un chiffre pour chaque élément numéro en fonction de sa position dans la liste
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
-
-                  after_remove:
-
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
-
-
-                  after_up:
-
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
-
-                  after_down:
-
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
 
                 });
 
 
-              });
-            </script>
-            {% endblock %}
 
-            {% block footer %}
-            {% endblock %}
+
+
+
+
+
+
+
+
+
+              </script>
+
+
+
+                });
+
+                {% endblock %}
+              {% block footer %}
+              {% endblock %}
