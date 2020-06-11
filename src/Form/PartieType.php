@@ -21,6 +21,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Repository\PlateauRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\UtilisateurRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class PartieType extends AbstractType
 {
@@ -45,6 +47,8 @@ class PartieType extends AbstractType
                                                     'choice_label' => 'nom',
                                                     'multiple' => true,
                                                     'expanded' => true])
+            ->add('Valider', SubmitType::class)
+
         ;
     }
 

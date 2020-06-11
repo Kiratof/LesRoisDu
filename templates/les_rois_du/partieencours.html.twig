@@ -1,120 +1,125 @@
 {% extends 'monTemplate.html.twig' %}
 
-    {% block body %}
-        <section class="partie-container">
-            <div class="tabs">
-                <div class="tabs__sidebar">
-                  {% for plateau in partie.plateauEnJeu %}
-                    <button class="tabs__button" data-for-tab="{{loop.index}}">{{plateau.nom}}</button>
-                  {% endfor %}
-                </div>
-                {% for plateau in partie.plateauEnJeu %}
-                <div class="tabs__content" id="plateau-{{loop.index}}" data-tab="{{loop.index}}">
+{% block body %}
+<section class="partie-container">
+  <div class="tabs">
+    <div class="tabs__sidebar">
+      {% for plateau in partie.plateauEnJeu %}
+      <button class="tabs__button" data-for-tab="{{loop.index}}">{{plateau.nom}}</button>
+      {% endfor %}
+    </div>
+    {% for plateau in partie.plateauEnJeu %}
+    <div class="tabs__content" id="plateau-{{loop.index}}" data-tab="{{loop.index}}">
 
-                </div>
-                {% endfor %}
-            </div>
-            <div class="info-partie">
-              <div class="info-partie__heading">
-                <h1>{{partie.nom}}</h1>
-                <h2>{{partie.createur.pseudo}}</h2>
-              </div>
-              {% for plateau in partie.plateauEnJeu %}
-              <div class="info-partie__plateaux">
+    </div>
+    {% endfor %}
+  </div>
+  <div class="info-partie">
+    <div class="info-partie__heading">
+      <h1>{{partie.nom}}</h1>
+      <h2>{{partie.createur.pseudo}}</h2>
+    </div>
+    {% for plateau in partie.plateauEnJeu %}
+    <div class="info-partie__plateaux">
 
-                <h3>Plateau n°{{loop.index}} : {{plateau.nom}}</h3>
-                <div class="table-wrapper">
-                  <table class="alt">
-                    <thead>
-                      <tr>
-                        {% for pion in plateau.pions %}
-                        <th id="couleur-{{pion.couleur}}"></th>
+      <h3>Plateau n°{{loop.index}} : {{plateau.nom}}</h3>
+      <div class="table-wrapper">
+        <table class="alt">
+          <thead>
+            <tr>
+              {% for pion in plateau.pions %}
+              <th id="couleur-{{pion.couleur}}"></th>
 
-                        {% endfor %}
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        {% for pion in plateau.pions %}
-
-                        <td id="{{plateau.nom}}-{{loop.index}}"></td>
-                        <script type="text/javascript">
-                          var avancementPlateau = {{ pion.avancementPlateau }} / {{plateau.nbCases}} * 100;
-                          document.getElementById("{{plateau.nom}}-{{loop.index}}").innerHTML = Math.floor(avancementPlateau) + " %";
-                        </script>
-                        {% endfor %}
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
               {% endfor %}
-              <div class="option-partie">
-                      {% if utilisateur.pseudo == partie.createur.pseudo %}
-                            <button class="option-partie__button" onclick="location.href='{{path('parametres_partie', {'idPartie' : partie.id})}}'">Paramètres</button>
-                      {%endif%}
-                      <button class="option-partie__button" onclick="location.href='{{path('espace_partie')}}'">Espace partie</button>
-              </div>
-            </div>
 
-        </section>
-	{% block menuMiniScreen %}
-  {% endblock %}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% for pion in plateau.pions %}
+
+              <td id="{{plateau.nom}}-{{loop.index}}"></td>
+              <script type="text/javascript">
+                var avancementPlateau = {{ pion.avancementPlateau }} / {{plateau.nbCases}} * 100;
+                document.getElementById("{{plateau.nom}}-{{loop.index}}").innerHTML = Math.floor(avancementPlateau) + " %";
+              </script>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="option-partie">
+      {% if utilisateur.pseudo == partie.createur.pseudo %}
+      <button class="option-partie__button" onclick="location.href='{{path('parametres_partie', {'idPartie' : partie.id})}}'">Paramètres</button>
+      {%endif%}
+      <button class="option-partie__button" onclick="location.href='{{path('espace_partie')}}'">Espace partie</button>
+    </div>
+  </div>
+
+</section>
+{% block menuMiniScreen %}
+{% endblock %}
 
 
-  <script type="text/javascript">
-    function setupTabs(){
-      document.querySelectorAll('.tabs__button').forEach(button => {
-        button.addEventListener('click', () => {
-          const sideBar = button.parentElement;
-          const tabsContainer = sideBar.parentElement;
-          const tabNumber = button.dataset.forTab;
-          const tabToActivate = tabsContainer.querySelector(`.tabs__content[data-tab="${tabNumber}"]`);
 
-          sideBar.querySelectorAll(".tabs__button").forEach(button => {
-            button.classList.remove("tabs__button--active");
-          });
 
-          tabsContainer.querySelectorAll(".tabs__content").forEach(tab => {
-            tab.classList.remove("tabs__content--active");
-          });
+<script type="text/javascript">
+  var idPartie = {{ partie.id }};
+  var assetsBaseDir = {{ asset('tilemap/') }};
+</script>
 
-          button.classList.add("tabs__button--active");
-          tabToActivate.classList.add("tabs__content--active");
+<script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Api.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Graphics.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/ToolBox.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Background.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Mouse.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Input.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Resize.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Element.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Parcours.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/De.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Pion.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
+<script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
 
+<script type="text/javascript">
+  function setupTabs(){
+    document.querySelectorAll('.tabs__button').forEach(button => {
+      button.addEventListener('click', () => {
+        const sideBar = button.parentElement;
+        const tabsContainer = sideBar.parentElement;
+        const tabNumber = button.dataset.forTab;
+        const tabToActivate = tabsContainer.querySelector(`.tabs__content[data-tab="${tabNumber}"]`);
+
+        sideBar.querySelectorAll(".tabs__button").forEach(button => {
+          button.classList.remove("tabs__button--active");
         });
+
+        tabsContainer.querySelectorAll(".tabs__content").forEach(tab => {
+          tab.classList.remove("tabs__content--active");
+        });
+
+        button.classList.add("tabs__button--active");
+        tabToActivate.classList.add("tabs__content--active");
+
       });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      setupTabs();
-
-      document.querySelectorAll(".tabs").forEach( tabsContainer => {
-        tabsContainer.querySelector(".tabs__sidebar .tabs__button").click();
-      });
-
     });
-  </script>
+  }
 
-          <script type="text/javascript">
-              var idPartie = {{ partie.id }};
-              var assetsBaseDir = {{ asset('tilemap/') }};
-          </script>
+  document.addEventListener("DOMContentLoaded", () => {
+    setupTabs();
 
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/ToolBox.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Background.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Mouse.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Input.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Parcours.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/De.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Pion.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Tileset.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
-          <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
+    document.querySelectorAll(".tabs").forEach( tabsContainer => {
+      tabsContainer.querySelector(".tabs__sidebar .tabs__button").click();
+    });
+
+  });
+</script>
 
 
-        {% endblock %}
+{% endblock %}

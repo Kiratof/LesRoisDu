@@ -27,7 +27,7 @@ class Map {
 		return this.terrainWidth * this.TILE_WIDTH;
 	}
 	getHauteur() {
-		return (this.terrain.length / this.terrainWidth) * this.TILE_WIDTH;
+		return this.terrainHeight * this.TILE_HEIGHT;
 	}
 
 
@@ -43,7 +43,7 @@ class Map {
 	draw(context) {
 
 		//Dessin du tileset
-		var nbLignes = this.terrain.length / this.terrainWidth;
+		var nbLignes = this.terrainHeight;
 		var ligne = 0;
 		var colonne = 0;
 		for (ligne; ligne < nbLignes; ligne++) {

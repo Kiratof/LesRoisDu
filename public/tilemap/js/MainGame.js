@@ -1,8 +1,8 @@
 window.onload = function() {
-
 	var deltaTime = 60;
 	var mainGame = new MainGame();
 	mainGame.initialize();
+	mainGame.load();
 
 	//GAMELOOP
 	setInterval(function() {
@@ -12,57 +12,35 @@ window.onload = function() {
 }
 
 class MainGame {
-
-	    constructor()
-	    {
-
-	    }
-
-	    initialize(){
-	      var parametresPartieJSON = this.getParametresPartieJSON();
-				this.plateaux = [];
-
-				for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
-					var gameScene = new SceneGameplay(i + 1, parametresPartieJSON.plateaux[i]);
-					this.plateaux.push(gameScene);
-				}
-	    }
-
-	    update(deltaTime){
-
-				this.plateaux.forEach(plateau => {
-					plateau.update(deltaTime);
-				});
-
-	    }
-
-	    draw(){
-
-				this.plateaux.forEach(plateau => {
-					plateau.draw();
-				});
-
-	    }
-
-	    getParametresPartieJSON() {
-
-	        var UrlApiPartie = 'http://localhost:8000/api/partie/' + idPartie;
-
-	        // Création de l'objet XmlHttpRequest
-	        var xhr = getXMLHttpRequest();
-
-	        // Chargement du fichier
-	        xhr.open("GET", UrlApiPartie, false);
-	        xhr.send(null);
-	        if (xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 0)){// Code == 0 en local
-	          throw new Error("Impossible de charger la carte nommée \"" + nom + "\" (code HTTP : " + xhr.status + ").");
-	        }
-
-	        //Récupération des données & parsing
-	        var donneesTexte = xhr.responseText;
-	        var donneesJSON = JSON.parse(donneesTexte);
-
-	        return donneesJSON;
-
-	    }
+	constructor()
+	{
+		this.plateaux = [];
 	}
+
+	initialize(){
+		var parametresPartieJSON = Api.getParametresPartieJSON(idPartie);
+		for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
+			var idPlateau = i + 1;
+			var gameScene = new SceneGameplay(idPlateau, parametresPartieJSON.plateaux[i]);
+			this.plateaux.push(gameScene);
+		}
+	}
+
+	load(){
+		this.plateaux.forEach(plateau => {
+			plateau.load();
+		});
+	}
+
+	update(deltaTime){
+		this.plateaux.forEach(plateau => {
+			plateau.update(deltaTime);
+		});
+	}
+
+	draw(){
+		this.plateaux.forEach(plateau => {
+			plateau.draw();
+		});
+	}
+}

@@ -19,7 +19,7 @@ class CasesType extends AbstractType
             //->add('consignes')
             //->add('codeValidation')
             //->add('numero')
-            ->add('position', HiddenType::class, [
+            ->add('numero', HiddenType::class, [
             'attr' => [
                 'class' => 'position-case',
                       ],
