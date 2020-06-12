@@ -41,18 +41,18 @@
                     </div>
                 {% endfor %}
                 <BR>
- 
+
                 <a href="{{ path('creation_plateau') }}" class="button scrolly">CREER UN PLATEAU</a>
                 <a onClick=ajouterSaisieCode() class="button scrolly"> AJOUTER UN PLATEAU EXISTANT</a>
                         <script type="text/javaScript">
 
-                            function ajouterSaisieCode() {                             
+                            function ajouterSaisieCode() {
                                 document.getElementById('Cible').innerHTML ='<p>Saisir ci dessous le code du plateau à ajouter en respectant les minuscules et majuscules :</p>   <input id="inputRejoindre"  type="text"/><br>   <a href="" id="boutonRejoindre" class="button scrolly"> Ajouter</a>';
                                 routeSaisie = true;
                             }
 
                             routeSaisie = false; //pour éviter d'essayer de regarder le code dans le input s'il n'est pas encre créé
-                        
+
                             setInterval(function(){
                                 if (routeSaisie) {
                                     var code = document.getElementById("inputRejoindre").value;
@@ -62,9 +62,9 @@
                                 }
                             }, 100);
 
-                        </script> 
+                        </script>
 
-                    
+
                     <div id="Cible"></div>
                     <BR>
 
@@ -88,17 +88,8 @@
                             <div class="inner">
                                 <h2> {{plateau.nom}} </h2>
                                 <p> {{plateau.description}} </p>
-                                {% if nbCases == 0 %}
-
-                                    <a href="{{path ('creation_cases', {'idPlateau': plateau.id}) }}"
-                                            class="button">Saisir les défis</a>
-                                    <a href="{{path ('annuler_plateau', {'idPlateau': plateau.id}) }}"
-                                            class="button">Annuler la création</a>
-
-                                {%else%}
                                     <a href="{{path ('plateau', {'idPlateau': plateau.id}) }}"
                                             class="button">Consulter</a>
-                                {% endif %}
                             </div>
                         </div>
                     </section>
