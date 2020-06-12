@@ -6,37 +6,36 @@
 
 {% block sidebar %}
 
-<body class="is-preload">
-  <!-- Sidebar -->
-  <section id="sidebar">
+<!-- Sidebar -->
+<section id="sidebar">
+  <div class="inner">
+    <nav>
+      <ul>
+        <li><a href="{{path('hub')}}">RETOUR</a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+{% endblock %}
+
+{% block body %}
+<!-- Wrapper -->
+<div id="wrapper">
+
+  <!-- Intro -->
+  <section id="partie" class="wrapper style1 fullscreen fade-up">
     <div class="inner">
-      <nav>
-        <ul>
-          <li><a href="{{path('hub')}}">RETOUR</a></li>
-        </ul>
-      </nav>
-    </div>
-  </section>
-  {% endblock %}
+      {% if action == 'creer' %}
+      <h1>CREER UN PLATEAU</h1>
 
-  {% block body %}
-  <!-- Wrapper -->
-  <div id="wrapper">
+      <section id="three" class="wrapper style1 fade-up">
+        <div class="inner">
 
-    <!-- Intro -->
-    <section id="partie" class="wrapper style1 fullscreen fade-up">
-      <div class="inner">
-        {% if action == 'creer' %}
-        <h1>CREER UN PLATEAU</h1>
-
-        <section id="three" class="wrapper style1 fade-up">
-          <div class="inner">
-
-            {% form_theme vueFormulaireCreationPlateau with
-              ['form/form-theme.html.twig',
-              'jquery.collection.html.twig']   %}
+          {% form_theme vueFormulaireCreationPlateau with
+            ['form/form-theme.html.twig',
+            'jquery.collection.html.twig']   %}
             <div class="inner" id="ensembleformulaire">
-              {{form_start(vueFormulaireCreationPlateau, {'action': path('creation_plateau'), 'method': 'POST'}) }}
+              {{form_start(vueFormulaireCreationPlateau) }}
               {{ form_row(vueFormulaireCreationPlateau.nom)}}
               {{ form_row(vueFormulaireCreationPlateau.description)}}
               {{ form_row(vueFormulaireCreationPlateau.nbPion,  { 'label' : 'Nombre de pions' })}}
@@ -48,173 +47,152 @@
               <blockquote>Veuillez saisir entre 6 et 31 descriptifs</blockquote>
 
 
-                <div id="ensemblecases">
+              <div id="ensemblecases">
 
-                  {{ form_row(vueFormulaireCreationPlateau.cases) }}
-                </div>
-              </div>
-              <div id="ensemblenumero">
-
-              </div>
-
-
-              {{form_end(vueFormulaireCreationPlateau)}}
-              <div class="row">
-                <div class="col-md-12">
-                  <a href="{{ path('hub')}}" class="button scrolly">Annuler</a>
-                </div>
+                {{ form_row(vueFormulaireCreationPlateau.cases) }}
               </div>
             </div>
+            <div id="ensemblenumero">
+
+            </div>
+            {{form_row(vueFormulaireCreationPlateau.Valider, {'attr': {'class': 'button scrolly'}}) }}
+            {{form_end(vueFormulaireCreationPlateau)}}
+            <div class="row">
+              <div class="col-md-12">
+                <a href="{{ path('hub')}}" class="button scrolly">Annuler</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        {%else%}
+
+        <h1>MODIFIER UN PLATEAU</h1>
+        <section id="three" class="wrapper style1 fade-up">
+          <div class="inner">
+
+            {{form_start(vueFormulaireCreationPlateau) }}
+            {{ form_row(vueFormulaireCreationPlateau.nom)}}
+            {{ form_row(vueFormulaireCreationPlateau.description)}}
+            {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
+
             <Br>
 
 
-              <!-- <div id="numerocase" style="position:absolute; left:80px; top:880px;">
-              <h4> N°1 </h4>
-              <h4 style="margin-top:51.8px"> N°2 </h4>
-              <h4 style="margin-top:51.8px"> N°3 </h4>
-              <h4 style="margin-top:51.8px"> N°4 </h4>
-              <h4 style="margin-top:51.8px"> N°5 </h4>
-              <h4 style="margin-top:51.8px"> N°6 </h4>
-              <h4 style="margin-top:51.8px"> N°7 </h4>
-              <h4 style="margin-top:51.8px"> N°8 </h4>
-              <h4 style="margin-top:51.8px"> N°9 </h4>
-              <h4 style="margin-top:51.8px"> N°10 </h4>
-              <h4 style="margin-top:51.8px"> N°11 </h4>
-              <h4 style="margin-top:51.8px"> N°12 </h4>
+              <div class="row">
+                <div class="col-md-12">
+                  <a href="{{ path('parametres_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">Annuler la modification </a>
+                </div>
+              </div>
+
+            </div>
+
+            {{form_end(vueFormulaireCreationPlateau)}}
 
 
-            </div> -->
+
+
+            {% endif %}
 
           </div>
 
 
-          {%else%}
 
-          <h1>MODIFIER UN PLATEAU</h1>
-          <section id="three" class="wrapper style1 fade-up">
-            <div class="inner">
+          <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function(event) {
 
-              {{form_start(vueFormulaireCreationPlateau) }}
-              {{ form_row(vueFormulaireCreationPlateau.nom)}}
-              {{ form_row(vueFormulaireCreationPlateau.description)}}
-              {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
-
-              <Br>
-
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <a href="" class="button submit">Valider la modification </a>
-                    <a href="{{ path('parametres_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">Annuler la modification </a>
-                  </div>
-                </div>
-
-              </div>
-
-              {{form_end(vueFormulaireCreationPlateau)}}
-
-
-
-
-              {% endif %}
-
-            </div>
-
-
-
-            <script type="text/javascript">
-              document.addEventListener("DOMContentLoaded", function(event) {
-
-                //
-                // $('.cookies').collection({
-                //       after_add:
-                //             function getCookie(ccollection) {
-                //               var collection = ccollection + "=";
-                //               var decodedCookie = decodeURIComponent(document.cookie);
-                //               var ca = decodedCookie.split(';');
-                //               for(var i = 0; i < ca.length; i++) {
-                //                 var c = ca[i];
-                //                 while (c.charAt(0) == ' ') {
-                //                   c = c.substring(1);
-                //                 }
-                //                 if (c.indexOf(name) == 0) {
-                //                   return c.substring(name.length, c.length);
-                //                 }
-                //               }
-                //               return "";
-                //             },
-                //
-                //       before_init:
-                //       function checkCookie(){
-                //         var collec=getCookie("collection");
-                //         if (collec != ""){alert("y'a cookie");}
-                //         else{alert("met les cookies dans le sac");}
-                //       },
-                //
-                // })
+              //
+              // $('.cookies').collection({
+              //       after_add:
+              //             function getCookie(ccollection) {
+              //               var collection = ccollection + "=";
+              //               var decodedCookie = decodeURIComponent(document.cookie);
+              //               var ca = decodedCookie.split(';');
+              //               for(var i = 0; i < ca.length; i++) {
+              //                 var c = ca[i];
+              //                 while (c.charAt(0) == ' ') {
+              //                   c = c.substring(1);
+              //                 }
+              //                 if (c.indexOf(name) == 0) {
+              //                   return c.substring(name.length, c.length);
+              //                 }
+              //               }
+              //               return "";
+              //             },
+              //
+              //       before_init:
+              //       function checkCookie(){
+              //         var collec=getCookie("collection");
+              //         if (collec != ""){alert("y'a cookie");}
+              //         else{alert("met les cookies dans le sac");}
+              //       },
+              //
+              // })
 
 
 
 
 
-                $('.collection-cases').collection({
-                  prefix: 'cases',
-                  init_with_n_elements: 12,
-                  max: 31,
-                  min: 6,
-                  fade_in: true,
-                  fade_out: true,
-                  position_field_selector: '.position-case',
+              $('.collection-cases').collection({
+                prefix: 'cases',
+                init_with_n_elements: 12,
+                max: 31,
+                min: 6,
+                fade_in: true,
+                fade_out: true,
+                position_field_selector: '.position-case',
 
-                  //fonctions déclenchées après l'ajout, la suppression et le déplacement d'une case
-                  after_add:
+                //fonctions déclenchées après l'ajout, la suppression et le déplacement d'une case
+                after_add:
 
-                  //Fonction qui attribue un chiffre pour chaque élément numéro en fonction de sa position dans la liste
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
+                //Fonction qui attribue un chiffre pour chaque élément numéro en fonction de sa position dans la liste
+                function majIndex(){
+                  var k;
+                  listenumero = document.getElementsByName('numero');
+                  for(k=0; k<listenumero.length; k++){
+                    listenumero[k].textContent=k+1;
+                  };
+                },
 
-                  after_remove:
+                after_remove:
 
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
+                function majIndex(){
+                  var k;
+                  listenumero = document.getElementsByName('numero');
+                  for(k=0; k<listenumero.length; k++){
+                    listenumero[k].textContent=k+1;
+                  };
+                },
 
 
-                  after_up:
+                after_up:
 
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
+                function majIndex(){
+                  var k;
+                  listenumero = document.getElementsByName('numero');
+                  for(k=0; k<listenumero.length; k++){
+                    listenumero[k].textContent=k+1;
+                  };
+                },
 
-                  after_down:
+                after_down:
 
-                  function majIndex(){
-                    var k;
-                    listenumero = document.getElementsByName('numero');
-                    for(k=0; k<listenumero.length; k++){
-                      listenumero[k].textContent=k+1;
-                    };
-                  },
-
-                });
-
+                function majIndex(){
+                  var k;
+                  listenumero = document.getElementsByName('numero');
+                  for(k=0; k<listenumero.length; k++){
+                    listenumero[k].textContent=k+1;
+                  };
+                },
 
               });
-            </script>
-            {% endblock %}
 
-            {% block footer %}
-            {% endblock %}
+
+            });
+          </script>
+          {% endblock %}
+
+          {% block footer %}
+          {% endblock %}

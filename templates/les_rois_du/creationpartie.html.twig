@@ -32,14 +32,16 @@
             {{ form_row(vueFormulaireCreationPartie.nom)}}
             {{ form_row(vueFormulaireCreationPartie.description)}}
             {{ form_row(vueFormulaireCreationPartie.plateau, { 'label' : 'Plateau(x)' })}}
-          </div>
-
-          {{form_end(vueFormulaireCreationPartie)}}
-          <div class="row">
-            <div class="col-md-12">
-              <a href="{{ path('hub')}}" class="button scrolly">Annuler</a>
+            {{form_row(vueFormulaireCreationPartie.Valider, {'attr': {'class': 'button scrolly'}}) }}
+            {{form_end(vueFormulaireCreationPartie)}}
+            <div class="row">
+              <div class="col-md-12">
+                <a href="{{ path('hub')}}" class="button scrolly">Annuler</a>
+              </div>
             </div>
           </div>
+
+
 
           {%else%}
 
@@ -50,21 +52,14 @@
               {{form_start(vueFormulaireCreationPartie) }}
               {{ form_row(vueFormulaireCreationPartie.nom)}}
               {{ form_row(vueFormulaireCreationPartie.description)}}
-              {{ form_row(vueFormulaireCreationPartie.nbPlateaux, { 'label' : 'Nombre de plateaux' })}}
-              {{ form_row(vueFormulaireCreationPartie.nbPionParPlateau, { 'label' : 'Nombre de pions par plateau (de 1 à 4)' })}}
-              {{ form_row(vueFormulaireCreationPartie.nbFacesDe, { 'label' : 'Nombre de faces sur le dé (de 1 à 4)' })}}
-              <Br>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <a href="" class="button submit">Valider la modification </a>
-                    <a href="{{ path('parametres_partie', {'idPartie' : partie.id}) }}" class="button scrolly">Annuler la modification </a>
-                  </div>
-                </div>
-
-              </div>
-
+              {{ form_row(vueFormulaireCreationPartie.plateau, { 'label' : 'Plateau(x)' })}}
+              {{ form_row(vueFormulaireCreationPartie.Valider, {'attr': {'class': 'button scrolly'}}) }}
               {{form_end(vueFormulaireCreationPartie)}}
+              <div class="row">
+                <div class="col-md-12">
+                  <a href="{{ path('hub')}}" class="button scrolly">Annuler</a>
+                </div>
+              </div>
 
               {%endif%}
 
