@@ -265,7 +265,6 @@ class LesRoisDuController extends AbstractController
   */
   public function affichageCreationPartie(Request $request, ObjectManager $manager, UserInterface $user)
   {
-
     // Création d'une partie vierge
     $partie = new Partie();
 
@@ -273,7 +272,6 @@ class LesRoisDuController extends AbstractController
     $formulairePartie = $this->createForm(PartieType::class, $partie);
 
     $formulairePartie->handleRequest($request);
-
     if ($formulairePartie->isSubmitted() && $formulairePartie->isValid())
     {
       $donneesPions = [
@@ -332,19 +330,14 @@ class LesRoisDuController extends AbstractController
           $tabRessource = $uneCase->getRessources();
           foreach($tabRessource as $uneRessource){
             $ressource = new Ressource();
-
             $ressource->setChemin($uneRessource->getChemin());
-
-
             $ressource->setCases($cases);
             $cases->addRessource($ressource);
+
             $manager->persist($cases);
-
             $manager->persist($ressource);
-
           }
         }
-
         $manager->persist($plateauEnJeu);
       }
 
@@ -1322,7 +1315,7 @@ public function apiPartie($idPartie, Request $request, ObjectManager $manager, P
         $infosR = ['chemin' => $chemin];
 
         array_push($ressourceData, $infosR);
-        
+
       }
       $infos = ['numero' => $numero, 'defi' => $defi, 'consignes' => $consignes, 'code' => $code, 'ressources' => $ressourceData];
       array_push($caseData, $infos);

@@ -26,37 +26,42 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PartieType extends AbstractType
 {
-    private $plateauRepository;
-    private $security;
+  private $plateauRepository;
+  private $security;
 
-    public function __construct(Security $security, PlateauRepository $plateauRepository)
-    {
-        $this->plateauRepository = $plateauRepository;
-        $this->security = $security;
-    }
+  public function __construct(Security $security, PlateauRepository $plateauRepository)
+  {
+    $this->plateauRepository = $plateauRepository;
+    $this->security = $security;
+  }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('nom',TextType::class)
-            ->add('description',TextareaType::class,
-                  ['help' => 'Maximum 350 caractères'],
-                  ['attr' => ['maxlength' => 350]])
-            ->add('plateau',EntityType::class, [   'class' => Plateau::class,
-                                                    'choices' => $this->plateauRepository->findPlateauAvecCasesByUser($this->security->getUser()->getId()),
-                                                    'choice_label' => 'nom',
-                                                    'multiple' => true,
-                                                    'expanded' => true])
-            ->add('Valider', SubmitType::class)
+  public function buildForm(FormBuilderInterface $builder, array $options)
+  {
+    $builder
+    ->add('nom',TextType::class)
+    ->add('description',TextareaType::class,[
+      'help' => 'Maximum 350 caractères'
+    ],
+    [
+      'attr' => ['maxlength' => 350]
+    ])
+    ->add('plateau',EntityType::class, [
+      'class' => Plateau::class,
+      'choices' => $this->plateauRepository->findPlateauAvecCasesByUser($this->security->getUser()->getId()),
+      'choice_label' => 'nom',
+      'multiple' => true,
+      'expanded' => true,
+    ])
+    ->add('Valider', SubmitType::class)
 
-        ;
-    }
+    ;
+  }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Partie::class,
-        ]);
+  public function configureOptions(OptionsResolver $resolver)
+  {
+    $resolver->setDefaults([
+      'data_class' => Partie::class,
+    ]);
 
-    }
+  }
 }
