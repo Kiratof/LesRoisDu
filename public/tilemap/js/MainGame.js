@@ -34,13 +34,20 @@ class MainGame {
 
 	update(deltaTime){
 		this.plateaux.forEach(plateau => {
-			plateau.update(deltaTime);
+			//Update uniquement du canvas affiché
+			if (plateau.canvas.parentElement.className == 'tabs__content tabs__content--active') {
+				plateau.update(deltaTime);
+				console.log(plateau);
+			}
 		});
 	}
 
 	draw(){
 		this.plateaux.forEach(plateau => {
-			plateau.draw();
+			//Dessin uniquement du canvas affiché
+			if (plateau.canvas.parentElement.className == 'tabs__content tabs__content--active') {
+				plateau.draw();
+			}
 		});
 	}
 }
