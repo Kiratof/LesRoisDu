@@ -140,55 +140,55 @@ class LesRoisDuController extends AbstractController
         $plainPassword
       ));
 
-      $repositoryPlateau=$this->getDoctrine()->getRepository(Plateau::class);
-
-      $plateauOriginel = $repositoryPlateau->find(1);
-
-      $plateau = new Plateau();
-
-      $date = New \DateTime();
-      $plateau->setDerniereModification($date);
-
-      $plateau->setNom($plateauOriginel->getNom());
-      $plateau->setDescription($plateauOriginel->getDescription());
-      $plateau->setNiveauDifficulte($plateauOriginel->getNiveauDifficulte());
-      $plateau->setNbCases($plateauOriginel->getNbCases());
-      $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
-      $plateau->setCode($code);
-
-      $tabCase = $plateauOriginel->getCases();
-      foreach($tabCase as $uneCase){
-        $cases = new Cases();
-        $cases->setDescriptifDefi($uneCase->getDescriptifDefi())
-        ->setConsignes($uneCase->getConsignes())
-        ->setCodeValidation($uneCase->getCodeValidation())
-        ->setNumero($uneCase->getNumero())
-        ;
-
-        $cases->setPlateau($plateau);
-
-        $manager->persist($cases);
-
-        // On récupère les ressources des cases du plateau et les copie une par une dans les cases du plateau
-        $tabRessource = $uneCase->getRessources();
-        foreach($tabRessource as $uneRessource){
-          $ressource = new Ressource();
-
-          $ressource->setChemin($uneRessource->getChemin());
-
-
-          $ressource->setCases($cases);
-          $cases->addRessource($ressource);
-          $manager->persist($cases);
-
-          $manager->persist($ressource);
-
-        }
-      }
-
-      $utilisateur->addPlateau($plateau);
-
-      $manager->persist($plateau);
+      // $repositoryPlateau=$this->getDoctrine()->getRepository(Plateau::class);
+      //
+      // $plateauOriginel = $repositoryPlateau->find(1);
+      //
+      // $plateau = new Plateau();
+      //
+      // $date = New \DateTime();
+      // $plateau->setDerniereModification($date);
+      //
+      // $plateau->setNom($plateauOriginel->getNom());
+      // $plateau->setDescription($plateauOriginel->getDescription());
+      // $plateau->setNiveauDifficulte($plateauOriginel->getNiveauDifficulte());
+      // $plateau->setNbCases($plateauOriginel->getNbCases());
+      // $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
+      // $plateau->setCode($code);
+      //
+      // $tabCase = $plateauOriginel->getCases();
+      // foreach($tabCase as $uneCase){
+      //   $cases = new Cases();
+      //   $cases->setDescriptifDefi($uneCase->getDescriptifDefi())
+      //   ->setConsignes($uneCase->getConsignes())
+      //   ->setCodeValidation($uneCase->getCodeValidation())
+      //   ->setNumero($uneCase->getNumero())
+      //   ;
+      //
+      //   $cases->setPlateau($plateau);
+      //
+      //   $manager->persist($cases);
+      //
+      //   // On récupère les ressources des cases du plateau et les copie une par une dans les cases du plateau
+      //   $tabRessource = $uneCase->getRessources();
+      //   foreach($tabRessource as $uneRessource){
+      //     $ressource = new Ressource();
+      //
+      //     $ressource->setChemin($uneRessource->getChemin());
+      //
+      //
+      //     $ressource->setCases($cases);
+      //     $cases->addRessource($ressource);
+      //     $manager->persist($cases);
+      //
+      //     $manager->persist($ressource);
+      //
+      //   }
+      // }
+      //
+      // $utilisateur->addPlateau($plateau);
+      //
+      // $manager->persist($plateau);
 
 
       // Enregistrer l'utilisateur en base de données
