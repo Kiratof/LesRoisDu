@@ -376,32 +376,15 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
 
   if(in_array($partie, $user->getPartiesCree()->toArray())){
     // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
-    $formulairePartie = $this->createFormBuilder($partie)
-    ->add('nom',TextType::class, ['attr' => ['placeholder' => "Nom de la partie (Il apparaîtra dans l'espace partie des joueurs, veuillez faire attention à ce que vous saisissez)."]])
-    ->add('description',TextType::class, ['attr' => ['placeholder' => "Description de la partie (Elle apparaîtra dans l'espace partie des joueurs, veuillez faire attention à ce que vous saisissez)."]])
-    ->add('nbPlateaux',IntegerType::class,['data' => '1', 'attr'=> ['readonly'=> true ]])
-    ->add('nbPionParPlateau', ChoiceType::class, ['choices'  => [
-      '1' => 1,
-      '2' => 2,
-      '3' => 3,
-      '4' => 4]])
-      ->add('nbFacesDe', ChoiceType::class, ['choices'  => [
-        '1' => 1,
-        '2' => 2,
-        '3' => 3,
-        '4' => 4]])
-        ->getForm();
-
-        $formulairePartie->handleRequest($request);
+    $formulairePartie = $this->createForm(PartieType::class, $partie);
+    $formulairePartie->handleRequest($request);
 
         if ($formulairePartie->isSubmitted() && $formulairePartie->isValid())
         {
-          $date = New \DateTime();
-          $partie->setDerniereModification($date);
-
-          $manager->persist($partie);
+          $partie->setDerniereModification(New \DateTime());
 
           // Enregistrer en base de données
+          $manager->persist($partie);
           $manager->flush();
 
           $this->addFlash('success', 'La partie a été modifiée.');
@@ -409,8 +392,12 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
           // Rediriger l'utilisateur vers la page d'accueil
           return $this->redirectToRoute('partie_en_cours', ['idPartie' => $idPartie]);
         }
-        return $this->render('les_rois_du/creationpartie.html.twig', ['vueFormulaireCreationPartie'=>$formulairePartie->createview(), 'action' => 'modifier', 'partie' => $partie
-      ]);
+
+        return $this->render('les_rois_du/creationpartie.html.twig', [
+          'vueFormulaireCreationPartie'=>$formulairePartie->createview(),
+          'action' => 'modifier',
+          'partie' => $partie
+        ]);
     }
     else{
       return $this->redirectToRoute('espace_partie');

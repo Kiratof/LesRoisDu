@@ -40,6 +40,8 @@
               </div>
             </div>
           </div>
+        </section>
+
 
 
 
@@ -52,7 +54,6 @@
               {{form_start(vueFormulaireCreationPartie) }}
               {{ form_row(vueFormulaireCreationPartie.nom)}}
               {{ form_row(vueFormulaireCreationPartie.description)}}
-              {{ form_row(vueFormulaireCreationPartie.plateau, { 'label' : 'Plateau(x)' })}}
               {{ form_row(vueFormulaireCreationPartie.Valider, {'attr': {'class': 'button scrolly'}}) }}
               {{form_end(vueFormulaireCreationPartie)}}
               <div class="row">
@@ -60,11 +61,11 @@
                   <a href="{{ path('hub')}}" class="button scrolly">Annuler</a>
                 </div>
               </div>
-
-              {%endif%}
-
             </div>
           </section>
+              {%endif%}
+
+
         </div>
         {% endblock %}
 
