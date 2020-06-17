@@ -20,14 +20,14 @@
     {% endblock %}
 
     {% block body %}
-
     <div id="wrapper">
-
         <section id="intro" class="wrapper style1 fullscreen fade-up">
             <div class="inner">
                 <h2>
                     <center>{{plateau.nom}}</center>
                 </h2>
+                <div class="tabs__content--active" style="height: 250px" id="plateau-1">
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         {% for message in app.flashes('success') %}
@@ -39,52 +39,38 @@
                         <center><p> Vous pouvez accéder aux défis de ce plateau en cliquant sur ses cases. </p></center>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-md-9">
-                    </div>
 
                     <div class="col-md-1">
-
                         <a role="button" href="{{ path('parametres_plateau', {'idPlateau' : plateau.id}) }}"
-                            class="btn button scrolly">
-                            Paramètres
-                        </a>
-
-                    </div>
-                    <div class="col-md-2">
+                            class="btn button scrolly">Paramètres</a>
                     </div>
                 </div>
-                <br>
-
-
-                <canvas id="canvas">Votre navigateur ne supporte pas HTML5, veuillez le mettre à jour pour
-                    jouer.</canvas>
-
 
                 <link rel="stylesheet" href="{{asset('tilemap/css/style.css')}}" />
                 <script type="text/javascript">
                   var idPlateau = {{ plateau.id }};
-                  console.log(idPlateau);
-                  var parametres = 'http://iparla.iutbayonne.univ-pau.fr:8003/api/plateaux/' + idPlateau;
+                  var url = 'http://localhost:8000/api/plateaux/' + idPlateau;
+                  var assetsBaseDir = {{ asset('tilemap/') }};
                 </script>
-
-                <script>
-                var assetsBaseDir = "{{ asset('tilemap/') }}"
-                </script>
-                <script type="text/javascript" src="{{asset('tilemap/js/XmlHttpRequest.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/Api.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/Graphics.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/ToolBox.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/inputForPlateau.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/Background.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/Mouse.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/plateau/InputPlateau.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/Resize.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/Element.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Parcours.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/plateau.js')}}"></script>
                 <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/Tileset.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/classes/MapForPlateau.js')}}"></script>
-                <script type="text/javascript" src="{{asset('tilemap/js/main.js')}}"></script>
-
-                <br><br>
-                        <a href="{{ path('espace_plateau') }}"> Retourner à l'espace plateaux </a>
+                <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/plateau/SceneGameplayPlateau.js')}}"></script>
+                <script type="text/javascript" src="{{asset('tilemap/js/plateau/MainGamePlateau.js')}}"></script>
 
             </div>
         </section>
+      </div>
 
         {% endblock %}
