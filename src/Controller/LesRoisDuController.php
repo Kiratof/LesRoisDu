@@ -84,25 +84,25 @@ class LesRoisDuController extends AbstractController
   /**
   * @Route("/credits", name="credits")
   */
-  public function affichageCredits()
+  public function affichageCredits(UserInterface $user)
   {
-    return $this->render('les_rois_du/credits.html.twig');
+    return $this->render('les_rois_du/credits.html.twig', ['utilisateur'=> $user]);
   }
 
   /**
   * @Route("/aide", name="aides")
   */
-  public function affichageAides()
+  public function affichageAides(UserInterface $user)
   {
-    return $this->render('les_rois_du/aides.html.twig');
+    return $this->render('les_rois_du/aides.html.twig', ['utilisateur'=> $user]);
   }
 
   /**
   * @Route("/mentions-legales", name="mentions_legales")
   */
-  public function affichageMentionsLegales()
+  public function affichageMentionsLegales(UserInterface $user)
   {
-    return $this->render('les_rois_du/mentionslegales.html.twig');
+    return $this->render('les_rois_du/mentionslegales.html.twig', ['utilisateur'=> $user]);
   }
 
   /**
@@ -361,7 +361,7 @@ class LesRoisDuController extends AbstractController
       // Rediriger l'utilisateur vers la page d'accueil
       return $this->redirectToRoute('espace_partie');
     }
-    return $this->render('les_rois_du/creationpartie.html.twig', ['vueFormulaireCreationPartie'=>$formulairePartie->createview(), 'action' => 'creer', 'partie' => null
+    return $this->render('les_rois_du/creationpartie.html.twig', ['vueFormulaireCreationPartie'=>$formulairePartie->createview(), 'action' => 'creer', 'partie' => null, 'utilisateur'=> $user
   ]);
 }
 
@@ -459,7 +459,7 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
       // Rediriger l'utilisateur vers la page espace_plateau
       return $this->redirectToRoute('espace_plateau');
     }
-    return $this->render('les_rois_du/creationplateau.html.twig', ['vueFormulaireCreationPlateau'=>$formulairePlateau->createview(), 'action' => 'creer', 'plateau' => null
+    return $this->render('les_rois_du/creationplateau.html.twig', ['vueFormulaireCreationPlateau'=>$formulairePlateau->createview(), 'action' => 'creer', 'plateau' => null, 'utilisateur'=>$user
   ]);
 }
 
