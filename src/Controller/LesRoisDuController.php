@@ -68,17 +68,17 @@ class LesRoisDuController extends AbstractController
   /**
   * @Route("/conditions-utilisation", name="CGU")
   */
-  public function CGU()
+  public function CGU(UserInterface $user)
   {
-    return $this->render('les_rois_du/CGU.html.twig');
+    return $this->render('les_rois_du/CGU.html.twig', ['utilisateur'=> $user]);
   }
 
   /**
   * @Route("/but-application", name="ButApplication")
   */
-  public function ButApplication()
+  public function ButApplication(UserInterface $user)
   {
-    return $this->render('les_rois_du/ButApplication.html.twig');
+    return $this->render('les_rois_du/ButApplication.html.twig', ['utilisateur'=> $user]);
   }
 
   /**
