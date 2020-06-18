@@ -396,7 +396,8 @@ public function affichageModificationPartie(Request $request, ObjectManager $man
         return $this->render('les_rois_du/creationpartie.html.twig', [
           'vueFormulaireCreationPartie'=>$formulairePartie->createview(),
           'action' => 'modifier',
-          'partie' => $partie
+          'partie' => $partie,
+          'utilisateur'=> $user
         ]);
     }
     else{
@@ -461,16 +462,7 @@ public function affichageModificationPlateau(Request $request, ObjectManager $ma
 
   if(in_array($plateau, $user->getPlateaux()->toArray())){
 
-    // Création de l'objet formulaire à partir du formulaire externalisé "PartieType"
-    $formulairePlateau = $this->createFormBuilder($plateau)
-    ->add('nom',TextType::class, ['attr' => ['placeholder' => "Nom du plateau (Il apparaîtra dans l'espace plateau des utilisateurs à qui vous partagerai le plateau, veuillez faire attention à ce que vous saisissez)."]])
-    ->add('description',TextType::class, ['attr' => ['placeholder' => "Description du plateau (Elle apparaîtra dans l'espace plateau des utilisateurs à qui vous partagerai le plateau, veuillez faire attention à ce que vous saisissez)."]])
-    ->add('niveauDifficulte', ChoiceType::class, ['choices'  => [
-      'Facile' => 'Facile',
-      'Moyen' => 'Moyen',
-      'Difficile' => 'Difficile'
-      ]])
-      ->getForm();
+      $formulairePlateau = $this->createForm(PlateauType::class, $plateau);
 
       $formulairePlateau->handleRequest($request);
 
@@ -489,7 +481,11 @@ public function affichageModificationPlateau(Request $request, ObjectManager $ma
         // Rediriger l'utilisateur vers la page d'accueil
         return $this->redirectToRoute('plateau', ['idPlateau' => $plateau->getId()]);
       }
-      return $this->render('les_rois_du/creationplateau.html.twig', ['vueFormulaireCreationPlateau'=>$formulairePlateau->createview(), 'action' => 'modifier', 'plateau' => $plateau
+      return $this->render('les_rois_du/creationplateau.html.twig',[
+       'vueFormulaireCreationPlateau'=>$formulairePlateau->createview(),
+       'action' => 'modifier',
+       'plateau' => $plateau,
+       'utilisateur'=> $user
     ]);
   }
   else{
