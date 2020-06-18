@@ -1,3 +1,5 @@
+var urlPartie = 'http://127.0.0.1:8000/api/partie/';
+
 window.onload = function() {
 	var deltaTime = 60;
 	var mainGame = new MainGame();
@@ -37,7 +39,6 @@ class MainGame {
 			//Update uniquement du canvas affiché
 			if (plateau.canvas.parentElement.className == 'tabs__content tabs__content--active') {
 				plateau.update(deltaTime);
-				console.log(plateau);
 			}
 		});
 	}

@@ -1,23 +1,6 @@
 {% extends 'monTemplate.html.twig' %}
 
-{% block sidebar %}
-    <!-- Sidebar -->
-    <section id="sidebar">
-        <div class="inner">
-            <nav>
-                <ul>
-                    <li><a href="{{path ('hub')}}">ACCUEIL</a></li>
-                    {% if utilisateur.estInvite == false %}
-                    <li><a href="{{path ('espace_plateau')}}">ESPACE PLATEAUX</a></li>
-                    <li><a href="{{path ('espace_compte')}}">ESPACE COMPTE</a></li>
-                    {% endif %}
-                    <li><a href="{{path ('app_logout')}}">SE DECONNECTER</a></li>
-                </ul>
-            </nav>
-        </div>
-    </section>
 
-    {% endblock %}
 
     {% block body %}
 

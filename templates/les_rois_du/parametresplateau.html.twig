@@ -1,7 +1,5 @@
 {% extends 'monTemplate.html.twig' %}
 
-{% block sidebar %}
-
 <body class="is-preload">
 	<!-- Sidebar -->
 	<section id="sidebar">
@@ -42,15 +40,15 @@
 							<a href="{{ path('modification_cases', {'idPlateau' : plateau.id}) }}" class="button scrolly">MODIFIER LES CASES</a>
 							<a href="{{ path('duplication_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">DUPLIQUER LE PLATEAU</a>
 							<div class="alert alert-warning" style="display: none">
-								
+
 								<h4 class="alert-heading">Attention!</h4>
 								<p>Êtes vous sûr de vouloir supprimer le plateau ?</p>
-		
+
 								<a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
 									aria-pressed="true">Non</a>
 								<a href="{{ path('supprimer_plateau', {'idPlateau' : plateau.id}) }}"
 									class="btn btn-success" role="button" aria-pressed="true">Oui</a>
-								
+
 
 							</div>
 							<input type="button" class="btn button scrolly" value="Supprimer le plateau">
@@ -87,7 +85,7 @@
 							{{plateau.nbCases}}<br> <br>
 
 						</div>
-						
+
 						<div class="col-md-1">
 						</div>
 

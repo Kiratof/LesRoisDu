@@ -1,5 +1,8 @@
 {% extends 'monTemplate.html.twig' %}
 
+{% block sidebar %}
+{% endblock %}
+
 {% block body %}
 <section class="partie-container">
   <div class="tabs">
@@ -70,6 +73,7 @@
   var assetsBaseDir = {{ asset('tilemap/') }};
 </script>
 
+<script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Api.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Graphics.js')}}"></script>
@@ -85,7 +89,7 @@
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
-<script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
+
 
 <script type="text/javascript">
   function setupTabs(){

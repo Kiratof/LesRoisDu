@@ -1,23 +1,5 @@
 {% extends 'monTemplate.html.twig' %}
 
-{% block sidebar %}
-
-<body class="is-preload">
-  <!-- Sidebar -->
-  <section id="sidebar">
-    <div class="inner">
-      <nav>
-        <ul>
-          <li><a href="{{path ('hub')}}">ACCUEIL</a></li>
-          <li><a href="{{path ('espace_partie')}}">ESPACE PARTIES</a></li>
-          <li><a href="{{path ('espace_plateau')}}">ESPACE PLATEAUX</a></li>
-          <li><a href="{{path ('app_logout')}}">SE DECONNECTER</a></li>
-        </ul>
-      </nav>
-    </div>
-  </section>
-
-  {% endblock %}
 
   {% block body %}
   <!-- Wrapper -->
@@ -106,7 +88,7 @@
 
                 <div id="Cible"></div><BR><BR>
 
-                
+
                 <blockquote class="blockquote" style="color: #D5D0CF">
                   <p class="mb-0">
                     Plus d'options et de personnalisations sont à venir dans les prochaines versions.
@@ -117,15 +99,15 @@
                 </blockquote>
                 <BR><BR>
                 <div class="alert alert-warning" style="display: none">
-                
+
                 <h4 class="alert-heading">Attention!</h4>
                 <p>Êtes vous sûr de vouloir supprimer votre compte ?</p>
-    
+
                 <a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
                   aria-pressed="true">Non</a>
                 <a href="{{ path('supprimer_compte', {'idCompte' : utilisateur.id}) }}"
                   class="btn btn-success" role="button" aria-pressed="true">Oui</a>
-                
+
 
               </div>
               <input type="button" class="btn button scrolly" value="Supprimer son compte">
@@ -133,15 +115,15 @@
                 <script type="text/javaScript">
                                                        var routeSaisie = false;
                                                        var chemin = "#";
-                                                
+
                                                     setInterval(function(){
                                                         var radios = document.getElementsByName('avatar');
-                                                        
+
                                                         if(chemin != "#" && routeSaisie == false){
                                                             document.getElementById('Cible').innerHTML ='<a id="changementAvatar" href="#" class="button scrolly" disabled>CHANGER</a>';
                                                             routeSaisie = true;
                                                         }
-                                                        
+
                                                         for(var i = 0; i < radios.length; i++){
                                                          if(radios[i].checked){
                                                          chemin = radios[i].value;
@@ -151,7 +133,7 @@
                                                         if(routeSaisie == true){
                                                              document.getElementById("changementAvatar").setAttribute("href",route);
                                                         }
-                                                        
+
                                                     }, 100);
                                                 </script>
 
