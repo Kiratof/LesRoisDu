@@ -1,5 +1,7 @@
 {% extends 'monTemplate.html.twig' %}
 
+{% block sidebar %}
+
 <body class="is-preload">
 	<!-- Sidebar -->
 	<section id="sidebar">
@@ -37,7 +39,6 @@
 
 						<div class="col-md-12">
 							<a href="{{ path('modification_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">MODIFIER LE PLATEAU</a>
-							<a href="{{ path('modification_cases', {'idPlateau' : plateau.id}) }}" class="button scrolly">MODIFIER LES CASES</a>
 							<a href="{{ path('duplication_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">DUPLIQUER LE PLATEAU</a>
 							<div class="alert alert-warning" style="display: none">
 

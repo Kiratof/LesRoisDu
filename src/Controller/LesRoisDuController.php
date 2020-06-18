@@ -498,54 +498,6 @@ public function affichageModificationPlateau(Request $request, ObjectManager $ma
 }
 
 /**
-* @Route("/creation/modification/cases/{idPlateau}", name="modification_cases")
-*/
-public function affichageModificationCases(Request $request, ObjectManager $manager, UserInterface $user, PlateauRepository $repositoryPlateau, CasesRepository $repositoryCases, $idPlateau)
-{
-
-  $plateau = $repositoryPlateau->find($idPlateau);
-
-  if(in_array($plateau, $user->getPlateaux()->toArray()) && !$plateau->getCases()->isEmpty()){
-
-    if ($request->getMethod() == 'POST') {
-
-      $date = New \DateTime();
-      $plateau->setDerniereModification($date);
-
-      for ($i=1; $i <= $plateau->getNbCases(); $i++) {
-
-        $cases = $repositoryCases->findOneBy(['plateau' => $plateau, 'numero' => $i]);
-
-        $descriptif = $request->request->get('descriptif'.$i);
-
-        $cases->setDescriptifDefi($descriptif);
-
-        $manager->persist($cases);
-
-      }
-
-      $manager->persist($plateau);
-
-      $manager->flush();
-
-      $this->addFlash('success', 'Les défis ont bien été modifiés.');
-
-      // Rediriger l'utilisateur vers la page d'accueil
-      return $this->redirectToRoute('plateau', ['idPlateau' => $plateau->getId()]);
-
-    }
-
-
-    return $this->render('les_rois_du/creationcases.html.twig', ['plateau' => $plateau, 'cases' => $plateau->getCases()]);
-  }
-  else{
-    return $this->redirectToRoute('espace_plateau');
-  }
-
-
-}
-
-/**
 * @Route("/parties/join{code}", name="join_partie")
 */
 public function joinPartie(ObjectManager $manager, UserInterface $user, $code, PartieRepository $repositoryPartie)
