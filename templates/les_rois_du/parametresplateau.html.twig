@@ -35,98 +35,80 @@
 					</div>
 					<BR>
 
-					<div class="row">
+						<div class="row">
 
-						<div class="col-md-12">
-							<a href="{{ path('modification_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">MODIFIER LE PLATEAU</a>
-							<div class="alert alert-warning" style="display: none">
+							<div class="col-md-12">
+								<a href="{{ path('modification_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">MODIFIER LE PLATEAU</a>
+								<div class="alert alert-warning" style="display: none">
 
-								<h4 class="alert-heading">Attention!</h4>
-								<p>Êtes vous sûr de vouloir supprimer le plateau ?</p>
+									<h4 class="alert-heading">Attention!</h4>
+									<p>Êtes vous sûr de vouloir supprimer le plateau ?</p>
 
-								<a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
+									<a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
 									aria-pressed="true">Non</a>
-								<a href="{{ path('supprimer_plateau', {'idPlateau' : plateau.id}) }}"
+									<a href="{{ path('supprimer_plateau', {'idPlateau' : plateau.id}) }}"
 									class="btn btn-success" role="button" aria-pressed="true">Oui</a>
 
 
+								</div>
+								<input type="button" class="btn button scrolly" value="Supprimer le plateau">
 							</div>
-							<input type="button" class="btn button scrolly" value="Supprimer le plateau">
+							<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+							<script>
+								$(function () {
+									$("input.btn").click(function () {
+										$("input.btn").hide("slow")
+										$(".alert").show("slow")
+									})
+									$(".fermeture").click(function () {
+										$(".alert").hide("slow")
+										$("input.btn").show()
+									})
+								})
+							</script>
 						</div>
-						<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-						<script>
-							$(function () {
-								$("input.btn").click(function () {
-									$("input.btn").hide("slow")
-									$(".alert").show("slow")
-								})
-								$(".fermeture").click(function () {
-									$(".alert").hide("slow")
-									$("input.btn").show()
-								})
-							})
-						</script>
 					</div>
-				</div>
-				<BR>
+					<BR>
 
-					<div class="row">
-						<div class="col-md-1">
-						</div>
+						<div class="row">
+							<div class="col-md-1">
+							</div>
 
-						<div class="col-md-4">
-							<h4> Nom du plateau </h4>
-							{{plateau.nom}}<br> <br>
+							<div class="col-md-4">
+								<h4> Nom du plateau </h4>
+								{{plateau.nom}}<br> <br>
 
-							<h4> Niveau de difficulté </h4>
-							{{plateau.niveauDifficulte}}<br> <br>
+								<h4> Niveau de difficulté </h4>
+								{{plateau.niveauDifficulte}}<br> <br>
 
-							<h4>Nombre de cases </h4>
-							{{plateau.nbCases}}<br> <br>
+								<h4>Nombre de cases </h4>
+								{{plateau.nbCases}}<br> <br>
 
-						</div>
+							</div>
 
-						<div class="col-md-1">
-						</div>
+							<div class="col-md-1">
+							</div>
 
-						<div class="col-md-4">
-							<h4> Description du plateau </h4>
-							{{plateau.description}}<br> <br>
-							<h4> Code de partage </h4>
-							{{plateau.code}}<br> <br>
+							<div class="col-md-4">
+								<h4> Description du plateau </h4>
+								{{plateau.description}}<br> <br>
+								<h4> Code de partage </h4>
+								{{plateau.code}}<br> <br>
+							</div>
+
 						</div>
 
 						<div class="col-md-2">
+							<br><bR>
+								<a href="{{ path('plateau', {'idPlateau' : plateau.id}) }}"> Retourner au plateau </a>
+							</div>
+
+							<div class="col-md-2">
+							</div>
 						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6">
-							<BR>
-							<blockquote class="blockquote" style="color: #D5D0CF">
-								<p class="mb-0">
-									Dans cette version les paramètres ne peuvent pas être modifiés.
-								</p>
-								<footer class="blockquote-footer" style="color: #D5D0CF">
-									L'équipe <cite>LesRoisDu</cite>
-								</footer>
-							</blockquote>
-						</div>
-
-					<div class="col-md-2">
-
-					</div>
-					<div class="col-md-2">
-					<br><bR>
-                        <a href="{{ path('plateau', {'idPlateau' : plateau.id}) }}"> Retourner au plateau </a>
-					</div>
-
-					<div class="col-md-2">
-					</div>
-					</div>
+					</section>
 				</div>
-			</div>
-		</section>
 
-	</div>
-	{% endblock %}
+
+
+				{% endblock %}
