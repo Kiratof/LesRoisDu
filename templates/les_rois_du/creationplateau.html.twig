@@ -61,21 +61,33 @@
         <h1>MODIFIER UN PLATEAU</h1>
         <section id="three" class="wrapper style1 fade-up">
           <div class="inner">
-
+            {% form_theme vueFormulaireCreationPlateau with
+              ['form/form-theme.html.twig',
+              'jquery.collection.html.twig']   %}
             {{form_start(vueFormulaireCreationPlateau) }}
             {{ form_row(vueFormulaireCreationPlateau.nom)}}
             {{ form_row(vueFormulaireCreationPlateau.description)}}
+            {{ form_row(vueFormulaireCreationPlateau.nbPion,  { 'label' : 'Nombre de pions' })}}
+            {{ form_row(vueFormulaireCreationPlateau.nbFaceDe,  { 'label' : 'Nombre de faces du dé' })}}
             {{ form_row(vueFormulaireCreationPlateau.niveauDifficulte, { 'label' : 'Niveau de difficulté' })}}
+            <h3>Cases/Défis</h3>
+            <blockquote>Veuillez saisir entre 6 et 31 descriptifs</blockquote>
 
 
+            <div id="ensemblecases">
 
-            <div class="row">
-              <div class="col-md-12">
-                <a href="{{ path('parametres_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">Annuler la modification </a>
-              </div>
+              {{ form_row(vueFormulaireCreationPlateau.cases) }}
             </div>
+            <div id="ensemblenumero">
+
+            </div>
+            {{form_row(vueFormulaireCreationPlateau.Valider, {'attr': {'class': 'button scrolly'}}) }}
           </div>
+
           {{form_end(vueFormulaireCreationPlateau)}}
+          <div class="col-md-12">
+            <a href="{{ path('parametres_plateau', {'idPlateau' : plateau.id}) }}" class="button scrolly">Annuler la modification </a>
+          </div>
           {% endif %}
 
           <script type="text/javascript">
