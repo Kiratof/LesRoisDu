@@ -893,7 +893,7 @@ public function supprimerUnPlateau($idPlateau, UserInterface $utilisateur, Plate
 
     $entityManager->flush(); // On enregistre les changements en BD
 
-    $this->addFlash('success', 'Le plateau a été suprimée.');
+    $this->addFlash('success', 'Le plateau a été suprimé.');
   }
 
   return $this->redirectToRoute('espace_plateau');
