@@ -1,9 +1,10 @@
 var urlPartie = 'http://localhost:8000/api/partie/';
+var idPartie = document.getElementById('idPartie').innerHTML;
 
 window.onload = function() {
 	var deltaTime = 60;
 	var mainGame = new MainGame();
-	mainGame.initialize();
+	mainGame.initialize(idPartie);
 	mainGame.load();
 
 	//GAMELOOP
@@ -19,8 +20,8 @@ class MainGame {
 		this.plateaux = [];
 	}
 
-	initialize(){
-		var parametresPartieJSON = Api.getParametresPartieJSON(idPartie);
+	initialize(partie){
+		var parametresPartieJSON = Api.getParametresPartieJSON(partie);
 		for (var i = 0; i < parametresPartieJSON.nbPlateaux; i++) {
 			var idPlateau = i + 1;
 			var gameScene = new SceneGameplay(idPlateau, parametresPartieJSON.plateaux[i]);

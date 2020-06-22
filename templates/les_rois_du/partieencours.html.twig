@@ -19,6 +19,7 @@
   </div>
   <div class="info-partie">
     <div class="info-partie__heading">
+      <p hidden id="idPartie">{{partie.id}}</p>
       <h1>{{partie.nom}}</h1>
       <h2>{{partie.createur.pseudo}}</h2>
     </div>
@@ -69,7 +70,6 @@
 
 
 <script type="text/javascript">
-  var idPartie = {{ partie.id }};
   var assetsBaseDir = {{ asset('tilemap/') }};
 </script>
 
