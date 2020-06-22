@@ -1,174 +1,164 @@
 {% extends 'monTemplate.html.twig' %}
 
 
-  {% block body %}
-  <!-- Wrapper -->
-  <div id="wrapper">
+{% block body %}
+<!-- Wrapper -->
+<div id="wrapper">
 
-    <!-- Intro -->
-    <section id="intro" class="wrapper style1 fullscreen fade-up">
+  <!-- Intro -->
+  <section id="intro" class="wrapper style1 fullscreen fade-up">
 
-      <div class="inner">
-        <h1>ESPACE COMPTE</h1>
-                        {% for message in app.flashes('success') %}
-                            <div class="alert alert-success alert-dismissible show" role="alert">
-                              {{message}}
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                            </div>
-                        {% endfor %}
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-6">
+    <div class="inner">
+      <h1>ESPACE COMPTE</h1>
+      {% for message in app.flashes('success') %}
+      <div class="alert alert-success alert-dismissible show" role="alert">
+        {{message}}
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+      </div>
+      {% endfor %}
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
 
-              <h4> Avatar </h4>
-              <img src="{{ utilisateur.avatar }}" alt="" /><br> <br>
+            <h4> Avatar </h4>
+            <img src="{{ utilisateur.avatar }}" alt="" /><br> <br>
 
-              <h4> Adresse mail </h4>
-              {{ app.user.username }}<br> <br>
+            <h4> Adresse mail </h4>
+            {{ app.user.username }}<br> <br>
 
-              <h4> Pseudo </h4>
-              {{ utilisateur.pseudo }}<br> <br>
+            <h4> Pseudo </h4>
+            {{ utilisateur.pseudo }}<br> <br>
 
-              <h4> Nombre de parties créées </h4>
-              {{ utilisateur.partiesCree|length }}<br> <br>
+            <h4> Nombre de parties créées </h4>
+            {{ utilisateur.partiesCree|length }}<br> <br>
 
-              <h4> Nombre de parties rejointes </h4>
-              {{ utilisateur.partiesRejoins|length }}<br> <br>
+            <h4> Nombre de parties rejointes </h4>
+            {{ utilisateur.partiesRejoint|length }}<br> <br>
 
-            </div>
+          </div>
 
-            <div class="col-md-6">
-              <center>
-                <h4> Changement d'avatar</h4>
-                <div id="avatars">
-                  <form id="changement">
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="1" />
-                      <img src="{{ asset('/img/avatar1.jpg') }}" alt="" />
-                    </label>
+          <div class="col-md-6">
+            <center>
+              <h4> Changement d'avatar</h4>
+              <div id="avatars">
+                <form id="changement">
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="1" />
+                    <img src="{{ asset('/img/avatar1.jpg') }}" alt="" />
+                  </label>
 
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="2" />
-                      <img src="{{ asset('/img/avatar2.jpg') }}" alt="" />
-                    </label>
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="2" />
+                    <img src="{{ asset('/img/avatar2.jpg') }}" alt="" />
+                  </label>
 
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="3" />
-                      <img src="{{ asset('/img/avatar3.jpg') }}" alt="" />
-                    </label>
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="3" />
+                    <img src="{{ asset('/img/avatar3.jpg') }}" alt="" />
+                  </label>
 
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="4" />
-                      <img src="{{ asset('/img/avatar4.jpg') }}" alt="" />
-                    </label>
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="4" />
+                    <img src="{{ asset('/img/avatar4.jpg') }}" alt="" />
+                  </label>
 
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="5" />
-                      <img src="{{ asset('/img/avatar5.jpg') }}" alt="" />
-                    </label>
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="5" />
+                    <img src="{{ asset('/img/avatar5.jpg') }}" alt="" />
+                  </label>
 
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="6" />
-                      <img src="{{ asset('/img/avatar6.jpg') }}" alt="" />
-                    </label>
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="6" />
+                    <img src="{{ asset('/img/avatar6.jpg') }}" alt="" />
+                  </label>
 
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="7" />
-                      <img src="{{ asset('/img/avatar7.jpg') }}" alt="" />
-                    </label>
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="7" />
+                    <img src="{{ asset('/img/avatar7.jpg') }}" alt="" />
+                  </label>
 
-                    <label class="avatars">
-                      <input type="radio" name="avatar" value="8" />
-                      <img src="{{ asset('/img/avatar8.jpg') }}" alt="" />
-                    </label>
+                  <label class="avatars">
+                    <input type="radio" name="avatar" value="8" />
+                    <img src="{{ asset('/img/avatar8.jpg') }}" alt="" />
+                  </label>
 
-                  </form>
-                </div>
-                <BR>
+                </form>
+              </div>
+              <BR>
 
                 <div id="Cible"></div><BR><BR>
 
 
-                <blockquote class="blockquote" style="color: #D5D0CF">
-                  <p class="mb-0">
-                    Plus d'options et de personnalisations sont à venir dans les prochaines versions.
-                  </p>
-                  <footer class="blockquote-footer" style="color: #D5D0CF">
-                    L'équipe <cite>LesRoisDu</cite>
-                  </footer>
-                </blockquote>
-                <BR><BR>
-                <div class="alert alert-warning" style="display: none">
+                  <blockquote class="blockquote" style="color: #D5D0CF">
+                    <p class="mb-0">
+                      Plus d'options et de personnalisations sont à venir dans les prochaines versions.
+                    </p>
+                    <footer class="blockquote-footer" style="color: #D5D0CF">
+                      L'équipe <cite>Les Rois Du</cite>
+                    </footer>
+                  </blockquote>
+                  <BR><BR>
+                    <div class="alert alert-warning" style="display: none">
 
-                <h4 class="alert-heading">Attention!</h4>
-                <p>Êtes vous sûr de vouloir supprimer votre compte ?</p>
+                      <h4 class="alert-heading">Attention!</h4>
+                      <p>Êtes vous sûr de vouloir supprimer votre compte ?</p>
 
-                <a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
-                  aria-pressed="true">Non</a>
-                <a href="{{ path('supprimer_compte', {'idCompte' : utilisateur.id}) }}"
-                  class="btn btn-success" role="button" aria-pressed="true">Oui</a>
+                      <a style="color:aliceblue" class="btn btn-danger fermeture" role="button"
+                      aria-pressed="true">Non</a>
+                      <a href="{{ path('supprimer_compte', {'idCompte' : utilisateur.id}) }}"
+                      class="btn btn-success" role="button" aria-pressed="true">Oui</a>
 
 
+                    </div>
+                    <input type="button" class="btn button scrolly" value="Supprimer son compte">
+
+                    <script type="text/javaScript">
+                      var routeSaisie = false;
+                      var chemin = "#";
+
+                      setInterval(function(){
+                        var radios = document.getElementsByName('avatar');
+
+                        if(chemin != "#" && routeSaisie == false){
+                          document.getElementById('Cible').innerHTML ='<a id="changementAvatar" href="#" class="button scrolly" disabled>CHANGER</a>';
+                          routeSaisie = true;
+                        }
+
+                        for(var i = 0; i < radios.length; i++){
+                          if(radios[i].checked){
+                            chemin = radios[i].value;
+                          }
+                        }
+                        var route = '/compte/changement' + chemin;
+                        if(routeSaisie == true){
+                          document.getElementById("changementAvatar").setAttribute("href",route);
+                        }
+
+                      }, 100);
+                    </script>
+
+
+
+                  </center>
+                  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+                  <script>
+                    $(function () {
+                      $("input.btn").click(function () {
+                        $("input.btn").hide("slow")
+                        $(".alert").show("slow")
+                      })
+                      $(".fermeture").click(function () {
+                        $(".alert").hide("slow")
+                        $("input.btn").show()
+                      })
+                    })
+                  </script>
+
+
+                </div>
               </div>
-              <input type="button" class="btn button scrolly" value="Supprimer son compte">
-
-                <script type="text/javaScript">
-                                                       var routeSaisie = false;
-                                                       var chemin = "#";
-
-                                                    setInterval(function(){
-                                                        var radios = document.getElementsByName('avatar');
-
-                                                        if(chemin != "#" && routeSaisie == false){
-                                                            document.getElementById('Cible').innerHTML ='<a id="changementAvatar" href="#" class="button scrolly" disabled>CHANGER</a>';
-                                                            routeSaisie = true;
-                                                        }
-
-                                                        for(var i = 0; i < radios.length; i++){
-                                                         if(radios[i].checked){
-                                                         chemin = radios[i].value;
-                                                         }
-                                                        }
-                                                        var route = '/compte/changement' + chemin;
-                                                        if(routeSaisie == true){
-                                                             document.getElementById("changementAvatar").setAttribute("href",route);
-                                                        }
-
-                                                    }, 100);
-                                                </script>
-
-
-
-              </center>
-              <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-            <script>
-              $(function () {
-                $("input.btn").click(function () {
-                  $("input.btn").hide("slow")
-                  $(".alert").show("slow")
-                })
-                $(".fermeture").click(function () {
-                  $(".alert").hide("slow")
-                  $("input.btn").show()
-                })
-              })
-            </script>
-
-
             </div>
           </div>
-        </div>
-
-
-
-
-
-
-
-
-
+        </section>
       </div>
-    </section>
-
-  </div>
-  {% endblock %}
+      {% endblock %}

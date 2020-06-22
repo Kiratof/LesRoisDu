@@ -1,10 +1,6 @@
 <?php
-
 namespace App\Controller;
 
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Plateau;
 use App\Entity\PlateauEnJeu;
 use App\Entity\Pion;
@@ -19,9 +15,12 @@ use App\Repository\CasesRepository;
 use App\Repository\RessourceRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\PartieRepository;
+use App\Form\UtilisateurType;
+use App\Form\PartieType;
+use App\Form\PlateauType;
+use App\Form\CasesType;
+use App\Security\LoginAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -30,31 +29,30 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Form\UtilisateurType;
-use App\Form\PartieType;
-use App\Form\PlateauType;
-use App\Form\CasesType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use App\Security\LoginAuthenticator;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
+
 
 class LesRoisDuController extends AbstractController
 {
   private $passwordEncoder;
 
-
   public function __construct(UserPasswordEncoderInterface $passwordEncoder)
   {
     $this->passwordEncoder = $passwordEncoder;
-
   }
 
   /**
@@ -498,34 +496,31 @@ public function affichageModificationPlateau(Request $request, ObjectManager $ma
 */
 public function joinPartie(ObjectManager $manager, UserInterface $user, $code, PartieRepository $repositoryPartie)
 {
-
   $partie = $repositoryPartie->findOneBy(['code' => $code]);
 
-
-
   if(!is_null($partie)){
-    $plateauDeJeu = $partie->getplateauDeJeu();
+    $plateauxEnJeu = $partie->getPlateauEnJeu();
     if($partie->getJoueurs()->isEmpty()){
 
       $date = new \DateTime();
       $partie->setDateRejoins($date);
 
-      $user->addPartiesRejoin($partie);
-      $user->addPlateauEnJeux($partie->getplateauDeJeu());
+      $user->addPartiesRejoint($partie);
+      foreach ($plateauxEnJeu as $plateauEnJeu) {
+        $user->addPlateauEnJeu($plateauEnJeu);
+        $manager->persist($plateauEnJeu);
+      }
 
-      $plateauDeJeu->setJoueur($user);
-
-      // Enregistrer la ressource en base de données
-      $manager->persist($plateauDeJeu);
+      // Enregistrer les ressources modifiées en base de données
       $manager->persist($partie);
       $manager->persist($user);
       $manager->flush();
-      $this->addFlash('success', 'Vous avez rejoins la partie.');
+      $this->addFlash('success', 'Vous avez rejoint la partie.');
 
     }
     else
     {
-      $this->addFlash('echec', 'Vous ne pouvez pas rejoindre cette partie car le nombre maximum de joueur a été atteint !');
+      $this->addFlash('echec', 'Vous ne pouvez pas rejoindre cette partie car le nombre maximum de joueurs a été atteint !');
     }
   }
   else
@@ -797,7 +792,7 @@ public function supprimerUnePartie($idPartie, UserInterface $utilisateur, Partie
 
   if ($partie->getCreateur()->getPseudo() == $utilisateur->getPseudo()){ // Seul le créateur peut supprimer sa partie
 
-    $plateauxEnJeu = $partie->getplateauEnJeu();
+    $plateauxEnJeu = $partie->getPlateauEnJeu();
     foreach ($plateauxEnJeu as $plateauEnJeu) {
 
       $tabCase = $plateauEnJeu->getCases();
@@ -973,8 +968,8 @@ public function supprimerUnCompte($idCompte, UserInterface $user, TokenStorageIn
       // On enregistre les changements en BD
     }
 
-    foreach ($compte->getPartiesRejoins() as $partieR) {
-      $compte->removePartiesRejoin($partieR);
+    foreach ($compte->getPartiesRejoint() as $partieR) {
+      $compte->removePartiesRejoint($partieR);
       $compte->removePlateauEnJeux($partieR->getplateauDeJeu());
     }
 
@@ -1072,7 +1067,7 @@ public function exclureJoueur($idPartie, UserInterface $utilisateur, ObjectManag
       $partie->setDateRejoins(NULL);
 
       $joueur = $partie->getplateauDeJeu()->getJoueur();
-      $joueur->removePartiesRejoin($partie);
+      $joueur->removePartiesRejoint($partie);
       $joueur->removePlateauEnJeux($partie->getplateauDeJeu());
 
       $manager->persist($joueur);
@@ -1210,6 +1205,7 @@ public function apiPartie($idPartie, Request $request, ObjectManager $manager, P
 
     //Informations relatives au plateau
     $nom = $plateau->getNom();
+    $plateauInfo[$nom]['nom'] = $plateau->getNom();
     $plateauInfo[$nom]['description'] = $plateau->getDescription();
     $plateauInfo[$nom]['difficulte'] = $plateau->getNiveauDifficulte();
     $plateauInfo[$nom]['nombre_de_pion'] = $plateau->getNbPion();

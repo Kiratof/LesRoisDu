@@ -19,6 +19,7 @@
   </div>
   <div class="info-partie">
     <div class="info-partie__heading">
+      <p hidden id="idPartie">{{partie.id}}</p>
       <h1>{{partie.nom}}</h1>
       <h2>{{partie.createur.pseudo}}</h2>
     </div>
@@ -40,12 +41,7 @@
           <tbody>
             <tr>
               {% for pion in plateau.pions %}
-
               <td id="{{plateau.nom}}-{{loop.index}}"></td>
-              <script type="text/javascript">
-                var avancementPlateau = {{ pion.avancementPlateau }} / {{plateau.nbCases}} * 100;
-                document.getElementById("{{plateau.nom}}-{{loop.index}}").innerHTML = Math.floor(avancementPlateau) + " %";
-              </script>
               {% endfor %}
             </tr>
           </tbody>
@@ -69,7 +65,6 @@
 
 
 <script type="text/javascript">
-  var idPartie = {{ partie.id }};
   var assetsBaseDir = {{ asset('tilemap/') }};
 </script>
 
@@ -89,7 +84,6 @@
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
-
 
 <script type="text/javascript">
   function setupTabs(){
