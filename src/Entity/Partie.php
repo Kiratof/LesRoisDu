@@ -48,7 +48,7 @@ class Partie
     private $code;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Utilisateur", inversedBy="partiesRejoins")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Utilisateur", inversedBy="partiesRejoint")
      */
     private $joueurs;
 

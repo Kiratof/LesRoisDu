@@ -1,10 +1,6 @@
 <?php
-
 namespace App\Controller;
 
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Plateau;
 use App\Entity\PlateauEnJeu;
 use App\Entity\Pion;
@@ -19,9 +15,12 @@ use App\Repository\CasesRepository;
 use App\Repository\RessourceRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\PartieRepository;
+use App\Form\UtilisateurType;
+use App\Form\PartieType;
+use App\Form\PlateauType;
+use App\Form\CasesType;
+use App\Security\LoginAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -30,31 +29,30 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Form\UtilisateurType;
-use App\Form\PartieType;
-use App\Form\PlateauType;
-use App\Form\CasesType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use App\Security\LoginAuthenticator;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
+
 
 class LesRoisDuController extends AbstractController
 {
   private $passwordEncoder;
 
-
   public function __construct(UserPasswordEncoderInterface $passwordEncoder)
   {
     $this->passwordEncoder = $passwordEncoder;
-
   }
 
   /**

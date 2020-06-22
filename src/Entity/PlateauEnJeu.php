@@ -39,7 +39,7 @@ class PlateauEnJeu
     private $pions;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur", inversedBy="plateauEnJeux")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur", inversedBy="plateauEnJeu")
      */
     private $joueur;
 
