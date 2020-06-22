@@ -68,41 +68,41 @@ class LesRoisDuController extends AbstractController
   /**
   * @Route("/conditions-utilisation", name="CGU")
   */
-  public function CGU(UserInterface $user)
+  public function CGU()
   {
-    return $this->render('les_rois_du/CGU.html.twig', ['utilisateur'=> $user]);
+    return $this->render('les_rois_du/CGU.html.twig');
   }
 
   /**
   * @Route("/but-application", name="ButApplication")
   */
-  public function ButApplication(UserInterface $user)
+  public function ButApplication()
   {
-    return $this->render('les_rois_du/ButApplication.html.twig', ['utilisateur'=> $user]);
+    return $this->render('les_rois_du/ButApplication.html.twig');
   }
 
   /**
   * @Route("/credits", name="credits")
   */
-  public function affichageCredits(UserInterface $user)
+  public function affichageCredits()
   {
-    return $this->render('les_rois_du/credits.html.twig', ['utilisateur'=> $user]);
+    return $this->render('les_rois_du/credits.html.twig');
   }
 
   /**
   * @Route("/aide", name="aides")
   */
-  public function affichageAides(UserInterface $user)
+  public function affichageAides()
   {
-    return $this->render('les_rois_du/aides.html.twig', ['utilisateur'=> $user]);
+    return $this->render('les_rois_du/aides.html.twig');
   }
 
   /**
   * @Route("/mentions-legales", name="mentions_legales")
   */
-  public function affichageMentionsLegales(UserInterface $user)
+  public function affichageMentionsLegales()
   {
-    return $this->render('les_rois_du/mentionslegales.html.twig', ['utilisateur'=> $user]);
+    return $this->render('les_rois_du/mentionslegales.html.twig');
   }
 
   /**
