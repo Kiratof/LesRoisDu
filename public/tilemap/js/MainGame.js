@@ -6,6 +6,7 @@ window.onload = function() {
 	var mainGame = new MainGame();
 	mainGame.initialize(idPartie);
 	mainGame.load();
+	Api.setPositionPionAsyncInBoard();
 
 	//GAMELOOP
 	setInterval(function() {

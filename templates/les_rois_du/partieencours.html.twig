@@ -41,12 +41,7 @@
           <tbody>
             <tr>
               {% for pion in plateau.pions %}
-
               <td id="{{plateau.nom}}-{{loop.index}}"></td>
-              <script type="text/javascript">
-                var avancementPlateau = {{ pion.avancementPlateau }} / {{plateau.nbCases}} * 100;
-                document.getElementById("{{plateau.nom}}-{{loop.index}}").innerHTML = Math.floor(avancementPlateau) + " %";
-              </script>
               {% endfor %}
             </tr>
           </tbody>
@@ -89,7 +84,6 @@
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Case.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Map.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/SceneGameplay.js')}}"></script>
-
 
 <script type="text/javascript">
   function setupTabs(){

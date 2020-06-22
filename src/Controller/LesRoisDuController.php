@@ -1205,6 +1205,7 @@ public function apiPartie($idPartie, Request $request, ObjectManager $manager, P
 
     //Informations relatives au plateau
     $nom = $plateau->getNom();
+    $plateauInfo[$nom]['nom'] = $plateau->getNom();
     $plateauInfo[$nom]['description'] = $plateau->getDescription();
     $plateauInfo[$nom]['difficulte'] = $plateau->getNiveauDifficulte();
     $plateauInfo[$nom]['nombre_de_pion'] = $plateau->getNbPion();

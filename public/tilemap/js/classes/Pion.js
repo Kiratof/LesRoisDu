@@ -206,7 +206,7 @@ class Pion extends Element {
 			this.updateXandYposition();
 			this.unselect();
 			Api.postPositionPionSync(this);
-
+			Api.setPositionPionAsyncInBoard();
 		}
 	}
 
