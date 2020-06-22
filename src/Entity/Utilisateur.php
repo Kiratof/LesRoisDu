@@ -66,7 +66,7 @@ class Utilisateur implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Partie", mappedBy="joueurs")
      */
-    private $partiesRejoins;
+    private $partiesRejoint;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Partie", mappedBy="createur")
@@ -76,7 +76,7 @@ class Utilisateur implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PlateauEnJeu", mappedBy="joueur")
      */
-    private $plateauEnJeux;
+    private $plateauEnJeu;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Plateau", mappedBy="utilisateurs")
@@ -85,9 +85,9 @@ class Utilisateur implements UserInterface
 
     public function __construct()
     {
-        $this->partiesRejoins = new ArrayCollection();
+        $this->partiesRejoint = new ArrayCollection();
         $this->partiesCree = new ArrayCollection();
-        $this->plateauEnJeux = new ArrayCollection();
+        $this->plateauEnJeu = new ArrayCollection();
         $this->plateaux = new ArrayCollection();
     }
 
@@ -115,7 +115,7 @@ class Utilisateur implements UserInterface
     public function getUsername(): string
     {
         return (string) $this->email;
-    
+
     }
 
     /**
@@ -151,7 +151,7 @@ class Utilisateur implements UserInterface
         // not needed for apps that do not check user passwords
         return null;
     }
-    
+
     /**
      * @see UserInterface
      */
@@ -222,15 +222,15 @@ class Utilisateur implements UserInterface
     /**
      * @return Collection|Partie[]
      */
-    public function getPartiesRejoins(): Collection
+    public function getPartiesRejoint(): Collection
     {
-        return $this->partiesRejoins;
+        return $this->partiesRejoint;
     }
 
-    public function addPartiesRejoin(Partie $partiesRejoin): self
+    public function addPartiesRejoint(Partie $partiesRejoin): self
     {
-        if (!$this->partiesRejoins->contains($partiesRejoin)) {
-            $this->partiesRejoins[] = $partiesRejoin;
+        if (!$this->partiesRejoint->contains($partiesRejoin)) {
+            $this->partiesRejoint[] = $partiesRejoin;
             $partiesRejoin->addJoueur($this);
         }
 
@@ -239,8 +239,8 @@ class Utilisateur implements UserInterface
 
     public function removePartiesRejoin(Partie $partiesRejoin): self
     {
-        if ($this->partiesRejoins->contains($partiesRejoin)) {
-            $this->partiesRejoins->removeElement($partiesRejoin);
+        if ($this->partiesRejoint->contains($partiesRejoin)) {
+            $this->partiesRejoint->removeElement($partiesRejoin);
             $partiesRejoin->removeJoueur($this);
         }
 
@@ -281,28 +281,28 @@ class Utilisateur implements UserInterface
     /**
      * @return Collection|PlateauEnJeu[]
      */
-    public function getPlateauEnJeux(): Collection
+    public function getPlateauEnJeu(): Collection
     {
-        return $this->plateauEnJeux;
+        return $this->plateauEnJeu;
     }
 
-    public function addPlateauEnJeux(PlateauEnJeu $plateauEnJeux): self
+    public function addPlateauEnJeu(PlateauEnJeu $plateauEnJeu): self
     {
-        if (!$this->plateauEnJeux->contains($plateauEnJeux)) {
-            $this->plateauEnJeux[] = $plateauEnJeux;
-            $plateauEnJeux->setJoueur($this);
+        if (!$this->plateauEnJeu->contains($plateauEnJeu)) {
+            $this->plateauEnJeu[] = $plateauEnJeu;
+            $plateauEnJeu->setJoueur($this);
         }
 
         return $this;
     }
 
-    public function removePlateauEnJeux(PlateauEnJeu $plateauEnJeux): self
+    public function removePlateauEnJeu(PlateauEnJeu $plateauEnJeu): self
     {
-        if ($this->plateauEnJeux->contains($plateauEnJeux)) {
-            $this->plateauEnJeux->removeElement($plateauEnJeux);
+        if ($this->plateauEnJeu->contains($plateauEnJeu)) {
+            $this->plateauEnJeu->removeElement($plateauEnJeu);
             // set the owning side to null (unless already changed)
-            if ($plateauEnJeux->getJoueur() === $this) {
-                $plateauEnJeux->setJoueur(null);
+            if ($plateauEnJeu->getJoueur() === $this) {
+                $plateauEnJeu->setJoueur(null);
             }
         }
 

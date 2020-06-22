@@ -226,12 +226,12 @@ class Partie
     /**
      * @return Collection|plateauEnJeu[]
      */
-    public function getplateauEnJeu(): Collection
+    public function getPlateauEnJeu(): Collection
     {
         return $this->plateauEnJeu;
     }
 
-    public function addplateauEnJeu(plateauEnJeu $plateauEnJeu): self
+    public function addPlateauEnJeu(plateauEnJeu $plateauEnJeu): self
     {
         if (!$this->plateauEnJeu->contains($plateauEnJeu)) {
             $this->plateauEnJeu[] = $plateauEnJeu;
@@ -241,7 +241,7 @@ class Partie
         return $this;
     }
 
-    public function removeplateauEnJeu(plateauEnJeu $plateauEnJeu): self
+    public function removePlateauEnJeu(plateauEnJeu $plateauEnJeu): self
     {
         if ($this->plateauEnJeu->contains($plateauEnJeu)) {
             $this->plateauEnJeu->removeElement($plateauEnJeu);
