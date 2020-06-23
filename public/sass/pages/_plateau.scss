@@ -1,0 +1,19 @@
+.plateau-container{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	&__plateau{
+		width: 100%;
+		height: 60vh;
+		& canvas:hover{
+			cursor: pointer;
+		}
+	}
+	&__button{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+}

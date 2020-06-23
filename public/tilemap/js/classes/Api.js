@@ -45,10 +45,10 @@ class Api {
 
   static setPositionPionAsyncInBoard(){
     var url = urlPartie + idPartie;
-  	var xhr = getXMLHttpRequest();
+    var xhr = getXMLHttpRequest();
 
-  	xhr.onreadystatechange = function(){
-  		if (xhr.readyState == 4 && xhr.status == 200) {
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState == 4 && xhr.status == 200) {
         var partieData = JSON.parse(xhr.responseText)
         var plateaux = partieData.plateaux;
         plateaux.forEach(plateau => {
@@ -62,9 +62,30 @@ class Api {
             document.getElementById(nomPlateau + "-" + pionPlayer).innerHTML = Math.floor(pourcentage) + " %";
           });
         });
-  		}
-  	}
-  	xhr.open("GET", url, true);
-  	xhr.send();
+      }
+    }
+    xhr.open("GET", url, true);
+    xhr.send();
   }
+
+  static getPlateauJSON(url) {
+
+    var UrlApiPartie = url;
+
+    // Création de l'objet XmlHttpRequest
+    var xhr = getXMLHttpRequest();
+
+    // Chargement du fichier
+    xhr.open("GET", UrlApiPartie, false);
+    xhr.send(null);
+    if (xhr.readyState != 4 || (xhr.status != 200 && xhr.status != 0)){// Code == 0 en local
+      throw new Error("Impossible de charger la carte nommée \"" + nom + "\" (code HTTP : " + xhr.status + ").");
+    }
+
+    //Récupération des données & parsing
+    var donneesTexte = xhr.responseText;
+    var donneesJSON = JSON.parse(donneesTexte);
+
+    return donneesJSON;
+  } 
 }

@@ -20,7 +20,7 @@ class SceneGameplayPlateau {
 
 
     //Création du canvas dans le bloc correspondant
-    this.createCanvas('tabs__content--active');
+    this.createCanvas('plateau-container__plateau');
 
     //Création du background
     this.background = new Background(this.map.getLargeur(), this.map.getHauteur());
@@ -170,7 +170,7 @@ class SceneGameplayPlateau {
     var widthInitiale = this.map.getLargeur();
     var heightInitiale = this.map.getHauteur();
 
-    this.setCanvasSize('tabs__content--active');
+    this.setCanvasSize('plateau-container__plateau');
     widthRatio = this.canvas.width / widthInitiale;
     heightRatio = this.canvas.height / heightInitiale;
     this.updateRatio(widthRatio, heightRatio);

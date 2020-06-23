@@ -3308,6 +3308,26 @@ body.is-preload #sidebar nav ul li {
   background-color: blue;
 }
 
+.plateau-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.plateau-container__plateau {
+  width: 100%;
+  height: 60vh;
+}
+.plateau-container__plateau canvas:hover {
+  cursor: pointer;
+}
+.plateau-container__button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 #avatars {
   width: 300px;
   height: 300px;

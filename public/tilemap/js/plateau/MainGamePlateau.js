@@ -1,7 +1,11 @@
+var idPlateau = document.getElementById('idPlateau').innerHTML;
+var url = 'http://localhost:8000/api/plateaux/' + idPlateau;
+
+
 window.onload = function() {
 	var deltaTime = 60;
 	var mainGame = new MainGamePlateau();
-	mainGame.initialize();
+	mainGame.initialize(url);
 	mainGame.load();
 
 	//GAMELOOP
@@ -17,10 +21,10 @@ class MainGamePlateau {
 		this.plateaux = [];
 	}
 
-	initialize(){
-			var PlateauJSON = Api.getPlateauJSON(url);
-			var idPlateau = 1;
-			var gameScene = new SceneGameplayPlateau(idPlateau, PlateauJSON);
+	initialize(urlPlateau){
+			var PlateauJSON = Api.getPlateauJSON(urlPlateau);
+			var ingameIdPlateau = 1;
+			var gameScene = new SceneGameplayPlateau(ingameIdPlateau, PlateauJSON);
 			this.plateaux.push(gameScene);
 	}
 
