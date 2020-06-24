@@ -1,5 +1,6 @@
 var urlPartie = 'http://localhost:8000/api/partie/';
 var idPartie = document.getElementById('idPartie').innerHTML;
+var assetsBaseDir = document.getElementById('baseDir').innerHTML;
 
 window.onload = function() {
 	var deltaTime = 60;
