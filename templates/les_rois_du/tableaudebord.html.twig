@@ -1,93 +1,87 @@
 {% extends 'monTemplate.html.twig' %}
 
 
-    {% block body %}
-    <div id="wrapper">
-        <section id="intro" class="wrapper style1 fullscreen fade-up">
-            <div class="inner">
+{% block body %}
+<div id="wrapper">
+  <section id="intro" class="wrapper style1 fullscreen fade-up">
+    <div class="inner">
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1>TABLEAU DE BORD DES PARTIES CRÉÉES</h1>
+      <div class="row">
+        <div class="col-md-12">
+          <h1>TABLEAU DE BORD DES PARTIES CRÉÉES</h1>
 
-                        <p>
-                            Sur cette page, vous avez une vision sur la position  actuelle des pions de toutes les parties que vous avez créées.
-                        </p>
-                    </div>
-                </div>
-                <br>
-
-                <div class="row row-cols-1 row-cols-md-2">
+          <p>
+            Sur cette page, vous avez une vision sur la position  actuelle des pions de toutes les parties que vous avez créées.
+          </p>
+        </div>
+      </div>
 
 
-                    {% for partie in parties %}
 
-                    <div class="col-md-3">
+      <div class="row">
 
-                        <div class="card text-white bg-dark mb-3" style="width: 18rem;">
-                          <div class="card-header">
-                            {{partie.nom}}
-                          </div>
-                          <ul class="list-group list-group-flush text-white bg-dark mb-3">
+        <div class="card-deck" id="ensembleparties">
+        {% for partie in parties %}
+        <div id="unepartie" style="background-color:#583e9c; margin-bottom:30px">
+          <div class="card text-white bg-transparent border-dark mb-3">
 
-                            {% for plateauEnJeu in partie.plateauEnJeu %}
-                              {% for pion in plateauEnJeu.pions %}
-
-                                {% if loop.index <= plateauEnJeu.nbPion %}
-
-                                    {% if pion.couleur == 'green' %}
-
-                                        <li class="list-group-item text-success border-secondary mb-3">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-
-                                    {% endif %}
-
-                                    {% if pion.couleur == 'red' %}
-
-                                        <li class="list-group-item text-danger border-secondary mb-3">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-
-                                    {% endif %}
-
-                                    {% if pion.couleur == 'yellow' %}
-
-                                        <li class="list-group-item text-warning border-secondary mb-3">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-
-                                    {% endif %}
-
-                                    {% if pion.couleur == 'blue' %}
-
-                                        <li class="list-group-item text-primary border-secondary mb-3">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-
-                                    {% endif %}
-
-                                {% else %}
-
-                                    <li class="list-group-item text-secondary border-secondary mb-3">Pion {{pion.nom}} hors-jeu</li>
-
-                                {% endif %}
-                              {% endfor %}
-                            {% endfor %}
-
-                          </ul>
-                        </div>
-                    </div>
-
-                    {% endfor %}
-
-                </div>
-
-
-                <BR><BR>
-
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <a href="{{ path('espace_partie') }}"> Retourner à l'espace partie </a>
-
-                    </div>
-                </div>
-
+            <div class="card-header border-dark" style="background-color:#6446b3">
+              <h3>  {{partie.nom}} </h3>
             </div>
-        </section>
-    </div>
 
-    {% endblock %}
+            <div class="card-group">
+            {% for plateauEnJeu in partie.plateauEnJeu %}
+            <div id="unplateau" style="margin-top:10px">
+            <div class="card text-white border-dark mb-3" style="background-color:#6446b3">
+
+              <div class="card-header" style="background-color:#6446b3"> {{plateauEnJeu.nom}} </div>
+              {% for pion in plateauEnJeu.pions %}
+                {% if loop.index <= plateauEnJeu.nbPion %}
+                {% if pion.couleur == 'green' %}
+                <li class="list-group-item text-success border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
+                {% endif %}
+                {% if pion.couleur == 'red' %}
+                <li class="list-group-item text-danger border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
+                {% endif %}
+                {% if pion.couleur == 'yellow' %}
+                <li class="list-group-item text-warning border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
+                {% endif %}
+                {% if pion.couleur == 'blue' %}
+                <li class="list-group-item text-primary border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
+                {% endif %}
+                {% else %}
+                <li class="list-group-item text-secondary border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} hors-jeu</li>
+                {% endif %}
+              {% endfor %}
+              <div class="card-footer border-dark" style="font-size:12px">Nombre de cases: {{plateauEnJeu.nbCases}}</div>
+              </div>
+              </div>
+            {% endfor %}
+            </div>
+
+            <div class="card-footer">Code d'invitation: {{partie.code}}</div>
+
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+      </div>
+
+
+
+      <BR><BR>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <a href="{{ path('espace_partie') }}"> Retourner à l'espace partie </a>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  {% endblock %}
