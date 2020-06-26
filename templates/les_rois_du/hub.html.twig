@@ -30,7 +30,7 @@
 
                     </div>
                     <div class="col-md-8">
-                        <center><img alt="Avatar" src="{{utilisateur.avatar}}" />
+                        <center><img alt="Avatar" src="{{asset(utilisateur.avatar)}}" />
                             <h3>
                                 {{utilisateur.pseudo}}, bienvenue sur Les Rois Du !
                             </h3>
@@ -97,7 +97,7 @@
                                 }
                             }, 100);
 
-                        </script>
+                    </script>
                     {% if utilisateur.estInvite == false %}
                     <a href="{{ path('tableau_de_bord') }}" class="button scrolly">TABLEAU DE BORD DES PARTIES Créées</a>
                     {%endif%}
@@ -136,7 +136,6 @@
                                     var code2 = document.getElementById("inputRejoindre2").value;
                                     var route2 = '/plateaux/ajouter' + code2;
                                     document.getElementById("boutonRejoindre2").setAttribute("href",route2);
-                                    //console.log(route);
                                 }
                             }, 100);
 
