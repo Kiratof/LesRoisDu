@@ -33,6 +33,7 @@
     <div class="plateau-container">
       <h2 class="plateau-container__heading">{{plateau.nom}}</h2>
       <p hidden id="idPlateau">{{ plateau.id }}</p>
+      <p hidden id="baseDir">{{ asset('tilemap/') }}</p>
       <div class="plateau-container__plateau" id="plateau-1"></div>
       <p class="plateau-container__texte"> Vous pouvez accéder aux défis de ce plateau en cliquant sur ses cases. </p>
       <div class="plateau-container__button">
@@ -44,9 +45,6 @@
   </section>
 </div>
 
-<script type="text/javascript">
-  var assetsBaseDir = {{ asset('tilemap/') }};
-</script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Api.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/Graphics.js')}}"></script>

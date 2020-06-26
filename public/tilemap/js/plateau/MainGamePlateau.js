@@ -1,5 +1,6 @@
 var idPlateau = document.getElementById('idPlateau').innerHTML;
 var url = 'http://localhost:8000/api/plateaux/' + idPlateau;
+var assetsBaseDir = document.getElementById('baseDir').innerHTML;
 
 
 window.onload = function() {
