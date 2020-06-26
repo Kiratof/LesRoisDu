@@ -1,5 +1,10 @@
 {% extends 'monTemplate.html.twig' %}
 
+{% block additionalstylesheets %}
+<link rel="stylesheet" href="{{ asset('css/jquery.lineProgressbar.css') }}" />
+
+{% endblock %}
+
 
 {% block body %}
 <div id="wrapper">
@@ -21,51 +26,56 @@
       <div class="row">
 
         <div class="card-deck" id="ensembleparties">
-        {% for partie in parties %}
-        <div id="unepartie" style="background-color:#583e9c; margin-bottom:30px">
-          <div class="card text-white bg-transparent border-dark mb-3">
+          {% for partie in parties %}
+          <div id="unepartie" style="background-color:#583e9c; margin-bottom:30px">
+            <div class="card text-white bg-transparent border-dark mb-3">
 
-            <div class="card-header border-dark" style="background-color:#6446b3">
-              <h3>  {{partie.nom}} </h3>
-            </div>
-
-            <div class="card-group">
-            {% for plateauEnJeu in partie.plateauEnJeu %}
-            <div id="unplateau" style="margin-top:10px">
-            <div class="card text-white border-dark mb-3" style="background-color:#6446b3">
-
-              <div class="card-header" style="background-color:#6446b3"> {{plateauEnJeu.nom}} </div>
-              {% for pion in plateauEnJeu.pions %}
-                {% if loop.index <= plateauEnJeu.nbPion %}
-                {% if pion.couleur == 'green' %}
-                <li class="list-group-item text-success border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-                {% endif %}
-                {% if pion.couleur == 'red' %}
-                <li class="list-group-item text-danger border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-                {% endif %}
-                {% if pion.couleur == 'yellow' %}
-                <li class="list-group-item text-warning border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-                {% endif %}
-                {% if pion.couleur == 'blue' %}
-                <li class="list-group-item text-primary border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}</li>
-                {% endif %}
-                {% else %}
-                <li class="list-group-item text-secondary border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} hors-jeu</li>
-                {% endif %}
-              {% endfor %}
-              <div class="card-footer border-dark" style="font-size:12px">Nombre de cases: {{plateauEnJeu.nbCases}}</div>
+              <div class="card-header border-dark" style="background-color:#6446b3">
+                <h3>  {{partie.nom}} </h3>
               </div>
+
+              <div class="card-group">
+                {% for plateauEnJeu in partie.plateauEnJeu %}
+                <div id="unplateau" style="margin-top:10px">
+                  <div class="card text-white border-dark mb-3" style="background-color:#6446b3">
+
+                    <div class="card-header" style="background-color:#6446b3"> {{plateauEnJeu.nom}} </div>
+                    {% for pion in plateauEnJeu.pions %}
+                    {% if loop.index <= plateauEnJeu.nbPion %}
+                    {% if pion.couleur == 'green' %}
+                    <li class="list-group-item border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}
+                    <div line-progressbar data-percentage="{{(pion.AvancementPlateau * 100)/plateauEnJeu.nbCases}}" data-progress-color="#1abc9c"></div></li>
+                    {% endif %}
+                    {% if pion.couleur == 'red' %}
+                    <li class="list-group-item border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}
+                    <div line-progressbar data-percentage="{{(pion.AvancementPlateau * 100)/plateauEnJeu.nbCases}}" data-progress-color="#dc3554"></div></li>
+                    {% endif %}
+                    {% if pion.couleur == 'yellow' %}
+                    <li class="list-group-item border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}
+                    <div line-progressbar data-percentage="{{(pion.AvancementPlateau * 100)/plateauEnJeu.nbCases}}" data-progress-color="#ffc13a"></div></li>
+                    {% endif %}
+                    {% if pion.couleur == 'blue' %}
+                    <li class="list-group-item border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} : {{pion.avancementPlateau}}
+                    <div line-progressbar data-percentage="{{(pion.AvancementPlateau * 100)/plateauEnJeu.nbCases}}" data-progress-color="#007bf2"></div></li>
+
+                    {% endif %}
+                    {% else %}
+                    <li class="list-group-item text-secondary border-dark mb-3" style="background-color:#6d4fbd">Pion {{pion.nom}} hors-jeu</li>
+                    {% endif %}
+                    {% endfor %}
+                    <div class="card-footer border-dark" style="font-size:12px">Nombre de cases: {{plateauEnJeu.nbCases}}</div>
+                  </div>
+                </div>
+                {% endfor %}
               </div>
-            {% endfor %}
+
+              <div class="card-footer">Code d'invitation: {{partie.code}}</div>
+
             </div>
-
-            <div class="card-footer">Code d'invitation: {{partie.code}}</div>
-
           </div>
-        </div>
 
-        {% endfor %}
-      </div>
+          {% endfor %}
+        </div>
       </div>
 
 
@@ -83,5 +93,18 @@
       </div>
     </section>
   </div>
+
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+    });
+  </script>
+  {% endblock %}
+
+  {% block additionaljs %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+  <script src="{{ asset('js/jquery.lineProgressbar.js') }}"></script>
 
   {% endblock %}
