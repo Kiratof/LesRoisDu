@@ -14,6 +14,9 @@
 		<noscript><link rel="stylesheet" href="{{asset('/css/noscript.css')}}" /></noscript>
 	{% endblock %}
 
+	{% block additionalstylesheets %}
+	{% endblock %}
+
 </head>
 
 
@@ -121,8 +124,12 @@
 
 	{% endblock %}
 
-	{% block extra_js %}
+	<!-- PLUGIN FUZ COLLECTION & SISYPHUS (CREATION PLATEAU) -->
+	{% block pluginformulaire %}
 	  <script src="{{ asset('js/jquery.collection.js') }}"></script>
+	{% endblock %}
+
+	{% block additionaljs %}
 	{% endblock %}
 
 </body>
