@@ -122,7 +122,7 @@ class LesRoisDuController extends AbstractController
     if ($formulaireUtilisateur->isSubmitted() && $formulaireUtilisateur->isValid())
     {
       // Avatar par défaut
-      $utilisateur->setAvatar("/img/avatar8.jpg");
+      $utilisateur->setAvatar("img/avatar8.jpg");
 
       // L'utilisateur a le role USER
       $roles[] =  'ROLE_USER';
@@ -466,9 +466,22 @@ public function affichageModificationPlateau(Request $request, ObjectManager $ma
 
       if ($formulairePlateau->isSubmitted() && $formulairePlateau->isValid())
       {
+        //Gestion des cases créés, renseignement des informations non renseignées
+        $cases = $plateau->getCases();
+        $i = 1;
+        foreach ($cases as $case) {
+          $case->setNumero($i);
+          $case->setPlateau($plateau);
+          $i += 1;
+        }
 
+        //Gestion du plateau
         $date = New \DateTime();
         $plateau->setDerniereModification($date);
+        $code = strtoupper(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 5, 5));
+        $plateau->setCode($code);
+        $plateau->setNbCases(count($cases));
+        $plateau->addUtilisateur($user);
 
         $manager->persist($plateau);
         // Enregistrer en base de données

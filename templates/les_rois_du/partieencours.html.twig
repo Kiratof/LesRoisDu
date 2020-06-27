@@ -20,6 +20,7 @@
   <div class="info-partie">
     <div class="info-partie__heading">
       <p hidden id="idPartie">{{partie.id}}</p>
+      <p hidden id="baseDir">{{ asset('tilemap/') }}</p>
       <h1>{{partie.nom}}</h1>
       <h2>{{partie.createur.pseudo}}</h2>
     </div>
@@ -60,13 +61,6 @@
 </section>
 {% block menuMiniScreen %}
 {% endblock %}
-
-
-
-
-<script type="text/javascript">
-  var assetsBaseDir = {{ asset('tilemap/') }};
-</script>
 
 <script type="text/javascript" src="{{asset('tilemap/js/MainGame.js')}}"></script>
 <script type="text/javascript" src="{{asset('tilemap/js/classes/XmlHttpRequest.js')}}"></script>
